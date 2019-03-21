@@ -1,12 +1,10 @@
 ﻿using LiveCharts;
 using LiveCharts.Configurations;
-using Logic;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
+
+using Logic;
 
 namespace View.ViewModels
 {
@@ -66,48 +64,21 @@ namespace View.ViewModels
                 Kw = Kw_DutyCycle,
             };
 
-            Function = generator.SIn;
-
             List<double> pointsX = new List<double>();
             List<double> pointsY = new List<double>();
             List<double> samples = new List<double>();
 
-            for (double i = T1_StartTime; i < T1_StartTime + D_DurationOfTheSignal; i += 1 / Fp)
+            for (double i = T1_StartTime; i < T1_StartTime + D_DurationOfTheSignal; i += 1)
             {
                 samples.Add(Function(i));
             }
             for (double i = T1_StartTime; i < T1_StartTime + D_DurationOfTheSignal; i += D_DurationOfTheSignal / 5000)
             {
                 pointsX.Add(i);
-                pointsY.Add(Function(i));
+                pointsY.Add(generator.GenerateSignal(SelectedSignal, i));
             }
 
-            Data.Samples = samples;
-            Data.Frequency = Fp;
-            Data.StartTime = T1_StartTime;
-
-            LoadData(pointsX, pointsY, false);
             DrawChart();
-        }
-
-        public void LoadData(DataHandler data)
-        {
-            Data = data;
-        }
-
-        public void LoadData(List<double> x, List<double> y, bool fromSamples)
-        {
-            if (fromSamples)
-            {
-                Data.FromSamples = true;
-                Data.Samples = y;
-            }
-            else
-            {
-                Data.FromSamples = false;
-                Data.PointsX = x;
-                Data.PointsY = y;
-            }
         }
 
         public void DrawChart()

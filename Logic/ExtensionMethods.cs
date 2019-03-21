@@ -1,6 +1,6 @@
 ﻿namespace Logic
 {
-    static class ExtensionMethods
+    public static class ExtensionMethods
     {
         public static double GenerateSignal(this Generator generator, string signal, double time)
         {
@@ -29,7 +29,7 @@
                 case "11":
                     return generator.SinusoidalSignal(time); // do zmiany
                 default:
-                    return 0;
+                    return generator.SinusoidalSignal(time);
             }
         }
 

@@ -24,18 +24,11 @@ namespace View.ViewModels
         #endregion
 
         #region Factors
-        public double A { get; set; }
-        public double T1 { get; set; }
-        public double Ts { get; set; }
-        public double D { get; set; }
-        public double T { get; set; }
-        public double Kw { get; set; }
-        public double F { get; set; }
-        public double N { get; set; }
-        public double N1 { get; set; }
-        public double Ns { get; set; }
-        public double P { get; set; }
-        public double Fp { get; set; }
+        public double A_Amplitude { get; set; }
+        public double T1_StartTime { get; set; }
+        public double D_DurationOfTheSignal { get; set; }
+        public double T_BasicPeroid { get; set; }
+        public double Kw_DutyCycle { get; set; }
         #endregion
 
         #region ChartVars
@@ -60,32 +53,30 @@ namespace View.ViewModels
                 "11) Szum impulsowy"
             };
 
-            SelectedSignal = Signals[2];
+            SelectedSignal = Signals[0];
         }
 
         public void Plot()
         {
             Generator generator = new Generator()
             {
-                Amplitude = A,
-                FillFactor = Kw,
-                Period = T,
-                StartTime = T1,
-                JumpTime = Ts,
-                JumpN = Ns
+                A = A_Amplitude,
+                T1 = T1_StartTime,
+                T = T_BasicPeroid,
+                Kw = Kw_DutyCycle,
             };
 
-            Function = generator.GenerateSinusoidalSignal;
+            Function = generator.SIn;
 
             List<double> pointsX = new List<double>();
             List<double> pointsY = new List<double>();
             List<double> samples = new List<double>();
 
-            for (double i = T1; i < T1 + D; i += 1 / Fp)
+            for (double i = T1_StartTime; i < T1_StartTime + D_DurationOfTheSignal; i += 1 / Fp)
             {
                 samples.Add(Function(i));
             }
-            for (double i = T1; i < T1 + D; i += D / 5000)
+            for (double i = T1_StartTime; i < T1_StartTime + D_DurationOfTheSignal; i += D_DurationOfTheSignal / 5000)
             {
                 pointsX.Add(i);
                 pointsY.Add(Function(i));
@@ -93,7 +84,7 @@ namespace View.ViewModels
 
             Data.Samples = samples;
             Data.Frequency = Fp;
-            Data.StartTime = T1;
+            Data.StartTime = T1_StartTime;
 
             LoadData(pointsX, pointsY, false);
             DrawChart();

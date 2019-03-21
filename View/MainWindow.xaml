@@ -32,23 +32,23 @@
         <ListBox Grid.Column="0" Grid.Row="1" Margin="20 30 20 100" ItemsSource="{Binding Signals}" SelectedItem="{Binding SelectedSignal}" FontSize="12px" Background="#232323" Foreground="White"/>
 
         <!-- Rysuj -->
-        <Button Grid.Column="0" Grid.Row="1" Margin="20 320 20 0" FontSize="20px" Content="Rysuj wykres" Command="{Binding PlotCommand}" Foreground="White" Background="#FF343434" BorderBrush="#FF707070"  />
+        <Button Grid.Column="0" Grid.Row="1" Margin="20 320 20 0" FontSize="20px" Content="Rysuj wykres" Command="{Binding Plot}" Foreground="White" Background="#FF343434" BorderBrush="#FF707070"  />
 
         <!-- Parametry (lewo) -->
         <StackPanel Grid.Column="1" Grid.Row="2">
             <TextBlock Margin="24 12 0 8" FontSize="14px" Foreground="White" Text="Amplituda (A):"/>
-            <TextBlock Margin="24 4 0 8"  FontSize="14px" Foreground="White" Text="Czas początkowy (t1):"/>
+            <TextBlock Margin="24 4 0 8"  FontSize="14px" Foreground="White" Text="Czas początkowy (t_1):"/>
             <TextBlock Margin="24 4 0 8"  FontSize="14px" Foreground="White" Text="Czas trwania sygnału (d):"/>
             <TextBlock Margin="24 4 0 8"  FontSize="14px" Foreground="White" Text="Okres podstawowy (T):"/>
-            <TextBlock Margin="24 4 0 8"  FontSize="14px" Foreground="White" Text="Współczynnik wypełnienia (kw):"/>
+            <TextBlock Margin="24 4 0 8"  FontSize="14px" Foreground="White" Text="Współczynnik wypełnienia (k_w):"/>
         </StackPanel>
 
         <StackPanel Grid.Column="2" Grid.Row="2">
-            <TextBox Margin="0 12 0 5" Height="22px" Background="#343434" Foreground="White" Text="{Binding A}"/>
-            <TextBox Margin="0 4 0 5"  Height="22px" Background="#343434" Foreground="White" Text="{Binding T1}"/>
-            <TextBox Margin="0 4 0 5"  Height="22px" Background="#343434" Foreground="White" Text="{Binding D}"/>
-            <TextBox Margin="0 4 0 5"  Height="22px" Background="#343434" Foreground="White" Text="{Binding T}"/>
-            <TextBox Margin="0 4 0 5"  Height="22px" Background="#343434" Foreground="White" Text="{Binding KW}"/>
+            <TextBox Margin="0 12 0 5" Height="22px" Background="#343434" Foreground="White" Text="{Binding A_Amplitude}"/>
+            <TextBox Margin="0 4 0 5"  Height="22px" Background="#343434" Foreground="White" Text="{Binding T1_StartTime}"/>
+            <TextBox Margin="0 4 0 5"  Height="22px" Background="#343434" Foreground="White" Text="{Binding D_DurationOfTheSignal}"/>
+            <TextBox Margin="0 4 0 5"  Height="22px" Background="#343434" Foreground="White" Text="{Binding T_BasicPeroid}"/>
+            <TextBox Margin="0 4 0 5"  Height="22px" Background="#343434" Foreground="White" Text="{Binding Kw_DutyCycle}"/>
         </StackPanel>
 
         <!-- Parametry (prawo) -->

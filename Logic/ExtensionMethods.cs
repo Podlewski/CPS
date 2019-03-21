@@ -7,27 +7,26 @@
             switch (signal.Substring(0, 1))
             {
                 case "01":
-                    return generator.SinusoidalSignal(time); // do zmiany
+                    return generator.UniformDistribution(time); 
                 case "02":
-                    return generator.SinusoidalSignal(time); // do zmiany
+                   // return generator.GaussianNoise(time); 
                 case "03":
-                    return generator.SinusoidalSignal(time); // do zmiany
+                    return generator.SinusoidalSignal(time); 
                 case "04":
                     return generator.HalfWaveRectifierSignal(time);
                 case "05":
                     return generator.FullWaveRectifierSignal(time);
                 case "06":
-                    return generator.SinusoidalSignal(time); // do zmiany
+                    return generator.RectangularSignal(time); 
                 case "07":
-                    return generator.SinusoidalSignal(time); // do zmiany
+                    return generator.RectangularSymmetricalSignal(time); 
                 case "08":
-                    return generator.SinusoidalSignal(time); // do zmiany
                 case "09":
-                    return generator.SinusoidalSignal(time); // do zmiany
+                    return generator.UnitStepFunction(time); 
                 case "10":
-                    return generator.SinusoidalSignal(time); // do zmiany
+                    return generator.UnitImpulse(time); 
                 case "11":
-                    return generator.SinusoidalSignal(time); // do zmiany
+                    return generator.ImpulseNoise(time); 
                 default:
                     return generator.SinusoidalSignal(time);
             }

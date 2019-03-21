@@ -64,7 +64,7 @@ namespace Logic
 
 
         // 07) Sygnał prostokątny symetryczny
-        public double rectangularSymmetricalSignal(double time)
+        public double RectangularSymmetricalSignal(double time)
         {
             int k = (int)((time / T) - (T1 / T));
             if (time >= k * T + T1 && time < Kw * T + k * T + T1)

@@ -22,6 +22,7 @@
             <ColumnDefinition Width="0.3*"/>
             <ColumnDefinition/>
             <ColumnDefinition Width="0.3*"/>
+            <ColumnDefinition Width="0.15*"/>
         </Grid.ColumnDefinitions>
 
         <!-- Wykres -->
@@ -52,6 +53,16 @@
         </StackPanel>
 
         <!-- Parametry (prawo) -->
+        <StackPanel Grid.Column="3" Grid.Row="2">
+            <TextBlock Margin="24 12 0 8" FontSize="14px" Foreground="White" Text="Ts (Ts):"/>
+            <TextBlock Margin="24 4 0 8"  FontSize="14px" Foreground="White" Text="Prawdopodobieństwo (p):"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="4" Grid.Row="2">
+            <TextBox Margin="0 12 0 5" Height="22px" Background="#343434" Foreground="White" Text="{Binding Ts_Ts}"/>
+            <TextBox Margin="0 4 0 5"  Height="22px" Background="#343434" Foreground="White" Text="{Binding P_Probability}"/>
+
+        </StackPanel>
 
 
     </Grid>

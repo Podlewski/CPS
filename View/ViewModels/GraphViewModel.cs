@@ -1,24 +1,29 @@
-﻿using LiveCharts;
-using LiveCharts.Configurations;
-using System;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Input;
+
+using LiveCharts;
+using LiveCharts.Wpf;
+using LiveCharts.Configurations;
 
 using Logic;
 
 namespace View.ViewModels
 {
-    class GraphViewModel
+    class GraphViewModel : BaseViewModel
     {
-        #region Properties
-        public List<string> Signals { get; set; }
-        public string SelectedSignal { get; set; }
-        public Func<double, double> Function { get; set; }
-        public DataHandler Data { get; set; }
+        public ICommand DrawChartCommand { get; set; }
+
+        #region Chart
+        public SeriesCollection Chart { get; set; }
+        List<double> pointsX;
+        List<double> pointsY;
         #endregion
 
-        #region Comands
-        public ICommand PlotCommand { get; set; }
+        #region Properties
+        public List<string> SignalList { get; set; }
+        public string SelectedSignal { get; set; }
         #endregion
 
         #region Factors
@@ -27,16 +32,14 @@ namespace View.ViewModels
         public double D_DurationOfTheSignal { get; set; }
         public double T_BasicPeroid { get; set; }
         public double Kw_DutyCycle { get; set; }
-        #endregion
+        public double Ts_Ts { get; set; }
+        public double P_Probability { get; set; }
 
-        #region ChartVars
-        public SeriesCollection ChartSeries { get; set; }
         #endregion
-
 
         public GraphViewModel()
         {
-            Signals = new List<string>()
+            SignalList = new List<string>()
             {
                 "01) Szum o rozkładzie jednostajnym",
                 "02) Szum Gaussowski",
@@ -51,28 +54,28 @@ namespace View.ViewModels
                 "11) Szum impulsowy"
             };
 
-            SelectedSignal = Signals[0];
+            SelectedSignal = SignalList[0];
+            DrawChartCommand = new RelayCommand(Plot);
         }
 
         public void Plot()
         {
+            Console.WriteLine(SelectedSignal);
+
             Generator generator = new Generator()
             {
                 A = A_Amplitude,
                 T1 = T1_StartTime,
                 T = T_BasicPeroid,
                 Kw = Kw_DutyCycle,
+                Ts = Ts_Ts,
+                P = P_Probability
             };
 
-            List<double> pointsX = new List<double>();
-            List<double> pointsY = new List<double>();
-            List<double> samples = new List<double>();
+            pointsX = new List<double>();
+            pointsY = new List<double>();
 
-            for (double i = T1_StartTime; i < T1_StartTime + D_DurationOfTheSignal; i += 1)
-            {
-                samples.Add(Function(i));
-            }
-            for (double i = T1_StartTime; i < T1_StartTime + D_DurationOfTheSignal; i += D_DurationOfTheSignal / 5000)
+            for (double i = T1_StartTime; i < T1_StartTime + D_DurationOfTheSignal; i += D_DurationOfTheSignal / 500)
             {
                 pointsX.Add(i);
                 pointsY.Add(generator.GenerateSignal(SelectedSignal, i));
@@ -83,58 +86,28 @@ namespace View.ViewModels
 
         public void DrawChart()
         {
-            if (Data.HasData())
+            var mapper = Mappers.Xy<Point>()
+                .X(value => value.X)
+                .Y(value => value.Y);
+
+            ChartValues<Point> values = new ChartValues<Point>();
+
+            for(int i = 0; i < pointsX.Count(); i++)
             {
-                var mapper = Mappers.Xy<PointXY>()
-                    .X(value => value.X)
-                    .Y(value => value.Y);
-                ChartValues<PointXY> values = new ChartValues<PointXY>();
-                List<double> pointsX;
-                List<double> pointsY;
-                if (Data.FromSamples)
-                {
-                    pointsX = Data.SamplesX;
-                    pointsY = Data.Samples;
-                }
-                else
-                {
-                    pointsX = Data.PointsX;
-                    pointsY = Data.PointsY;
-                }
-                for (int i = 0; i < pointsX.Count; i++)
-
-                {
-                    values.Add(new PointXY(pointsX[i], pointsY[i]));
-                }
-
-                /*if (IsScattered || Data.FromSamples)
-                {
-                    ChartSeries = new SeriesCollection(mapper)
-                    {
-                        new ScatterSeries()
-                        {
-                            PointGeometry = new EllipseGeometry(),
-                            StrokeThickness = 5,
-                            Values = values
-                        }
-                    };
-                }
-
-                else
-                {
-                    ChartSeries = new SeriesCollection(mapper)
-                    {
-                        new LineSeries()
-                        {
-                            LineSmoothness = 0,
-                            StrokeThickness = 0.5,
-                            Fill = Brushes.Transparent,
-                            PointGeometry = null,
-                            Values = values
-                        }
-                    };
-                }*/
+                values.Add(new Point(pointsX[i], pointsY[i]));
             }
+
+            Chart = new SeriesCollection(mapper)
+            {
+                new LineSeries
+                {
+                    PointGeometry = null,
+                    Values = values
+                }
+            };
+
+            Console.WriteLine("Justyna to Puć");
+            OnPropertyChanged(nameof(Chart));
         }
     }
 }

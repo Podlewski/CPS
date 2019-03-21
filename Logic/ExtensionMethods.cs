@@ -4,7 +4,7 @@
     {
         public static double GenerateSignal(this Generator generator, string signal, double time)
         {
-            switch (signal.Substring(0, 1))
+            switch (signal.Substring(0, 2))
             {
                 case "01":
                     return generator.UniformDistribution(time); 
@@ -21,6 +21,7 @@
                 case "07":
                     return generator.RectangularSymmetricalSignal(time); 
                 case "08":
+                    return generator.TriangularSignal(time);
                 case "09":
                     return generator.UnitStepFunction(time); 
                 case "10":

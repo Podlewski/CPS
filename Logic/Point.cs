@@ -4,17 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace View.ViewModels
+namespace Logic
 {
-    public class PointXY
+    public class Point
     {
         public double X { get; set; }
 
         public double Y { get; set; }
 
-        public PointXY() { }
+        public Point() { }
 
-        public PointXY(double x, double y)
+        public Point(double x, double y)
         {
             X = x;
             Y = y;

@@ -52,6 +52,7 @@
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Generator.cs" />
     <Compile Include="Operations.cs" />
+    <Compile Include="Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

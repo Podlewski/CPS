@@ -19,7 +19,7 @@ namespace Logic
         // 01) Szum o rozkładzie jednostajnym
         public double UniformDistribution(double a)
         {
-            return Random.NextDouble() * 2 * A - A;
+            return 0;
         }
 
         // 02) Szum Gaussowski

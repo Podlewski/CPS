@@ -62,7 +62,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ViewModels\GraphViewModel.cs" />
-    <Compile Include="ViewModels\PointXY.cs" />
     <Compile Include="ViewModels\RelyCommand.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

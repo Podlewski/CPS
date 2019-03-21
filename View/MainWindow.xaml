@@ -26,14 +26,15 @@
         </Grid.ColumnDefinitions>
 
         <!-- Wykres -->
-        <Wpf:CartesianChart HorizontalAlignment="Right" Height="340" Width="970" Margin="20 10 20 20" VerticalAlignment="Top" Grid.ColumnSpan="4" Grid.Column="1" Grid.Row="1"/>
+        <Wpf:CartesianChart HorizontalAlignment="Right" Height="340" Width="970" Margin="20 10 20 20" VerticalAlignment="Top" Grid.ColumnSpan="4" Grid.Column="1" Grid.Row="1"
+                            Series="{Binding Chart, UpdateSourceTrigger=PropertyChanged}" ToolTip="{x:Null}" ChartLegend="{x:Null}"/>
 
         <!-- Rodzaj sygnału -->
         <TextBlock Grid.Column="0" Grid.Row="1" Margin="20 5 0,0" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Rodzaj sygnału:" FontSize="16px" VerticalAlignment="Top" Grid.RowSpan="2" Foreground="White" />
-        <ListBox Grid.Column="0" Grid.Row="1" Margin="20 30 20 100" ItemsSource="{Binding Signals}" SelectedItem="{Binding SelectedSignal}" FontSize="12px" Background="#232323" Foreground="White"/>
+        <ListBox Grid.Column="0" Grid.Row="1" Margin="20 30 20 100" ItemsSource="{Binding SignalList}" SelectedItem="{Binding SelectedSignal}" FontSize="12px" Background="#232323" Foreground="White"/>
 
         <!-- Rysuj -->
-        <Button Grid.Column="0" Grid.Row="1" Margin="20 320 20 0" FontSize="20px" Content="Rysuj wykres" Command="{Binding Plot}" Foreground="White" Background="#FF343434" BorderBrush="#FF707070"  />
+        <Button Grid.Column="0" Grid.Row="1" Margin="20 320 20 0" FontSize="20px" Content="Rysuj wykres" Command="{Binding DrawChartCommand}" Foreground="White" Background="#FF343434" BorderBrush="#FF707070"  />
 
         <!-- Parametry (lewo) -->
         <StackPanel Grid.Column="1" Grid.Row="2">
@@ -51,6 +52,7 @@
             <TextBox Margin="0 4 0 5"  Height="22px" Background="#343434" Foreground="White" Text="{Binding T_BasicPeroid}"/>
             <TextBox Margin="0 4 0 5"  Height="22px" Background="#343434" Foreground="White" Text="{Binding Kw_DutyCycle}"/>
         </StackPanel>
+
 
         <!-- Parametry (prawo) -->
         <StackPanel Grid.Column="3" Grid.Row="2">

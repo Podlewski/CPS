@@ -8,12 +8,50 @@ namespace Logic
 {
     public static class Operations
     {
-        public static List<double> AddSignals(List<double> signal1, List<double> signal2)
+        public static List<double> AddSignals(List<double> signalX, List<double> signalY)
         {
             List<double> result = new List<double>();
-            for (int i = 0; i < signal1.Count; i++)
+
+            for (int i = 0; i < signalX.Count; i++)
             {
-                result.Add(signal1[i] + signal2[i]);
+                result.Add(signalX[i] + signalY[i]);
+            }
+
+            return result;
+        }
+
+
+        public static List<double> SubtractSignals(List<double> signalX, List<double> signalY)
+        {
+            List<double> result = new List<double>();
+
+            for (int i = 0; i < signalX.Count; i++)
+            {
+                result.Add(signalX[i] - signalY[i]);
+            }
+
+            return result;
+        }
+
+        public static List<double> MultiplySignals(List<double> signalX, List<double> signalY)
+        {
+            List<double> result = new List<double>();
+
+            for (int i = 0; i < signalX.Count; i++)
+            {
+                result.Add(signalX[i] * signalY[i]);
+            }
+
+            return result;
+        }
+
+        public static List<double> DivideSignals(List<double> signalX, List<double> signalY)
+        {
+            List<double> result = new List<double>();
+
+            for (int i = 0; i < signalX.Count; i++)
+            {
+                result.Add(signalX[i] / signalY[i]);
             }
 
             return result;

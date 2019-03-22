@@ -12,7 +12,7 @@ namespace Logic
         public double T1 { get; set; }    // Start Time
         public double T { get; set; }     // Basic Peroid
         public double Kw { get; set; }    // Duty Cycle
-        public double Ts { get; set; }    // ??
+        public double Ts { get; set; }    // Time Step
         public double P { get; set; }     // Probability
         #endregion
 
@@ -117,8 +117,8 @@ namespace Logic
         // 11) Szum impulsowy
         public double ImpulseNoise(double time = 0)
         {
-            double temp = Random.NextDouble();
-            if (P > temp)
+            double RandomDouble = Random.NextDouble();
+            if (P > RandomDouble)
             {
                 return A;
             }

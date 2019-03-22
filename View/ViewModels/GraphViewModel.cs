@@ -32,7 +32,7 @@ namespace View.ViewModels
         public double D_DurationOfTheSignal { get; set; }
         public double T_BasicPeroid { get; set; }
         public double Kw_DutyCycle { get; set; }
-        public double Ts_Ts { get; set; }
+        public double Ts_TimeStep { get; set; }
         public double P_Probability { get; set; }
 
         #endregion
@@ -68,7 +68,7 @@ namespace View.ViewModels
                 T1 = T1_StartTime,
                 T = T_BasicPeroid,
                 Kw = Kw_DutyCycle,
-                Ts = Ts_Ts,
+                Ts = Ts_TimeStep,
                 P = P_Probability
             };
 
@@ -106,7 +106,7 @@ namespace View.ViewModels
                 }
             };
 
-            Console.WriteLine("Justyna to Puć");
+            Console.WriteLine("Karol to Puć");
             OnPropertyChanged(nameof(Chart));
         }
     }

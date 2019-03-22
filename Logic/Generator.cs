@@ -17,7 +17,7 @@ namespace Logic
         #endregion
 
         // 01) Szum o rozkładzie jednostajnym
-        public double UniformDistribution(double a)
+        public double UniformDistribution(double time)
         {
             return 0;
         }

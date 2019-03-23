@@ -54,7 +54,7 @@ namespace View.ViewModels
                 "11) Szum impulsowy"
             };
 
-            SelectedSignal = SignalList[0];
+            SetStartingChart();
             DrawChartCommand = new RelayCommand(Plot);
         }
 
@@ -106,8 +106,18 @@ namespace View.ViewModels
                 }
             };
 
-            Console.WriteLine("Justyna to Puć");
             OnPropertyChanged(nameof(Chart));
+        }
+
+        private void SetStartingChart()
+        {
+            A_Amplitude = 1;
+            T1_StartTime = -1 * Math.PI;
+            D_DurationOfTheSignal = 2 * Math.PI;
+            T_BasicPeroid = Math.PI;
+
+            SelectedSignal = SignalList[2];
+            Plot();
         }
     }
 }

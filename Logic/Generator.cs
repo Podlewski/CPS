@@ -23,16 +23,15 @@ namespace Logic
         }
 
         // 02) Szum Gaussowski
-        //public double GaussianNoise(double time)
-        //{
-            //double u1 = 1.0 - Random.NextDouble(); //uniform(0,1] random doubles
-            //double u2 = 1.0 - Random.NextDouble();
-            //double randStdNormal = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2); //random normal(0,1)
-            //double randNormal = mean + stdDev * randStdNormal; //random normal(mean,stdDev^2)
-            //return randNormal;
+        public double GaussianNoise(double time)
+        {
+            double stdDev = A / 3;
+            double u1 = 1.0 - Random.NextDouble(); 
+            double u2 = 1.0 - Random.NextDouble();
+            double normal = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2);
 
-            //return (1 / Math.Sqrt(2 * Math.PI)) * Math.Exp(-time / 2);
-        //}
+            return normal * stdDev;
+        }
 
         // 03) Sygnał sinusoidalny
         public double SinusoidalSignal(double time)

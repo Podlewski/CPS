@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "View", "View\View.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic", "Logic\Logic.csproj", "{BA0DBFAA-C712-49BD-B67C-F1A170AA3F47}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModel", "ViewModel\ViewModel.csproj", "{89B2E7DD-8EAE-44EB-950D-C568E8AD62F2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{BA0DBFAA-C712-49BD-B67C-F1A170AA3F47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA0DBFAA-C712-49BD-B67C-F1A170AA3F47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA0DBFAA-C712-49BD-B67C-F1A170AA3F47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89B2E7DD-8EAE-44EB-950D-C568E8AD62F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89B2E7DD-8EAE-44EB-950D-C568E8AD62F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89B2E7DD-8EAE-44EB-950D-C568E8AD62F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89B2E7DD-8EAE-44EB-950D-C568E8AD62F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

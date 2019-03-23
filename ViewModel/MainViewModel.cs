@@ -9,9 +9,9 @@ using LiveCharts.Configurations;
 
 using Logic;
 
-namespace View.ViewModels
+namespace ViewModel
 {
-    class GraphViewModel : BaseViewModel
+    public class MainViewModel : BaseViewModel
     {
         public ICommand DrawChartCommand { get; set; }
 
@@ -37,7 +37,7 @@ namespace View.ViewModels
 
         #endregion
 
-        public GraphViewModel()
+        public MainViewModel()
         {
             SignalList = new List<string>()
             {
@@ -60,7 +60,7 @@ namespace View.ViewModels
 
         public void Plot()
         {
-            Console.WriteLine(SelectedSignal);
+            Console.WriteLine("Wybrany sygnał: " + SelectedSignal);
 
             Generator generator = new Generator()
             {

@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using View.ViewModels;
+using ViewModel;
 
 namespace View
 {
@@ -10,7 +10,7 @@ namespace View
     {
         public MainWindow()
         {
-            DataContext = new GraphViewModel();
+            DataContext = new MainViewModel();
             InitializeComponent();
         }
     }

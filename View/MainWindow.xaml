@@ -7,65 +7,139 @@
         xmlns:Wpf="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf" x:Class="View.MainWindow"
         mc:Ignorable="d"
         ResizeMode="NoResize"
-        Title="Wizualizer Sygnału" Height="680" Width="1400">
+        Title="Wizualizer Sygnału" Height="700" Width="1400">
+
+    <Window.Resources>
+        <Color x:Key="DarkBlue">#34414F</Color>
+        <Color x:Key="DarkerBlue">#C4AF8D</Color>
+        <Color x:Key="LightGrey">#C4AF8D</Color>
+
+        <DynamicResource x:Key="SelectedBlue" ResourceKey="DarkBlue"/>
+        <DynamicResource x:Key="BackgroundGrey" ResourceKey="LightGrey"/>
+
+        <Style x:Key="TabItemStyle" TargetType="{x:Type TabItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Border x:Name="Border" BorderThickness="1,1,1,0" Padding="25,5,25,5" Margin="0,0,0,0" BorderBrush="Gainsboro">
+                            <ContentPresenter x:Name="ContentSite" ContentSource="Header" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="TextElement.Foreground" TargetName="ContentSite" Value="White"/>
+                                <Setter TargetName="Border" Property="Background" Value="#34414F"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter Property="TextElement.Foreground" TargetName="ContentSite" Value="White"/>
+                                <Setter TargetName="Border" Property="Background" Value="#343434" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border BorderThickness="1,1,1,0" Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <!--<Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#34323A" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>-->
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#34414F" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="False">
+                                <Setter Property="Background" Value="#343434" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
 
     <Grid Background="#454545" >
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.4*"/>
-            <RowDefinition Height="4.0*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="1*"/>
             <RowDefinition Height="2.0*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.2*"/>
             <ColumnDefinition/>
             <ColumnDefinition/>
-            <ColumnDefinition Width="0.3*"/>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="0.3*"/>
-            <ColumnDefinition Width="0.15*"/>
+            <ColumnDefinition Width="0.8*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- Wykres -->
-        <Wpf:CartesianChart HorizontalAlignment="Right" Height="340" Width="970" Margin="20 10 20 20" VerticalAlignment="Top" Grid.ColumnSpan="4" Grid.Column="1" Grid.Row="1"
-                            Series="{Binding Chart, UpdateSourceTrigger=PropertyChanged}" ToolTip="{x:Null}" ChartLegend="{x:Null}"/>
-
         <!-- Rodzaj sygnału -->
-        <TextBlock Grid.Column="0" Grid.Row="1" Margin="20 5 0,0" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Rodzaj sygnału:" FontSize="16px" VerticalAlignment="Top" Grid.RowSpan="2" Foreground="White" />
-        <ListBox Grid.Column="0" Grid.Row="1" Margin="20 30 20 100" ItemsSource="{Binding SignalList}" SelectedItem="{Binding SelectedSignal}" FontSize="12px" Background="#232323" Foreground="White"/>
+        <TabControl Grid.Column="0" Grid.Row="0" Background="#454545" Margin="20 20 10 5" >
+            <TabItem Header="Rodzaj sygnału" Style="{DynamicResource TabItemStyle}" >
+                <ListBox FontSize="13px" Background="#232323" Foreground="White"  ItemsSource="{Binding SignalList}" SelectedItem="{Binding SelectedSignal}" />
+            </TabItem>
+        </TabControl>
+
+        <!-- Wykres, Histogram, Dane -->
+        <TabControl Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="0" Grid.RowSpan="2" Background="#454545" Margin="10 20 20 10" >
+            <TabItem Header="Wykres" Style="{DynamicResource TabItemStyle}" >
+                <Wpf:CartesianChart Series="{Binding Chart, UpdateSourceTrigger=PropertyChanged}" ChartLegend="{x:Null}"/>
+            </TabItem>
+            <TabItem Header="Histogram" Style="{DynamicResource TabItemStyle}">
+            </TabItem>
+            <TabItem Header="Dane" Style="{DynamicResource TabItemStyle}">
+            </TabItem>
+        </TabControl>
+
+        <!-- Parametry -->
+        <TabControl Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" Background="#454545" Margin="20 5 10 20" >
+            <TabItem Header="Parametry" Style="{DynamicResource TabItemStyle}" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.7*"/>
+                        <ColumnDefinition Width="0.3*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Margin="5 0 0 0" Grid.Row="0" Grid.Column="0" FontSize="13px" Foreground="White" Content="Amplituda (A):"/>
+                    <Label Margin="5 0 0 0" Grid.Row="1" Grid.Column="0" FontSize="13px" Foreground="White" Content="Czas początkowy (t_1):"/>
+                    <Label Margin="5 0 0 0" Grid.Row="2" Grid.Column="0" FontSize="13px" Foreground="White" Content="Czas trwania sygnału (d):"/>
+                    <Label Margin="5 0 0 0" Grid.Row="3" Grid.Column="0" FontSize="13px" Foreground="White" Content="Okres podstawowy (T):"/>
+                    <Label Margin="5 0 0 0" Grid.Row="4" Grid.Column="0" FontSize="13px" Foreground="White" Content="Współczynnik wypełnienia (k_w):"/>
+                    <Label Margin="5 0 0 0" Grid.Row="5" Grid.Column="0" FontSize="13px" Foreground="White" Content="Ts (Ts):"/>
+                    <Label Margin="5 0 0 0" Grid.Row="6" Grid.Column="0" FontSize="13px" Foreground="White" Content="Prawdopodobieństwo (p):"/>
+
+                    <TextBox Margin="0 0 5 0" Grid.Row="0" Grid.Column="1" Height="19px" Background="#34414F" Foreground="White" Text="{Binding A_Amplitude}"/>
+                    <TextBox Margin="0 0 5 0" Grid.Row="1" Grid.Column="1" Height="19px" Background="#34414F" Foreground="White" Text="{Binding T1_StartTime}"/>
+                    <TextBox Margin="0 0 5 0" Grid.Row="2" Grid.Column="1" Height="19px" Background="#34414F" Foreground="White" Text="{Binding D_DurationOfTheSignal}"/>
+                    <TextBox Margin="0 0 5 0" Grid.Row="3" Grid.Column="1" Height="19px" Background="#34414F" Foreground="White" Text="{Binding T_BasicPeroid}"/>
+                    <TextBox Margin="0 0 5 0" Grid.Row="4" Grid.Column="1" Height="19px" Background="#34414F" Foreground="White" Text="{Binding Kw_DutyCycle}"/>
+                    <TextBox Margin="0 0 5 0" Grid.Row="5" Grid.Column="1" Height="19px" Background="#34414F" Foreground="White" Text="{Binding Ts_Ts}"/>
+                    <TextBox Margin="0 0 5 0" Grid.Row="6" Grid.Column="1" Height="19px" Background="#34414F" Foreground="White" Text="{Binding P_Probability}"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
 
         <!-- Rysuj -->
-        <Button Grid.Column="0" Grid.Row="1" Margin="20 320 20 0" FontSize="20px" Content="Rysuj wykres" Command="{Binding DrawChartCommand}" Foreground="White" Background="#FF343434" BorderBrush="#FF707070"  />
-
-        <!-- Parametry (lewo) -->
-        <StackPanel Grid.Column="1" Grid.Row="2">
-            <TextBlock Margin="24 12 0 8" FontSize="14px" Foreground="White" Text="Amplituda (A):"/>
-            <TextBlock Margin="24 4 0 8"  FontSize="14px" Foreground="White" Text="Czas początkowy (t_1):"/>
-            <TextBlock Margin="24 4 0 8"  FontSize="14px" Foreground="White" Text="Czas trwania sygnału (d):"/>
-            <TextBlock Margin="24 4 0 8"  FontSize="14px" Foreground="White" Text="Okres podstawowy (T):"/>
-            <TextBlock Margin="24 4 0 8"  FontSize="14px" Foreground="White" Text="Współczynnik wypełnienia (k_w):"/>
-        </StackPanel>
-
-        <StackPanel Grid.Column="2" Grid.Row="2">
-            <TextBox Margin="0 12 0 5" Height="22px" Background="#343434" Foreground="White" Text="{Binding A_Amplitude}"/>
-            <TextBox Margin="0 4 0 5"  Height="22px" Background="#343434" Foreground="White" Text="{Binding T1_StartTime}"/>
-            <TextBox Margin="0 4 0 5"  Height="22px" Background="#343434" Foreground="White" Text="{Binding D_DurationOfTheSignal}"/>
-            <TextBox Margin="0 4 0 5"  Height="22px" Background="#343434" Foreground="White" Text="{Binding T_BasicPeroid}"/>
-            <TextBox Margin="0 4 0 5"  Height="22px" Background="#343434" Foreground="White" Text="{Binding Kw_DutyCycle}"/>
-        </StackPanel>
-
-
-        <!-- Parametry (prawo) -->
-        <StackPanel Grid.Column="3" Grid.Row="2">
-            <TextBlock Margin="24 12 0 8" FontSize="14px" Foreground="White" Text="Ts (Ts):"/>
-            <TextBlock Margin="24 4 0 8"  FontSize="14px" Foreground="White" Text="Prawdopodobieństwo (p):"/>
-        </StackPanel>
-
-        <StackPanel Grid.Column="4" Grid.Row="2">
-            <TextBox Margin="0 12 0 5" Height="22px" Background="#343434" Foreground="White" Text="{Binding Ts_Ts}"/>
-            <TextBox Margin="0 4 0 5"  Height="22px" Background="#343434" Foreground="White" Text="{Binding P_Probability}"/>
-
-        </StackPanel>
-
+        <Button Grid.Column="3" Grid.Row="2" Margin="0 0 0 0" VerticalAlignment="Top" Height="60" Width="240" FontSize="18px" 
+                Command="{Binding DrawChartCommand}" Style="{DynamicResource ButtonStyle}" Content="Rysuj wykres" />
 
     </Grid>
 </Window>

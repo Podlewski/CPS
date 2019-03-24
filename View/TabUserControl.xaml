@@ -10,12 +10,36 @@
     <Grid>
         <TabControl Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="0" Grid.RowSpan="2" Background="#454545" Margin="5 5 0 0" ItemContainerStyle="{DynamicResource TabItemStyle}" >
             <TabItem Header="Wykres" >
-                <lvc:CartesianChart Hoverable="False" DataTooltip="{x:Null}" ChartLegend="{x:Null}" 
-                                    Series="{Binding Chart}" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.95*"/>
+                        <ColumnDefinition Width="0.05*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <lvc:CartesianChart Hoverable="False" DataTooltip="{x:Null}" ChartLegend="{x:Null}" Series="{Binding Chart}" />
+                </Grid>
             </TabItem>
             
             <TabItem Header="Histogram" >
-                
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.87*"/>
+                        <RowDefinition Height="0.13*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.95*"/>
+                        <ColumnDefinition Width="0.05*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <lvc:CartesianChart Grid.RowSpan="2" Hoverable="False" DataTooltip="{x:Null}" ChartLegend="{x:Null}" Series="{Binding Histogram}" />
+
+                    <Slider Grid.Column="1" Value="{Binding SliderValue}" MaxHeight="280" Orientation="Vertical" HorizontalAlignment="Center"
+                            Maximum="50" Minimum="1" IsSnapToTickEnabled="True" TickFrequency="1" Name="Slider" Style="{DynamicResource SliderStyle}"  />
+
+                    <TextBox Grid.Row="1" Grid.Column="1" Height="20px" Width="26px" VerticalAlignment="Top" Background="#34414F" Foreground="White" 
+                             TextAlignment="Center" Text="{Binding ElementName=Slider, Path=Value, UpdateSourceTrigger=PropertyChanged}"/> 
+
+                </Grid>
             </TabItem>
             
             <TabItem Header="Dane" >

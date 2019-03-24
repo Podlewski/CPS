@@ -62,6 +62,8 @@ namespace ViewModel
                     Values = values
                 }
             };
+
+            OnPropertyChanged(nameof(Chart));
         }
 
         public override string ToString()

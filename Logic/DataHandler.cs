@@ -57,17 +57,6 @@ namespace View
             return true;
         }
 
-        public bool IsValid(DataHandler data)
-        {
-            if (!data.Frequency.Equals(Frequency))
-                return false;
-            if (!data.StartTime.Equals(StartTime))
-                return false;
-            if (data.Samples.Count != Samples.Count)
-                return false;
-            return true;
-        }
-
         public void LoadFromFile(string filePath)
         {
             using (BinaryReader reader = new BinaryReader(File.OpenRead(filePath)))

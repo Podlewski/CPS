@@ -15,7 +15,7 @@ using System.Windows.Media;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.IO;
-//using System.Windows;
+using System.Windows;
 
 namespace ViewModel
 {
@@ -61,15 +61,15 @@ namespace ViewModel
 
         public void DrawChart()
         {
-            var mapper = Mappers.Xy<Point>()
+            var mapper = Mappers.Xy<Logic.Point>()
                 .X(value => value.X)
                 .Y(value => value.Y);
 
-            ChartValues<Point> values = new ChartValues<Point>();
+            ChartValues<Logic.Point> values = new ChartValues<Logic.Point>();
 
             for (int i = 0; i < PointsX.Count(); i++)
             {
-                values.Add(new Point(PointsX[i], PointsY[i]));
+                values.Add(new Logic.Point(PointsX[i], PointsY[i]));
             }
 
             Charts = new SeriesCollection(mapper)
@@ -162,8 +162,8 @@ namespace ViewModel
                         CacheMode = new BitmapCache()
                     }
                 };
-                Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray();
 
+                Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray();
             }
         }
 
@@ -181,6 +181,7 @@ namespace ViewModel
                 Hoverable = false,
 
             };
+
             var histogram = new LiveCharts.Wpf.CartesianChart()
             {
                 Background = new SolidColorBrush(Colors.White),
@@ -190,27 +191,30 @@ namespace ViewModel
                 DataTooltip = null,
                 Hoverable = false,
             };
-            var mapper = Mappers.Xy<Point>()
+
+            var mapper = Mappers.Xy<Logic.Point>()
                 .X(value => value.X)
                 .Y(value => value.Y);
 
-            ChartValues<Point> values = new ChartValues<Point>();
+            ChartValues<Logic.Point> values = new ChartValues<Logic.Point>();
 
             for (int i = 0; i < PointsX.Count(); i++)
             {
-                values.Add(new Point(PointsX[i], PointsY[i]));
+                values.Add(new Logic.Point(PointsX[i], PointsY[i]));
             }
 
-            Charts = new SeriesCollection(mapper)
+            if (IsScattered || Data.FromSamples)
             {
-                new LineSeries
+                Charts = new SeriesCollection(mapper)
                 {
-                    PointGeometry = null,
-                    Values = values
-                }
-            };
+                    new LineSeries
+                    {
+                        PointGeometry = null,
+                        Values = values
+                    }
+                };
+            }
 
-            OnPropertyChanged(nameof(Charts));
             else
             {
                 chart.Series = new SeriesCollection(mapper)
@@ -249,27 +253,20 @@ namespace ViewModel
             var viewbox = new Viewbox();
             viewbox.Child = chart;
             viewbox.Measure(chart.RenderSize);
-            viewbox.Arrange(new Rect(new Point(0, 0), chart.RenderSize));
+            viewbox.Arrange(new Rect(new System.Windows.Point(0, 0), chart.RenderSize));
             chart.Update(true, true); //force chart redraw
             viewbox.UpdateLayout();
 
             var histViewbox = new Viewbox();
             histViewbox.Child = histogram;
             histViewbox.Measure(histogram.RenderSize);
-            histViewbox.Arrange(new Rect(new Point(0, 0), histogram.RenderSize));
+            histViewbox.Arrange(new Rect(new System.Windows.Point(0, 0), histogram.RenderSize));
             histogram.Update(true, true); //force chart redraw
             histViewbox.UpdateLayout();
 
-            SaveToPng(chart, "../../../Data/chart.png");
-            SaveToPng(histogram, "../../../Data/histogram.png");
             MessageBox.Show("Files saved", "Done", MessageBoxButton.OK, MessageBoxImage.Information);
             //png file was created at the root directory.
-        }
-
-        private void SaveToPng(FrameworkElement visual, string fileName)
-        {
-            var encoder = new PngBitmapEncoder();
-            EncodeVisual(visual, fileName, encoder);
+            OnPropertyChanged(nameof(Charts));
         }
 
         private static void EncodeVisual(FrameworkElement visual, string fileName, BitmapEncoder encoder)

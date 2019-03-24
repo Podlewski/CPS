@@ -9,7 +9,7 @@
                 case "01":
                     return generator.UniformDistribution(time); 
                 case "02":
-                   // return generator.GaussianNoise(time); 
+                    return generator.GaussianNoise(time); 
                 case "03":
                     return generator.SinusoidalSignal(time); 
                 case "04":

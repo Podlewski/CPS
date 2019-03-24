@@ -57,7 +57,7 @@ namespace Logic
             return result;
         }
 
-        public static double AvgSignal(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = false)
+        public static double Average(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = false)
         {
             if (isDiscrete)
             {
@@ -67,17 +67,17 @@ namespace Logic
             return 1 / (t2 - t1) * Integral(Math.Abs((t2 - t1) / samples.Count), samples);
         }
 
-        public static double SignalVariance(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = false)
+        public static double Variance(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = false)
         {
             if (isDiscrete)
             {
-                return 1.0 / samples.Count * Sum(samples, d => Math.Pow(d - AvgSignal(samples, isDiscrete: true), 2));
+                return 1.0 / samples.Count * Sum(samples, d => Math.Pow(d - Average(samples, isDiscrete: true), 2));
             }
 
-            return 1 / (t2 - t1) * Integral(Math.Abs((t2 - t1) / samples.Count), samples, d => Math.Pow(d - AvgSignal(samples, t1, t2), 2));
+            return 1 / (t2 - t1) * Integral(Math.Abs((t2 - t1) / samples.Count), samples, d => Math.Pow(d - Average(samples, t1, t2), 2));
 
         }
-        public static double AbsAvgSignal(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = false)
+        public static double AbsAverage(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = false)
         {
             if (isDiscrete)
             {
@@ -87,7 +87,7 @@ namespace Logic
             return 1 / (t2 - t1) * Integral(Math.Abs((t2 - t1) / samples.Count), samples, Math.Abs);
         }
 
-        public static double AvgSignalPower(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = false)
+        public static double AveragePower(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = false)
         {
             if (isDiscrete)
             {
@@ -97,14 +97,14 @@ namespace Logic
             return 1 / (t2 - t1) * Integral(Math.Abs((t2 - t1) / samples.Count), samples, d => d * d);
         }
 
-        public static double RMSSignal(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = false)
+        public static double RootMeanSquare(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = false)
         {
             if (isDiscrete)
             {
-                return Math.Sqrt(AvgSignalPower(samples, isDiscrete: true));
+                return Math.Sqrt(AveragePower(samples, isDiscrete: true));
             }
 
-            return Math.Sqrt(AvgSignalPower(samples, t1, t2));
+            return Math.Sqrt(AveragePower(samples, t1, t2));
         }
 
         private static double Integral(double dx, List<double> samples, Func<double, double> additionalFunc = null)

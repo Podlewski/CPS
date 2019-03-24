@@ -113,12 +113,14 @@
                         </TabItem>
                     </TabControl>
 
+                    <!--Pierwszt sygnał -->
                     <TabControl Grid.Row="1" Grid.Column="0" Background="#454545" Margin="5 5 5 5" ItemContainerStyle="{DynamicResource TabItemStyle}">
                         <TabItem Header="Pierwszy sygnał">
                             <ListBox FontSize="12px" Background="#232323" Foreground="White"  ItemsSource="{Binding TabList}" SelectedItem="{Binding FirstOperationTab}" />
                         </TabItem>
                     </TabControl>
 
+                    <!--Drugi sygnał -->
                     <TabControl Grid.Row="1" Grid.Column="1" Background="#454545" Margin="5 5 5 5" ItemContainerStyle="{DynamicResource TabItemStyle}">
                         <TabItem Header="Drugi sygnał">
                             <ListBox FontSize="12px" Background="#232323" Foreground="White"  ItemsSource="{Binding TabList}" SelectedItem="{Binding SecondOperationTab}" />
@@ -131,6 +133,23 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Zapis" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.2*"/>
+                        <RowDefinition Height="0.2*"/>
+                        <RowDefinition Height="1.3*"/>
+                        <RowDefinition Height="0.2*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Rysuj -->
+                    <Button Grid.Row="0" Height="50" Width="340" FontSize="18px" 
+                            Command="{Binding ComputeCommand}" Style="{DynamicResource ButtonStyle}" Content="Wczytaj wykres" />
+
+                    <!-- Rysuj -->
+                    <Button Grid.Row="1" Height="50" Width="340" FontSize="18px" 
+                            Command="{Binding ComputeCommand}" Style="{DynamicResource ButtonStyle}" Content="Zapisz wykres" />
+
+                </Grid>
             </TabItem>
         </TabControl>
 
@@ -138,9 +157,9 @@
         <Button Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 20 20 0" Height="26" Width="160"  
                 FontSize="13px" Command="{Binding AddTabCommand}" Style="{DynamicResource ButtonStyle}" Content="Dodaj kartę" />
 
-        <!-- Wykres, Histogram, Dane -->
+        <!-- TabUserControl -->
         <TabControl Grid.Column="1" Grid.Row="0" Background="#454545" Margin="10 50 20 10" ItemContainerStyle="{DynamicResource TabItemStyle}" 
-                    ItemsSource="{Binding TabList}"  >
+                    ItemsSource="{Binding TabList}" SelectedItem="{Binding SelectedTab}"  >
             <TabControl.ItemTemplate >
                 <DataTemplate>
                     <TextBlock Text="{Binding TabName}" />

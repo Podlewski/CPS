@@ -23,7 +23,16 @@ namespace ViewModel
         public List<double> PointsY { get; set; }
         public SeriesCollection Histogram { get; set; }
         public bool IsScattered { get; set; }
-        public int AAA { get; set; }
+
+        #region ChartData
+
+        public double AverageValue { get; set; }
+        public double AverageAbsValue { get; set; }
+        public double RootMeanSquare { get; set; }
+        public double Variance { get; set; }
+        public double AveragePower { get; set; }
+
+        #endregion
 
         #endregion
 
@@ -53,11 +62,6 @@ namespace ViewModel
                     Values = values
                 }
             };
-
-            AAA = 3;
-
-            OnPropertyChanged(nameof(AAA));
-            OnPropertyChanged(nameof(Chart));
         }
 
         public override string ToString()

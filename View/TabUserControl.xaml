@@ -6,11 +6,11 @@
              xmlns:local="clr-namespace:View"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="350" d:DesignWidth="800">
     <Grid>
         <TabControl Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="0" Grid.RowSpan="2" Background="#454545" Margin="5 5 0 0" ItemContainerStyle="{DynamicResource TabItemStyle}" >
             <TabItem Header="Wykres" >
-                <lvc:CartesianChart Series="{Binding Chart, UpdateSourceTrigger=PropertyChanged}" ChartLegend="{x:Null}"/>
+                <lvc:CartesianChart Series="{Binding Chart}" ChartLegend="{x:Null}"/>
             </TabItem>
             <TabItem Header="Histogram" >
             </TabItem>
@@ -34,15 +34,15 @@
 
                     <Label Margin="20 0 0 0" Grid.Row="1" Grid.Column="0" FontSize="12px" Foreground="White" Content="Wartość średnia sygnału:"/>
                     <Label Margin="20 0 0 0" Grid.Row="2" Grid.Column="0" FontSize="12px" Foreground="White" Content="Wartość średnia bezwzględna sygnału:"/>
-                    <Label Margin="20 0 0 0" Grid.Row="3" Grid.Column="0" FontSize="12px" Foreground="White" Content="Moc średnia sygnału:"/>
+                    <Label Margin="20 0 0 0" Grid.Row="3" Grid.Column="0" FontSize="12px" Foreground="White" Content="Wartość skuteczna sygnału:"/>
                     <Label Margin="20 0 0 0" Grid.Row="4" Grid.Column="0" FontSize="12px" Foreground="White" Content="Wariancja sygnału:"/>
-                    <Label Margin="20 0 0 0" Grid.Row="5" Grid.Column="0" FontSize="12px" Foreground="White" Content="Wartość skuteczna:"/>
+                    <Label Margin="20 0 0 0" Grid.Row="5" Grid.Column="0" FontSize="12px" Foreground="White" Content="Moc średnia sygnału:"/>
 
-                    <TextBox Grid.Row="1" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding AAA}"/>
-                    <TextBox Grid.Row="2" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding A_Amplitude}"/>
-                    <TextBox Grid.Row="3" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding A_Amplitude}"/>
-                    <TextBox Grid.Row="4" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding A_Amplitude}"/>
-                    <TextBox Grid.Row="5" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding A_Amplitude}"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding AverageValue}"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding AverageAbsValue}"/>
+                    <TextBox Grid.Row="3" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding RootMeanSquare}"/>
+                    <TextBox Grid.Row="4" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding Variance}"/>
+                    <TextBox Grid.Row="5" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding AveragePower}"/>
 
                 </Grid>
             </TabItem>

@@ -28,7 +28,7 @@ namespace ViewModel
         public DataHandler Data { get; set; }
         public int Slider;
 
-        public SeriesCollection Charts { get; set; }
+        public SeriesCollection Chart { get; set; }
         public List<double> PointsX { get; set; }
         public List<double> PointsY { get; set; }
         public bool IsScattered { get; set; }
@@ -72,7 +72,7 @@ namespace ViewModel
                 values.Add(new Logic.Point(PointsX[i], PointsY[i]));
             }
 
-            Charts = new SeriesCollection(mapper)
+            Chart = new SeriesCollection(mapper)
             {
                 new LineSeries
                 {
@@ -81,7 +81,7 @@ namespace ViewModel
                 }
             };
 
-            OnPropertyChanged(nameof(Charts));
+            OnPropertyChanged(nameof(Chart));
         }
 
         public int SliderValue
@@ -202,7 +202,7 @@ namespace ViewModel
 
             if (IsScattered || Data.FromSamples)
             {
-                Charts = new SeriesCollection(mapper)
+                Chart = new SeriesCollection(mapper)
                 {
                     new LineSeries
                     {
@@ -263,7 +263,7 @@ namespace ViewModel
 
             MessageBox.Show("Files saved", "Done", MessageBoxButton.OK, MessageBoxImage.Information);
             //png file was created at the root directory.
-            OnPropertyChanged(nameof(Charts));
+            OnPropertyChanged(nameof(Chart));
         }
 
         #endregion

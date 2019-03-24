@@ -17,9 +17,9 @@ namespace Logic
         #endregion
 
         // 01) Szum o rozkładzie jednostajnym
-        public double UniformDistribution(double time)
+        public double UniformDistribution(double time = 0)
         {
-            return 0;
+            return Random.NextDouble() * 2 * A - A;
         }
 
         // 02) Szum Gaussowski

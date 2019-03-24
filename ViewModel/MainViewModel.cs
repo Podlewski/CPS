@@ -1,13 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
-
-using System;
-
-using LiveCharts;
-using LiveCharts.Wpf;
-using LiveCharts.Configurations;
 
 using Logic;
 
@@ -19,8 +14,10 @@ namespace ViewModel
         #region Commands
 
         public ICommand AddTabCommand { get; set; }
-        public ICommand DrawChartCommand { get; set; }
+        public ICommand GenerateCommand { get; set; }
         public ICommand ComputeCommand { get; set; }
+        public ICommand LoadCommand { get; set; }
+        public ICommand SaveCommand { get; set; }
 
         #endregion
 
@@ -86,7 +83,10 @@ namespace ViewModel
             SelectedOperation = OperationList[0];
 
             AddTabCommand = new RelayCommand(AddTab);
-            DrawChartCommand = new RelayCommand(Plot);
+            GenerateCommand = new RelayCommand(Generate);
+            ComputeCommand = new RelayCommand(Compute);
+            LoadCommand = new RelayCommand(Load);
+            SaveCommand = new RelayCommand(Save);
         }
 
         public void AddTab()
@@ -94,7 +94,7 @@ namespace ViewModel
             TabList.Add(new TabViewModel(TabList.Count));
         }
 
-        public void Plot()
+        public void Generate()
         {
             Generator generator = new Generator()
             {
@@ -118,6 +118,20 @@ namespace ViewModel
             SelectedTab.DrawChart();
         }
 
+        public void Compute()
+        {
+            MessageBox.Show("WIP");
+        }
+
+        public void Load()
+        {
+            MessageBox.Show("WIP");
+        }
+
+        public void Save()
+        {
+            MessageBox.Show("WIP");
+        }
 
     }
 }

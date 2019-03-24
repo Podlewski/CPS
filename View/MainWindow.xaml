@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:View"
-        xmlns:Wpf="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf" 
         x:Class="View.MainWindow"
         mc:Ignorable="d"
         ResizeMode="NoResize"
@@ -90,7 +89,7 @@
 
                     <!-- Rysuj -->
                     <Button Grid.Row="2" Margin="0 0 0 0" Height="50" Width="340" FontSize="18px" 
-                            Command="{Binding DrawChartCommand}" Style="{DynamicResource ButtonStyle}" Content="Rysuj wykres" />
+                            Command="{Binding GenerateCommand}" Style="{DynamicResource ButtonStyle}" Content="Rysuj wykres" />
                     
                 </Grid>
             </TabItem>
@@ -143,11 +142,11 @@
 
                     <!-- Rysuj -->
                     <Button Grid.Row="0" Height="50" Width="340" FontSize="18px" 
-                            Command="{Binding ComputeCommand}" Style="{DynamicResource ButtonStyle}" Content="Wczytaj wykres" />
+                            Command="{Binding LoadCommand}" Style="{DynamicResource ButtonStyle}" Content="Wczytaj wykres" />
 
                     <!-- Rysuj -->
                     <Button Grid.Row="1" Height="50" Width="340" FontSize="18px" 
-                            Command="{Binding ComputeCommand}" Style="{DynamicResource ButtonStyle}" Content="Zapisz wykres" />
+                            Command="{Binding SaveCommand}" Style="{DynamicResource ButtonStyle}" Content="Zapisz wykres" />
 
                 </Grid>
             </TabItem>
@@ -159,7 +158,7 @@
 
         <!-- TabUserControl -->
         <TabControl Grid.Column="1" Grid.Row="0" Background="#454545" Margin="10 50 20 10" ItemContainerStyle="{DynamicResource TabItemStyle}" 
-                    ItemsSource="{Binding TabList}" SelectedItem="{Binding SelectedTab}"  >
+                    ItemsSource="{Binding TabList}"  >
             <TabControl.ItemTemplate >
                 <DataTemplate>
                     <TextBlock Text="{Binding TabName}" />

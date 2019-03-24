@@ -10,10 +10,14 @@
     <Grid>
         <TabControl Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="0" Grid.RowSpan="2" Background="#454545" Margin="5 5 0 0" ItemContainerStyle="{DynamicResource TabItemStyle}" >
             <TabItem Header="Wykres" >
-                <lvc:CartesianChart Series="{Binding Chart}" ChartLegend="{x:Null}"/>
+                <lvc:CartesianChart Hoverable="False" DataTooltip="{x:Null}" ChartLegend="{x:Null}" 
+                                    Series="{Binding Chart}" />
             </TabItem>
+            
             <TabItem Header="Histogram" >
+                
             </TabItem>
+            
             <TabItem Header="Dane" >
                 <Grid>
                     <Grid.RowDefinitions>

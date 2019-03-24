@@ -54,7 +54,7 @@ namespace ViewModel
         public TabViewModel(int tabNumber)
         {
             TabName = "Karta " + tabNumber;
-            Histogram = new RelayCommand<int>(LoadHistogram);
+            //Histogram = new RelayCommand<int>(LoadHistogram);
             SaveCharts = new RelayCommand(SaveChartsToFile);
             SliderValue = 20;
         }
@@ -90,7 +90,7 @@ namespace ViewModel
             set
             {
                 Slider = value;
-                LoadHistogram(Slider);
+                //LoadHistogram(Slider);
             }
         }
 
@@ -147,25 +147,22 @@ namespace ViewModel
             Data.LoadFromFile(path);
         }
 
-        public void LoadHistogram(int c)
-        {
-            if (Data.HasData())
-            {
-                var histogramResults = Data.GetDataForHistogram(c);
-                HistogramStep = (int)Math.Ceiling(c / 20.0);
-                Histograms = new SeriesCollection
-                {
-                    new ColumnSeries
-                    {
-                        Values = new ChartValues<int> (histogramResults.Select(n=>n.Item3)),
-                        ColumnPadding = 0,
-                        CacheMode = new BitmapCache()
-                    }
-                };
+        //public void LoadHistogram(int c)
+        //{ 
+        //    var histogramResults = Data.GetDataForHistogram(c);
+        //    HistogramStep = (int)Math.Ceiling(c / 20.0);
+        //    Histograms = new SeriesCollection
+        //    {
+        //        new ColumnSeries
+        //        {
+        //            Values = new ChartValues<int> (histogramResults.Select(n=>n.Item3)),
+        //            ColumnPadding = 0,
+        //            CacheMode = new BitmapCache()
+        //        }
+        //    };
 
-                Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray();
-            }
-        }
+        //    Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray();     
+        //}
 
         #region Save Charts
 
@@ -267,15 +264,6 @@ namespace ViewModel
             MessageBox.Show("Files saved", "Done", MessageBoxButton.OK, MessageBoxImage.Information);
             //png file was created at the root directory.
             OnPropertyChanged(nameof(Charts));
-        }
-
-        private static void EncodeVisual(FrameworkElement visual, string fileName, BitmapEncoder encoder)
-        {
-            var bitmap = new RenderTargetBitmap((int)visual.ActualWidth, (int)visual.ActualHeight, 96, 96, PixelFormats.Pbgra32);
-            bitmap.Render(visual);
-            var frame = BitmapFrame.Create(bitmap);
-            encoder.Frames.Add(frame);
-            using (var stream = File.Create(fileName)) encoder.Save(stream);
         }
 
         #endregion

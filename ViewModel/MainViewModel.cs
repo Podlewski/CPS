@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Input;
 
 using Logic;
+using Microsoft.Win32;
 
 namespace ViewModel
 {
@@ -126,11 +127,53 @@ namespace ViewModel
         public void Load()
         {
             MessageBox.Show("WIP");
+            SelectedTab.LoadDataFromFile(LoadPath(true));
+            //SelectedTab.DrawCharts(); coś ten
+            SelectedTab.CalculateSignalInfo(isDiscrete: true, fromSamples: true);
         }
 
         public void Save()
         {
             MessageBox.Show("WIP");
+            SelectedTab.SaveDataToFile(LoadPath(false));
+        }
+
+        public string LoadPath(bool loadMode)
+        {
+            if (loadMode)
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog
+                {
+                    Filter = "Bin File(*.bin)| *.bin",
+                    RestoreDirectory = true
+                };
+
+                openFileDialog.ShowDialog();
+
+                if (openFileDialog.FileName.Length == 0)
+                {
+                    MessageBox.Show("No files selected");
+                    return null;
+                }
+
+                return openFileDialog.FileName;
+            }
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog()
+            {
+                Filter = "Bin File(*.bin)| *.bin",
+                RestoreDirectory = true
+            };
+
+            saveFileDialog.ShowDialog();
+
+            if (saveFileDialog.FileName.Length == 0)
+            {
+                MessageBox.Show("No files selected");
+                return null;
+            }
+
+            return saveFileDialog.FileName;
         }
 
     }

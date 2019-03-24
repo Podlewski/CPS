@@ -47,7 +47,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseViewModel.cs" />
     <Compile Include="DataHandler.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Generator.cs" />

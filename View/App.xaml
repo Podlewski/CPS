@@ -4,6 +4,63 @@
              xmlns:local="clr-namespace:View"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        
+        <Color x:Key="MidBlue">#255369</Color>
+        <Color x:Key="DarkBlue">#34414F</Color>
+        <Color x:Key="DarkerBlue">#C4AF8D</Color>
+        <Color x:Key="LightGrey">#C4AF8D</Color>
+
+        <DynamicResource x:Key="SelectedBlue" ResourceKey="DarkBlue"/>
+        <DynamicResource x:Key="BackgroundGrey" ResourceKey="LightGrey"/>
+
+        <Style x:Key="TabItemStyle" TargetType="{x:Type TabItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Border x:Name="Border" BorderThickness="1,1,1,0" Padding="25,5,25,5" Margin="0,0,0,0" BorderBrush="Gainsboro">
+                            <ContentPresenter x:Name="ContentSite" ContentSource="Header" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="TextElement.Foreground" TargetName="ContentSite" Value="White"/>
+                                <Setter TargetName="Border" Property="Background" Value="#255369"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter Property="TextElement.Foreground" TargetName="ContentSite" Value="White"/>
+                                <Setter TargetName="Border" Property="Background" Value="#343434" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border BorderThickness="0.6" BorderBrush="Gainsboro" Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <!--<Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#34414F" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>-->
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#255369" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="False">
+                                <Setter Property="Background" Value="#343434" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
     </Application.Resources>
 </Application>

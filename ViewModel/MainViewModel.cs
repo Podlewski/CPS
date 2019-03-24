@@ -1,7 +1,9 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Collections.Generic;
 using System.Windows.Input;
+
+using System;
 
 using LiveCharts;
 using LiveCharts.Wpf;
@@ -13,20 +15,31 @@ namespace ViewModel
 {
     public class MainViewModel : BaseViewModel
     {
-        public ICommand DrawChartCommand { get; set; }
 
-        #region Chart
-        public SeriesCollection Chart { get; set; }
-        List<double> pointsX;
-        List<double> pointsY;
+        #region Commands
+
+        public ICommand AddTabCommand { get; set; }
+        public ICommand DrawChartCommand { get; set; }
+        public ICommand ComputeCommand { get; set; }
+
         #endregion
 
         #region Properties
+
+        public ObservableCollection<TabViewModel> TabList { get; set; }
+        public TabViewModel SelectedTab { get; set; }
+        public TabViewModel FirstOperationTab { get; set; }
+        public TabViewModel SecondOperationTab { get; set; }
+
+
         public List<string> SignalList { get; set; }
         public string SelectedSignal { get; set; }
-        #endregion
+
+        public List<string> OperationList { get; set; }
+        public string SelectedOperation { get; set; }
 
         #region Factors
+
         public double A_Amplitude { get; set; }
         public double T1_StartTime { get; set; }
         public double D_DurationOfTheSignal { get; set; }
@@ -36,9 +49,17 @@ namespace ViewModel
         public double P_Probability { get; set; }
 
         #endregion
+        
+        #endregion
 
         public MainViewModel()
         {
+            TabList = new ObservableCollection<TabViewModel>();
+            AddTab();
+            SelectedTab = TabList[0];
+            FirstOperationTab = TabList[0];
+            SecondOperationTab = TabList[0];
+
             SignalList = new List<string>()
             {
                 "01) Szum o rozkładzie jednostajnym",
@@ -53,15 +74,28 @@ namespace ViewModel
                 "10) Impuls jednostkowy",
                 "11) Szum impulsowy"
             };
+            SelectedSignal = SignalList[2];
 
-            SetStartingChart();
+            OperationList = new List<string>()
+            {
+                "1) Dodawanie",
+                "2) Odejmowanie",
+                "3) Mnożenie",
+                "4) Dzielenie",
+            };
+            SelectedOperation = OperationList[0];
+
+            AddTabCommand = new RelayCommand(AddTab);
             DrawChartCommand = new RelayCommand(Plot);
+        }
+
+        public void AddTab()
+        {
+            TabList.Add(new TabViewModel(TabList.Count));
         }
 
         public void Plot()
         {
-            Console.WriteLine("Wybrany sygnał: " + SelectedSignal);
-
             Generator generator = new Generator()
             {
                 A = A_Amplitude,
@@ -72,52 +106,18 @@ namespace ViewModel
                 P = P_Probability
             };
 
-            pointsX = new List<double>();
-            pointsY = new List<double>();
+            SelectedTab.PointsX = new List<double>();
+            SelectedTab.PointsY = new List<double>();
 
             for (double i = T1_StartTime; i < T1_StartTime + D_DurationOfTheSignal; i += D_DurationOfTheSignal / 500)
             {
-                pointsX.Add(i);
-                pointsY.Add(generator.GenerateSignal(SelectedSignal, i));
+                SelectedTab.PointsX.Add(i);
+                SelectedTab.PointsY.Add(generator.GenerateSignal(SelectedSignal, i));
             }
 
-            DrawChart();
+            SelectedTab.DrawChart();
         }
 
-        public void DrawChart()
-        {
-            var mapper = Mappers.Xy<Point>()
-                .X(value => value.X)
-                .Y(value => value.Y);
 
-            ChartValues<Point> values = new ChartValues<Point>();
-
-            for(int i = 0; i < pointsX.Count(); i++)
-            {
-                values.Add(new Point(pointsX[i], pointsY[i]));
-            }
-
-            Chart = new SeriesCollection(mapper)
-            {
-                new LineSeries
-                {
-                    PointGeometry = null,
-                    Values = values
-                }
-            };
-
-            OnPropertyChanged(nameof(Chart));
-        }
-
-        private void SetStartingChart()
-        {
-            A_Amplitude = 1;
-            T1_StartTime = -1 * Math.PI;
-            D_DurationOfTheSignal = 2 * Math.PI;
-            T_BasicPeroid = Math.PI;
-
-            SelectedSignal = SignalList[2];
-            Plot();
-        }
     }
 }

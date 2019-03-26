@@ -45,9 +45,10 @@ namespace ViewModel
         public double Kw_DutyCycle { get; set; }
         public double Ts_TimeStep { get; set; }
         public double P_Probability { get; set; }
+        public double Sampling { get; set; }
 
         #endregion
-        
+
         #endregion
 
         public MainViewModel()
@@ -112,6 +113,11 @@ namespace ViewModel
             SelectedTab.Data.Samples = new List<double>();
 
             Func<double, double> SelectedGeneration = generator.SelectGenerator(SelectedSignal);
+
+            for (double i = T1_StartTime; i < T1_StartTime + D_DurationOfTheSignal; i += 1 / Sampling)
+            {
+                SelectedTab.Data.Samples.Add(SelectedGeneration(i));
+            }
 
             for (double i = T1_StartTime; i < T1_StartTime + D_DurationOfTheSignal; i += D_DurationOfTheSignal / 500)
             {

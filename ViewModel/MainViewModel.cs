@@ -125,7 +125,6 @@ namespace ViewModel
                 SelectedTab.PointsY.Add(SelectedGeneration(i));
             }
 
-            SelectedTab.Data.Samples = SelectedTab.PointsY;
             SelectedTab.LoadData(SelectedTab.PointsX, SelectedTab.PointsY, false);
             SelectedTab.CalculateSignalInfo(T1_StartTime, T1_StartTime + D_DurationOfTheSignal);
             SelectedTab.DrawCharts();

@@ -164,6 +164,12 @@ namespace ViewModel
             Variance = Operations.Variance(points, t1, t2, isDiscrete);
             AveragePower = Operations.AveragePower(points, t1, t2, isDiscrete);
 
+            OnPropertyChanged(nameof(AverageValue));
+            OnPropertyChanged(nameof(AverageAbsValue));
+            OnPropertyChanged(nameof(RootMeanSquare));
+            OnPropertyChanged(nameof(Variance));
+            OnPropertyChanged(nameof(AveragePower));
+
             //MessageBox.Show(" points  " + str + " sampl " + fromSamples.ToString(), "Done", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 

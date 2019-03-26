@@ -1,20 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using LiveCharts;
 using LiveCharts.Wpf;
 using LiveCharts.Configurations;
 
 using Logic;
-using View;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Controls;
-using System.Windows.Media.Imaging;
-using System.IO;
 using System.Windows;
 
 namespace ViewModel
@@ -25,13 +19,13 @@ namespace ViewModel
 
         public string TabName { get; set; }
 
-        public DataHandler Data { get; set; }
-        public int Slider;
 
+        public DataHandler Data { get; set; }
         public SeriesCollection Chart { get; set; }
+        public bool IsScattered { get; set; }
+
         public List<double> PointsX { get; set; }
         public List<double> PointsY { get; set; }
-        public bool IsScattered { get; set; }
         public SeriesCollection Histograms { get; set; }
         public int HistogramStep { get; set; }
         public string[] Labels { get; set; }
@@ -49,41 +43,9 @@ namespace ViewModel
 
         #endregion
 
-        #endregion
+        #region Slider
 
-        public TabViewModel(int tabNumber)
-        {
-            TabName = "Karta " + tabNumber;
-            //Histogram = new RelayCommand<int>(LoadHistogram);
-            SaveCharts = new RelayCommand(SaveChartsToFile);
-            SliderValue = 20;
-        }
-
-        public void DrawChart()
-        {
-            var mapper = Mappers.Xy<Logic.Point>()
-                .X(value => value.X)
-                .Y(value => value.Y);
-
-            ChartValues<Logic.Point> values = new ChartValues<Logic.Point>();
-
-            for (int i = 0; i < PointsX.Count(); i++)
-            {
-                values.Add(new Logic.Point(PointsX[i], PointsY[i]));
-            }
-
-            Chart = new SeriesCollection(mapper)
-            {
-                new LineSeries
-                {
-                    PointGeometry = null,
-                    Values = values
-                }
-            };
-
-            OnPropertyChanged(nameof(Chart));
-        }
-
+        public int Slider { get; set; }
         public int SliderValue
         {
             get => Slider;
@@ -93,6 +55,78 @@ namespace ViewModel
                 //LoadHistogram(Slider);
             }
         }
+
+        #endregion
+
+        #endregion
+
+        public TabViewModel(int tabNumber)
+        {
+            TabName = "Karta " + tabNumber;
+
+            IsScattered = false;
+            Data = new DataHandler();
+
+            // Histogram = new RelayCommand<int>(LoadHistogram); // po co to jest?
+            //SaveCharts = new RelayCommand(SaveChartsToFile);
+
+            SliderValue = 20;
+        }
+
+        public void DrawCharts()
+        {
+                var mapper = Mappers.Xy<Logic.Point>()
+                    .X(value => value.X)
+                    .Y(value => value.Y);
+
+                ChartValues<Logic.Point> values = new ChartValues<Logic.Point>();
+                List<double> pointsX;
+                List<double> pointsY;
+                if (Data.FromSamples)
+                {
+                    pointsX = Data.SamplesX;
+                    pointsY = Data.Samples;
+                }
+                else
+                {
+                    pointsX = PointsX;
+                    pointsY = PointsY;
+                }
+                for (int i = 0; i < pointsX.Count; i++)
+                {
+                    values.Add(new Logic.Point(pointsX[i], pointsY[i]));
+                }
+
+                if (IsScattered || Data.FromSamples)
+                {
+                    Chart = new SeriesCollection(mapper)
+                    {
+                        new ScatterSeries()
+                        {
+                            PointGeometry = new EllipseGeometry(),
+                            StrokeThickness = 5,
+                            Values = values
+                        }
+                    };
+                }
+                else
+                {
+                    Chart = new SeriesCollection(mapper)
+                    {
+                        new LineSeries()
+                        {
+                            //LineSmoothness = 0,
+                            //StrokeThickness = 0.5,
+                            //Fill = Brushes.Transparent,
+                            PointGeometry = null,
+                            Values = values
+                        }
+                    };
+                }
+
+                OnPropertyChanged(nameof(Chart));
+            }
+
 
         public override string ToString()
         {
@@ -148,7 +182,7 @@ namespace ViewModel
         }
 
         //public void LoadHistogram(int c)
-        //{ 
+        //{
         //    var histogramResults = Data.GetDataForHistogram(c);
         //    HistogramStep = (int)Math.Ceiling(c / 20.0);
         //    Histograms = new SeriesCollection
@@ -161,112 +195,123 @@ namespace ViewModel
         //        }
         //    };
 
-        //    Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray();     
+        //    Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray();
         //}
 
-        #region Save Charts
+        //#region Save Charts
 
-        public void SaveChartsToFile()
-        {
-            var chart = new LiveCharts.Wpf.CartesianChart()
-            {
-                Background = new SolidColorBrush(Colors.White),
-                DisableAnimations = true,
-                Width = 1920,
-                Height = 1080,
-                DataTooltip = null,
-                Hoverable = false,
+        //public void SaveChartsToFile()
+        //{
+        //    var chart = new LiveCharts.Wpf.CartesianChart()
+        //    {
+        //        Background = new SolidColorBrush(Colors.White),
+        //        DisableAnimations = true,
+        //        Width = 1920,
+        //        Height = 1080,
+        //        DataTooltip = null,
+        //        Hoverable = false,
 
-            };
+        //    };
+        //    var histogram = new LiveCharts.Wpf.CartesianChart()
+        //    {
+        //        Background = new SolidColorBrush(Colors.White),
+        //        DisableAnimations = true,
+        //        Width = 1920,
+        //        Height = 1080,
+        //        DataTooltip = null,
+        //        Hoverable = false,
+        //    };
+        //    var mapper = Mappers.Xy<Point>()
+        //        .X(value => value.X)
+        //        .Y(value => value.Y);
 
-            var histogram = new LiveCharts.Wpf.CartesianChart()
-            {
-                Background = new SolidColorBrush(Colors.White),
-                DisableAnimations = true,
-                Width = 1920,
-                Height = 1080,
-                DataTooltip = null,
-                Hoverable = false,
-            };
+        //    ChartValues<Point> values = new ChartValues<Point>();
 
-            var mapper = Mappers.Xy<Logic.Point>()
-                .X(value => value.X)
-                .Y(value => value.Y);
+        //    for (int i = 0; i < PointsX.Count(); i++)
+        //    {
+        //        values.Add(new Point(PointsX[i], PointsY[i]));
+        //    }
 
-            ChartValues<Logic.Point> values = new ChartValues<Logic.Point>();
+        //    Charts = new SeriesCollection(mapper)
+        //    {
+        //        new LineSeries
+        //        {
+        //            PointGeometry = null,
+        //            Values = values
+        //        }
+        //    };
 
-            for (int i = 0; i < PointsX.Count(); i++)
-            {
-                values.Add(new Logic.Point(PointsX[i], PointsY[i]));
-            }
-
-            if (IsScattered || Data.FromSamples)
-            {
-                Chart = new SeriesCollection(mapper)
-                {
-                    new LineSeries
-                    {
-                        PointGeometry = null,
-                        Values = values
-                    }
-                };
-            }
-
-            else
-            {
-                chart.Series = new SeriesCollection(mapper)
-                    {
-                        new LineSeries()
-                        {
-                            LineSmoothness = 0,
-                            StrokeThickness = 1,
-                            Fill = Brushes.Transparent,
-                            PointGeometry = null,
-                            Values = values,
-                        }
-                    };
-            }
+        //    OnPropertyChanged(nameof(Charts));
+        //    else
+        //    {
+        //        chart.Series = new SeriesCollection(mapper)
+        //            {
+        //                new LineSeries()
+        //                {
+        //                    LineSmoothness = 0,
+        //                    StrokeThickness = 1,
+        //                    Fill = Brushes.Transparent,
+        //                    PointGeometry = null,
+        //                    Values = values,
+        //                }
+        //            };
+        //    }
 
 
-            var histogramResults = Data.GetDataForHistogram(SliderValue);
+        //    var histogramResults = Data.GetDataForHistogram(SliderValue);
 
-            //HistogramStep = (int)Math.Ceiling(SliderValue / 20.0);
-            histogram.Series = new SeriesCollection
-            {
-                new ColumnSeries
-                {
-                    Values = new ChartValues<int> (histogramResults.Select(n=>n.Item3)),
-                    ColumnPadding = 0,
+        //    //HistogramStep = (int)Math.Ceiling(SliderValue / 20.0);
+        //    histogram.Series = new SeriesCollection
+        //    {
+        //        new ColumnSeries
+        //        {
+        //            Values = new ChartValues<int> (histogramResults.Select(n=>n.Item3)),
+        //            ColumnPadding = 0,
 
-                }
-            };
-            //Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray();
-            chart.AxisX = new AxesCollection() { new Axis() { FontSize = 20, Title = "t[s]" } };
-            chart.AxisY = new AxesCollection() { new Axis() { FontSize = 20, Title = "A" } };
+        //        }
+        //    };
+        //    //Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray();
+        //    chart.AxisX = new AxesCollection() { new Axis() { FontSize = 20, Title = "t[s]" } };
+        //    chart.AxisY = new AxesCollection() { new Axis() { FontSize = 20, Title = "A" } };
 
-            histogram.AxisY = new AxesCollection() { new Axis() { FontSize = 20, } };
-            histogram.AxisX = new AxesCollection() { new Axis() { Title = "Interval", FontSize = 20, Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray(), LabelsRotation = 60, Separator = new LiveCharts.Wpf.Separator() { Step = (int)Math.Ceiling(SliderValue / 20.0) } } };
+        //    histogram.AxisY = new AxesCollection() { new Axis() { FontSize = 20, } };
+        //    histogram.AxisX = new AxesCollection() { new Axis() { Title = "Interval", FontSize = 20, Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray(), LabelsRotation = 60, Separator = new LiveCharts.Wpf.Separator() { Step = (int)Math.Ceiling(SliderValue / 20.0) } } };
 
-            var viewbox = new Viewbox();
-            viewbox.Child = chart;
-            viewbox.Measure(chart.RenderSize);
-            viewbox.Arrange(new Rect(new System.Windows.Point(0, 0), chart.RenderSize));
-            chart.Update(true, true); //force chart redraw
-            viewbox.UpdateLayout();
+        //    var viewbox = new Viewbox();
+        //    viewbox.Child = chart;
+        //    viewbox.Measure(chart.RenderSize);
+        //    viewbox.Arrange(new Rect(new Point(0, 0), chart.RenderSize));
+        //    chart.Update(true, true); //force chart redraw
+        //    viewbox.UpdateLayout();
 
-            var histViewbox = new Viewbox();
-            histViewbox.Child = histogram;
-            histViewbox.Measure(histogram.RenderSize);
-            histViewbox.Arrange(new Rect(new System.Windows.Point(0, 0), histogram.RenderSize));
-            histogram.Update(true, true); //force chart redraw
-            histViewbox.UpdateLayout();
+        //    var histViewbox = new Viewbox();
+        //    histViewbox.Child = histogram;
+        //    histViewbox.Measure(histogram.RenderSize);
+        //    histViewbox.Arrange(new Rect(new Point(0, 0), histogram.RenderSize));
+        //    histogram.Update(true, true); //force chart redraw
+        //    histViewbox.UpdateLayout();
 
-            MessageBox.Show("Files saved", "Done", MessageBoxButton.OK, MessageBoxImage.Information);
-            //png file was created at the root directory.
-            OnPropertyChanged(nameof(Chart));
-        }
+        //    SaveToPng(chart, "../../../Data/chart.png");
+        //    SaveToPng(histogram, "../../../Data/histogram.png");
+        //    MessageBox.Show("Files saved", "Done", MessageBoxButton.OK, MessageBoxImage.Information);
+        //    //png file was created at the root directory.
+        //}
 
-        #endregion
+        //private void SaveToPng(FrameworkElement visual, string fileName)
+        //{
+        //    var encoder = new PngBitmapEncoder();
+        //    EncodeVisual(visual, fileName, encoder);
+        //}
 
+        //private static void EncodeVisual(FrameworkElement visual, string fileName, BitmapEncoder encoder)
+        //{
+        //    var bitmap = new RenderTargetBitmap((int)visual.ActualWidth, (int)visual.ActualHeight, 96, 96, PixelFormats.Pbgra32);
+        //    bitmap.Render(visual);
+        //    var frame = BitmapFrame.Create(bitmap);
+        //    encoder.Frames.Add(frame);
+        //    using (var stream = File.Create(fileName)) encoder.Save(stream);
+        //}
+
+        //#endregion
     }
 }

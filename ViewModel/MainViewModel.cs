@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -110,18 +110,41 @@ namespace ViewModel
             SelectedTab.PointsX = new List<double>();
             SelectedTab.PointsY = new List<double>();
 
+            Func<double, double> SelectedGeneration = generator.SelectGenerator(SelectedSignal);
+
             for (double i = T1_StartTime; i < T1_StartTime + D_DurationOfTheSignal; i += D_DurationOfTheSignal / 500)
             {
                 SelectedTab.PointsX.Add(i);
-                SelectedTab.PointsY.Add(generator.GenerateSignal(SelectedSignal, i));
+                SelectedTab.PointsY.Add(SelectedGeneration(i));
             }
 
-            SelectedTab.DrawChart();
+            SelectedTab.DrawCharts();
         }
 
         public void Compute()
         {
-            MessageBox.Show("WIP");
+            if (FirstOperationTab.Data.HasData() && SecondOperationTab.Data.HasData())
+            {
+                if (!SecondOperationTab.Data.IsValid(FirstOperationTab.Data))
+                {
+                    MessageBox.Show("Given signals are not valid", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                DataHandler data = new DataHandler();
+                List<double> pointsY = new List<double>();
+
+                pointsY = SelectedOperation.SignalOperation(FirstOperationTab.Data.Samples,
+                                                            SecondOperationTab.Data.Samples);
+
+                data.StartTime = SelectedTab.Data.StartTime;
+                data.Frequency = SelectedTab.Data.Frequency;
+                data.Samples = pointsY;
+                data.FromSamples = true;
+                SelectedTab.IsScattered = true;
+                SelectedTab.LoadData(data);
+                SelectedTab.DrawCharts();
+            }
         }
 
         public void Load()

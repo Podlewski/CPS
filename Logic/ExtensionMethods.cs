@@ -1,35 +1,55 @@
-﻿namespace Logic
+﻿using System;
+using System.Collections.Generic;
+
+namespace Logic
 {
     public static class ExtensionMethods
     {
-        public static double GenerateSignal(this Generator generator, string signal, double time)
+        public static Func<double, double> SelectGenerator(this Generator generator, string signal)
         {
             switch (signal.Substring(0, 2))
             {
                 case "01":
-                    return generator.UniformDistribution(time); 
+                    return generator.UniformDistribution; 
                 case "02":
-                    return generator.GaussianNoise(time); 
+                    return generator.GaussianNoise; 
                 case "03":
-                    return generator.SinusoidalSignal(time); 
+                    return generator.SinusoidalSignal; 
                 case "04":
-                    return generator.HalfWaveRectifierSignal(time);
+                    return generator.HalfWaveRectifierSignal;
                 case "05":
-                    return generator.FullWaveRectifierSignal(time);
+                    return generator.FullWaveRectifierSignal;
                 case "06":
-                    return generator.RectangularSignal(time); 
+                    return generator.RectangularSignal; 
                 case "07":
-                    return generator.RectangularSymmetricalSignal(time); 
+                    return generator.RectangularSymmetricalSignal; 
                 case "08":
-                    return generator.TriangularSignal(time);
+                    return generator.TriangularSignal;
                 case "09":
-                    return generator.UnitStepFunction(time); 
+                    return generator.UnitStepFunction; 
                 case "10":
-                    return generator.UnitImpulse(time); 
+                    return generator.UnitImpulse; 
                 case "11":
-                    return generator.ImpulseNoise(time); 
+                    return generator.ImpulseNoise; 
                 default:
-                    return generator.SinusoidalSignal(time);
+                    return null;
+            }
+        }
+
+        public static List<double> SignalOperation(this string operation, List<double> firstSamples, List<double> secondSamples)
+        {
+            switch (operation.Substring(0, 1))
+            {
+                case "1":
+                    return Operations.AddSignals(firstSamples, secondSamples);
+                case "2":
+                    return Operations.SubtractSignals(firstSamples, secondSamples);
+                case "3":
+                    return Operations.MultiplySignals(firstSamples, secondSamples);
+                case "4":
+                    return Operations.DivideSignals(firstSamples, secondSamples);
+                default:
+                    return null;
             }
         }
 

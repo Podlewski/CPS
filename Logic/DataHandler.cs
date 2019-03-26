@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace View
+namespace Logic
 {
     public class DataHandler
     {
@@ -53,6 +53,17 @@ namespace View
             if (PointsX == null || PointsX.Count == 0)
                 return false;
             if (PointsY == null || PointsY.Count == 0)
+                return false;
+            return true;
+        }
+
+        public bool IsValid(DataHandler data)
+        {
+            if (!data.Frequency.Equals(Frequency))
+                return false;
+            if (!data.StartTime.Equals(StartTime))
+                return false;
+            if (data.Samples.Count != Samples.Count)
                 return false;
             return true;
         }

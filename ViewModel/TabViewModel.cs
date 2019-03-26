@@ -26,11 +26,10 @@ namespace ViewModel
 
         public List<double> PointsX { get; set; }
         public List<double> PointsY { get; set; }
-        public SeriesCollection Histograms { get; set; }
+        public SeriesCollection Histogram { get; set; }
         public int HistogramStep { get; set; }
         public string[] Labels { get; set; }
 
-        public ICommand Histogram { get; set; }
         public ICommand SaveCharts { get; set; }
 
         #region ChartData
@@ -52,7 +51,7 @@ namespace ViewModel
             set
             {
                 Slider = value;
-                //LoadHistogram(Slider);
+                LoadHistogram(Slider);
             }
         }
 
@@ -67,65 +66,81 @@ namespace ViewModel
             IsScattered = false;
             Data = new DataHandler();
 
-            // Histogram = new RelayCommand<int>(LoadHistogram); // po co to jest?
             //SaveCharts = new RelayCommand(SaveChartsToFile);
 
             SliderValue = 20;
+
+            LoadHistogram(SliderValue);
         }
 
         public void DrawCharts()
         {
-                var mapper = Mappers.Xy<Logic.Point>()
-                    .X(value => value.X)
-                    .Y(value => value.Y);
+            var mapper = Mappers.Xy<Logic.Point>()
+                .X(value => value.X)
+                .Y(value => value.Y);
 
-                ChartValues<Logic.Point> values = new ChartValues<Logic.Point>();
-                List<double> pointsX;
-                List<double> pointsY;
-                if (Data.FromSamples)
-                {
-                    pointsX = Data.SamplesX;
-                    pointsY = Data.Samples;
-                }
-                else
-                {
-                    pointsX = PointsX;
-                    pointsY = PointsY;
-                }
-                for (int i = 0; i < pointsX.Count; i++)
-                {
-                    values.Add(new Logic.Point(pointsX[i], pointsY[i]));
-                }
-
-                if (IsScattered || Data.FromSamples)
-                {
-                    Chart = new SeriesCollection(mapper)
-                    {
-                        new ScatterSeries()
-                        {
-                            PointGeometry = new EllipseGeometry(),
-                            StrokeThickness = 5,
-                            Values = values
-                        }
-                    };
-                }
-                else
-                {
-                    Chart = new SeriesCollection(mapper)
-                    {
-                        new LineSeries()
-                        {
-                            //LineSmoothness = 0,
-                            //StrokeThickness = 0.5,
-                            //Fill = Brushes.Transparent,
-                            PointGeometry = null,
-                            Values = values
-                        }
-                    };
-                }
-
-                OnPropertyChanged(nameof(Chart));
+            ChartValues<Logic.Point> values = new ChartValues<Logic.Point>();
+            List<double> pointsX;
+            List<double> pointsY;
+            if (Data.FromSamples)
+            {
+                pointsX = Data.SamplesX;
+                pointsY = Data.Samples;
             }
+            else
+            {
+                pointsX = PointsX;
+                pointsY = PointsY;
+            }
+            for (int i = 0; i < pointsX.Count; i++)
+            {
+                values.Add(new Logic.Point(pointsX[i], pointsY[i]));
+            }
+
+            if (IsScattered || Data.FromSamples)
+            {
+                Chart = new SeriesCollection(mapper)
+                {
+                    new ScatterSeries()
+                    {
+                        PointGeometry = new EllipseGeometry(),
+                        StrokeThickness = 5,
+                        Values = values
+                    }
+                };
+            }
+            else
+            {
+                Chart = new SeriesCollection(mapper)
+                {
+                    new LineSeries()
+                    {
+                        //LineSmoothness = 0,
+                        //StrokeThickness = 0.5,
+                        //Fill = Brushes.Transparent,
+                        PointGeometry = null,
+                        Values = values
+                    }
+                };
+            }
+
+            var histogramResults = Data.GetDataForHistogram(SliderValue);
+            HistogramStep = 1;
+            Histogram = new SeriesCollection
+                {
+                    new ColumnSeries
+                    {
+                        Values = new ChartValues<int> (histogramResults.Select(n=>n.Item3)),
+                        ColumnPadding = 0,
+                        CacheMode = new BitmapCache()
+
+                    }
+                };
+            Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray();
+
+
+            OnPropertyChanged(nameof(Chart));
+        }
 
 
         public override string ToString()
@@ -137,8 +152,9 @@ namespace ViewModel
         {
             List<double> points;
 
-            if (fromSamples)
+            if (fromSamples)         
                 points = Data.Samples;
+            
             else
                 points = Data.PointsY;
 
@@ -147,6 +163,8 @@ namespace ViewModel
             RootMeanSquare = Operations.RootMeanSquare(points, t1, t2, isDiscrete); 
             Variance = Operations.Variance(points, t1, t2, isDiscrete);
             AveragePower = Operations.AveragePower(points, t1, t2, isDiscrete);
+
+            //MessageBox.Show(" points  " + str + " sampl " + fromSamples.ToString(), "Done", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         public void LoadData(DataHandler data)
@@ -181,22 +199,25 @@ namespace ViewModel
             Data.LoadFromFile(path);
         }
 
-        //public void LoadHistogram(int c)
-        //{
-        //    var histogramResults = Data.GetDataForHistogram(c);
-        //    HistogramStep = (int)Math.Ceiling(c / 20.0);
-        //    Histograms = new SeriesCollection
-        //    {
-        //        new ColumnSeries
-        //        {
-        //            Values = new ChartValues<int> (histogramResults.Select(n=>n.Item3)),
-        //            ColumnPadding = 0,
-        //            CacheMode = new BitmapCache()
-        //        }
-        //    };
+        public void LoadHistogram(int c)
+        {
+            if (Data.HasData())
+            {
+                var histogramResults = Data.GetDataForHistogram(c);
+                HistogramStep = (int)Math.Ceiling(c / 20.0);
+                Histogram = new SeriesCollection
+                {
+                    new ColumnSeries
+                    {
+                        Values = new ChartValues<int> (histogramResults.Select(n=>n.Item3)),
+                        ColumnPadding = 0,
+                        CacheMode = new BitmapCache()
+                    }
+                };
+                Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray();
 
-        //    Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray();
-        //}
+            }
+        }
 
         //#region Save Charts
 
@@ -295,12 +316,6 @@ namespace ViewModel
         //    SaveToPng(histogram, "../../../Data/histogram.png");
         //    MessageBox.Show("Files saved", "Done", MessageBoxButton.OK, MessageBoxImage.Information);
         //    //png file was created at the root directory.
-        //}
-
-        //private void SaveToPng(FrameworkElement visual, string fileName)
-        //{
-        //    var encoder = new PngBitmapEncoder();
-        //    EncodeVisual(visual, fileName, encoder);
         //}
 
         //private static void EncodeVisual(FrameworkElement visual, string fileName, BitmapEncoder encoder)

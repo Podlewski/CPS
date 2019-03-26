@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -36,7 +37,7 @@ namespace Logic
             List<double> points = new List<double>();
             for (int i = 0; i < Samples.Count; i++)
             {
-                points.Add(StartTime + i / Frequency);
+                points.Add(StartTime + (i / Frequency));
             }
 
             SamplesX = points;
@@ -120,21 +121,34 @@ namespace Logic
             List<(double, double, int)> result = new List<(double, double, int)>(count);
             List<double> pointsY;
             if (FromSamples)
+            {
+                Console.WriteLine(Samples);
+                Console.WriteLine("PUUUUUCIAK");
                 pointsY = Samples;
+            }
             else
+            {
+                Console.WriteLine(PointsY);
                 pointsY = PointsY;
+            }
 
-            double max = pointsY.Max();
-            double min = pointsY.Min();
+            //double max = pointsY.Max();
+            //double min = pointsY.Min();
+
+            double max = 30;
+            double min = 10;
+
 
             double range = max - min;
             double interval = range / count;
             for (int i = 0; i < count - 1; i++)
             {
-                int points = pointsY.Count(n => n >= min + (interval * i) && n < min + (interval * (i + 1)));
+                //int points = pointsY.Count(n => n >= min + (interval * i) && n < min + (interval * (i + 1)));
+                int points = 10;
                 result.Add((Math.Round(min + (interval * i), 2), Math.Round(min + (interval * (i + 1)), 2), points));
             }
-            int lastPoints = pointsY.Count(n => n >= min + (interval * (count - 1)) && n <= min + (interval * count));
+            //int lastPoints = pointsY.Count(n => n >= min + (interval * (count - 1)) && n <= min + (interval * count));
+            int lastPoints = 20;
             result.Add((Math.Round(min + (interval * (count - 1)), 2), Math.Round(min + (interval * count), 2), lastPoints));
 
             return result;

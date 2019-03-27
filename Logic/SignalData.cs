@@ -136,23 +136,18 @@ namespace Logic
                 pointsY = PointsY;
             }
 
-            //double max = pointsY.Max();
-            //double min = pointsY.Min();
-
-            double max = 30;
-            double min = 10;
+            double max = pointsY.Max();
+            double min = pointsY.Min();
 
 
             double range = max - min;
             double interval = range / count;
             for (int i = 0; i < count - 1; i++)
             {
-                //int points = pointsY.Count(n => n >= min + (interval * i) && n < min + (interval * (i + 1)));
-                int points = 10;
+                int points = pointsY.Count(n => n >= min + (interval * i) && n < min + (interval * (i + 1)));
                 result.Add((Math.Round(min + (interval * i), 2), Math.Round(min + (interval * (i + 1)), 2), points));
             }
-            //int lastPoints = pointsY.Count(n => n >= min + (interval * (count - 1)) && n <= min + (interval * count));
-            int lastPoints = 20;
+            int lastPoints = pointsY.Count(n => n >= min + (interval * (count - 1)) && n <= min + (interval * count));
             result.Add((Math.Round(min + (interval * (count - 1)), 2), Math.Round(min + (interval * count), 2), lastPoints));
 
             return result;

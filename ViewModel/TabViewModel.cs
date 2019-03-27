@@ -48,7 +48,7 @@ namespace ViewModel
             set
             {
                 Slider = value;
-                //LoadHistogram(Slider);
+                LoadHistogram(Slider);
             } 
         }
 

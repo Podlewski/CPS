@@ -43,7 +43,7 @@ namespace Logic
             SamplesY = new List<double>();
         }
 
-        public bool HasData()
+        public bool IsEmpty()
         {
             if (UsesSamples)
             {
@@ -65,16 +65,19 @@ namespace Logic
             return true;
         }
 
-        //public bool IsValid(SignalData data)
-        //{
-        //    if (!data.Sampling.Equals(Sampling))
-        //        return false;
-        //    if (!data.StartTime.Equals(StartTime))
-        //        return false;
-        //    if (data.Samples.Count != Samples.Count)
-        //        return false;
-        //    return true;
-        //}
+        public bool IsInvalid(SignalData data)
+        {
+            if (!data.StartTime.Equals(StartTime))
+                return true;
+
+            if (data.SamplesX.Count != SamplesX.Count)
+                return true;
+
+            if (!data.Sampling.Equals(Sampling))
+                return true;
+
+            return false;
+        }
 
         //public void LoadFromFile(string filePath)
         //{

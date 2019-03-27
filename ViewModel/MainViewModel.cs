@@ -73,7 +73,7 @@ namespace ViewModel
                 "10) Impuls jednostkowy",
                 "11) Szum impulsowy"
             };
-            SelectedSignal = SignalList[2];
+            SelectedSignal = SignalList[0];
 
             OperationList = new List<string>()
             {
@@ -86,7 +86,7 @@ namespace ViewModel
 
             AddTabCommand = new RelayCommand(AddTab);
             GenerateCommand = new RelayCommand(Generate);
-            //ComputeCommand = new RelayCommand(Compute);
+            ComputeCommand = new RelayCommand(Compute);
             LoadCommand = new RelayCommand(Load);
             SaveCommand = new RelayCommand(Save);
         }
@@ -148,33 +148,31 @@ namespace ViewModel
             }
         }
 
-            
+        public void Compute()
+        {
+            if (FirstOperationTab.SignalData.IsEmpty() && SecondOperationTab.SignalData.IsEmpty())
+            {
+                if (SecondOperationTab.SignalData.IsInvalid(FirstOperationTab.SignalData))
+                {
+                    MessageBox.Show("Błąd: te sygnały nie pasują do siebie.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
 
-        //public void Compute()
-        //{
-        //    if (FirstOperationTab.SignalData.HasData() && SecondOperationTab.SignalData.HasData())
-        //    {
-        //        if (!SecondOperationTab.SignalData.IsValid(FirstOperationTab.SignalData))
-        //        {
-        //            MessageBox.Show("Given signals are not valid", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-        //            return;
-        //        }
+                SignalData signalData = new SignalData(FirstOperationTab.SignalData.StartTime,
+                                                       FirstOperationTab.SignalData.Sampling)
+                {
+                    SamplesX = FirstOperationTab.SignalData.SamplesX,
+                    SamplesY = SelectedOperation.SignalOperation(FirstOperationTab.SignalData.SamplesY,
+                                                            SecondOperationTab.SignalData.SamplesY),
 
-        //        SignalData data = new SignalData();
-        //        List<double> pointsY = new List<double>();
+                    UsesSamples = true
+                };
 
-        //        pointsY = SelectedOperation.SignalOperation(FirstOperationTab.SignalData.Samples,
-        //                                                    SecondOperationTab.SignalData.Samples);
-
-        //        data.StartTime = SelectedTab.SignalData.StartTime;
-        //        data.Sampling = SelectedTab.SignalData.Sampling;
-        //        data.Samples = pointsY;
-        //        data.FromSamples = true;
-        //        SelectedTab.IsScattered = true;
-        //        SelectedTab.LoadData(data);
-        //        SelectedTab.DrawCharts();
-        //    }
-        //}
+                SelectedTab.SignalData = signalData;
+                SelectedTab.IsScattered = true;
+                SelectedTab.DrawCharts();
+            }
+        }
 
         public void Load()
         {

@@ -48,7 +48,7 @@ namespace ViewModel
             set
             {
                 Slider = value;
-                LoadHistogram(Slider);
+                //LoadHistogram(Slider);
             } 
         }
 
@@ -199,7 +199,7 @@ namespace ViewModel
 
         public void LoadHistogram(int c)
         {
-            if (SignalData.HasData())
+            if (SignalData.IsEmpty())
             {
                 var histogramResults = SignalData.GetDataForHistogram(c);
                 HistogramStep = (int)Math.Ceiling(c / 20.0);

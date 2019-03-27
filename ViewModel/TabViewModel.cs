@@ -48,7 +48,7 @@ namespace ViewModel
             set
             {
                 Slider = value;
-                //LoadHistogram(Slider);
+                LoadHistogram(Slider);
             } 
         }
 
@@ -65,8 +65,6 @@ namespace ViewModel
             //SaveCharts = new RelayCommand(SaveChartsToFile);
 
             SliderValue = 20;
-
-            LoadHistogram(SliderValue);
         }
 
         public void DrawCharts()
@@ -122,16 +120,17 @@ namespace ViewModel
                 {
                     new ColumnSeries
                     {
+
                         Values = new ChartValues<int> (histogramResults.Select(n=>n.Item3)),
                         ColumnPadding = 0,
                         CacheMode = new BitmapCache()
-
                     }
                 };
             Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray();
 
-
+            OnPropertyChanged(nameof(SliderValue));
             OnPropertyChanged(nameof(Chart));
+            OnPropertyChanged(nameof(Histogram));
         }
 
 

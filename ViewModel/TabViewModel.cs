@@ -120,7 +120,6 @@ namespace ViewModel
                 {
                     new ColumnSeries
                     {
-
                         Values = new ChartValues<int> (histogramResults.Select(n=>n.Item3)),
                         ColumnPadding = 0,
                         CacheMode = new BitmapCache()
@@ -128,9 +127,8 @@ namespace ViewModel
                 };
             Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray();
 
-            OnPropertyChanged(nameof(SliderValue));
-            OnPropertyChanged(nameof(Chart));
             OnPropertyChanged(nameof(Histogram));
+            OnPropertyChanged(nameof(Chart));
         }
 
 
@@ -213,6 +211,7 @@ namespace ViewModel
                 };
                 Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray();
 
+                OnPropertyChanged(nameof(Histogram));
             }
         }
 

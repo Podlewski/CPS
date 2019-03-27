@@ -33,13 +33,13 @@
                     </Grid.ColumnDefinitions>
 
                     <lvc:CartesianChart Grid.RowSpan="2" Hoverable="False" DataTooltip="{x:Null}" ChartLegend="{x:Null}" Series="{Binding Histogram}" Grid.ColumnSpan="2" Margin="0,0,0.4,0.2" >
-                        <lvc:CartesianChart.AxisX>
+                        <!--<lvc:CartesianChart.AxisX>
                             <lvc:Axis Title="Interval" Labels="{Binding Labels}" LabelsRotation="70">
                                 <lvc:Axis.Separator>
                                     <lvc:Separator IsEnabled="True" Step="{Binding HistogramStep}"/>
                                 </lvc:Axis.Separator>
                             </lvc:Axis>
-                        </lvc:CartesianChart.AxisX>
+                        </lvc:CartesianChart.AxisX>-->
                     </lvc:CartesianChart>
 
                     <Slider Grid.Column="2" Value="{Binding SliderValue}" MaxHeight="280" Orientation="Vertical" HorizontalAlignment="Center"

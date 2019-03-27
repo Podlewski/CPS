@@ -142,7 +142,8 @@ namespace ViewModel
                     }
                 }
 
-                SelectedTab.SignalData = signalData; 
+                SelectedTab.SignalData = signalData;
+                SelectedTab.CalculateSignalInfo(T1_StartTime, T1_StartTime + D_DurationOfTheSignal);
                 SelectedTab.DrawCharts();
             }
         }

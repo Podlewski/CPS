@@ -10,6 +10,7 @@ using Logic;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace ViewModel
 {
@@ -183,17 +184,6 @@ namespace ViewModel
             }
         }
 
-        //public void SaveDataToFile(string path)
-        //{
-        //    SignalData.SaveToFile(path);
-        //}
-
-        //public void LoadDataFromFile(string path)
-        //{
-        //    SignalData.FromSamples = true;
-        //    SignalData.LoadFromFile(path);
-        //}
-
         public void LoadHistogram(int c)
         {
             if (SignalData.IsEmpty())
@@ -215,104 +205,113 @@ namespace ViewModel
             }
         }
 
-        //#region Save Charts
+        #region Save Charts
 
-        //public void SaveChartsToFile()
-        //{
-        //    var chart = new LiveCharts.Wpf.CartesianChart()
-        //    {
-        //        Background = new SolidColorBrush(Colors.White),
-        //        DisableAnimations = true,
-        //        Width = 1920,
-        //        Height = 1080,
-        //        DataTooltip = null,
-        //        Hoverable = false,
+        public void SaveChartsToFile()
+        {
+            var chart = new LiveCharts.Wpf.CartesianChart()
+            {
+                Background = new SolidColorBrush(Colors.White),
+                DisableAnimations = true,
+                Width = 1920,
+                Height = 1080,
+                DataTooltip = null,
+                Hoverable = false,
 
-        //    };
-        //    var histogram = new LiveCharts.Wpf.CartesianChart()
-        //    {
-        //        Background = new SolidColorBrush(Colors.White),
-        //        DisableAnimations = true,
-        //        Width = 1920,
-        //        Height = 1080,
-        //        DataTooltip = null,
-        //        Hoverable = false,
-        //    };
-        //    var mapper = Mappers.Xy<Point>()
-        //        .X(value => value.X)
-        //        .Y(value => value.Y);
+            };
 
-        //    ChartValues<Point> values = new ChartValues<Point>();
+            var histogram = new LiveCharts.Wpf.CartesianChart()
+            {
+                Background = new SolidColorBrush(Colors.White),
+                DisableAnimations = true,
+                Width = 1920,
+                Height = 1080,
+                DataTooltip = null,
+                Hoverable = false,
+            };
 
-        //    for (int i = 0; i < PointsX.Count(); i++)
-        //    {
-        //        values.Add(new Point(PointsX[i], PointsY[i]));
-        //    }
+            var mapper = Mappers.Xy<Logic.Point>()
+                .X(value => value.X)
+                .Y(value => value.Y);
 
-        //    Charts = new SeriesCollection(mapper)
-        //    {
-        //        new LineSeries
-        //        {
-        //            PointGeometry = null,
-        //            Values = values
-        //        }
-        //    };
+            ChartValues<Logic.Point> values = new ChartValues<Logic.Point>();
 
-        //    OnPropertyChanged(nameof(Charts));
-        //    else
-        //    {
-        //        chart.Series = new SeriesCollection(mapper)
-        //            {
-        //                new LineSeries()
-        //                {
-        //                    LineSmoothness = 0,
-        //                    StrokeThickness = 1,
-        //                    Fill = Brushes.Transparent,
-        //                    PointGeometry = null,
-        //                    Values = values,
-        //                }
-        //            };
-        //    }
+            if (SignalData.UsesSamples)
+            {
+                for (int i = 0; i < SignalData.SamplesX.Count; i++)
+                    values.Add(new Logic.Point(SignalData.SamplesX[i], SignalData.SamplesY[i]));
+            }
+            else
+            {
+                for (int i = 0; i < SignalData.PointsX.Count; i++)
+                    values.Add(new Logic.Point(SignalData.PointsX[i], SignalData.PointsY[i]));
+            }
 
+            if (IsScattered || SignalData.UsesSamples)
+            {
+                Chart = new SeriesCollection(mapper)
+                {
+                    new LineSeries
+                    {
+                        PointGeometry = null,
+                        Values = values
+                    }
+                };
+            }
 
-        //    var histogramResults = Data.GetDataForHistogram(SliderValue);
+            else
+            {
+                chart.Series = new SeriesCollection(mapper)
+                    {
+                        new LineSeries()
+                        {
+                            LineSmoothness = 0,
+                            StrokeThickness = 1,
+                            Fill = Brushes.Transparent,
+                            PointGeometry = null,
+                            Values = values,
+                        }
+                    };
+            }
 
-        //    //HistogramStep = (int)Math.Ceiling(SliderValue / 20.0);
-        //    histogram.Series = new SeriesCollection
-        //    {
-        //        new ColumnSeries
-        //        {
-        //            Values = new ChartValues<int> (histogramResults.Select(n=>n.Item3)),
-        //            ColumnPadding = 0,
+            OnPropertyChanged(nameof(Chart));
 
-        //        }
-        //    };
-        //    //Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray();
-        //    chart.AxisX = new AxesCollection() { new Axis() { FontSize = 20, Title = "t[s]" } };
-        //    chart.AxisY = new AxesCollection() { new Axis() { FontSize = 20, Title = "A" } };
+            var histogramResults = SignalData.GetDataForHistogram(SliderValue);
 
-        //    histogram.AxisY = new AxesCollection() { new Axis() { FontSize = 20, } };
-        //    histogram.AxisX = new AxesCollection() { new Axis() { Title = "Interval", FontSize = 20, Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray(), LabelsRotation = 60, Separator = new LiveCharts.Wpf.Separator() { Step = (int)Math.Ceiling(SliderValue / 20.0) } } };
+            //HistogramStep = (int)Math.Ceiling(SliderValue / 20.0);
+            histogram.Series = new SeriesCollection
+            {
+                new ColumnSeries
+                {
+                    Values = new ChartValues<int> (histogramResults.Select(n=>n.Item3)),
+                    ColumnPadding = 0,
+                }
+            };
 
-        //    var viewbox = new Viewbox();
-        //    viewbox.Child = chart;
-        //    viewbox.Measure(chart.RenderSize);
-        //    viewbox.Arrange(new Rect(new Point(0, 0), chart.RenderSize));
-        //    chart.Update(true, true); //force chart redraw
-        //    viewbox.UpdateLayout();
+            //Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray();
+            chart.AxisX = new AxesCollection() { new Axis() { FontSize = 20, Title = "t[s]" } };
+            chart.AxisY = new AxesCollection() { new Axis() { FontSize = 20, Title = "A" } };
 
-        //    var histViewbox = new Viewbox();
-        //    histViewbox.Child = histogram;
-        //    histViewbox.Measure(histogram.RenderSize);
-        //    histViewbox.Arrange(new Rect(new Point(0, 0), histogram.RenderSize));
-        //    histogram.Update(true, true); //force chart redraw
-        //    histViewbox.UpdateLayout();
+            histogram.AxisY = new AxesCollection() { new Axis() { FontSize = 20, } };
+            histogram.AxisX = new AxesCollection() { new Axis() { Title = "Interval", FontSize = 20, Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray(), LabelsRotation = 60, Separator = new LiveCharts.Wpf.Separator() { Step = (int)Math.Ceiling(SliderValue / 20.0) } } };
 
-        //    SaveToPng(chart, "../../../Data/chart.png");
-        //    SaveToPng(histogram, "../../../Data/histogram.png");
-        //    MessageBox.Show("Files saved", "Done", MessageBoxButton.OK, MessageBoxImage.Information);
-        //    //png file was created at the root directory.
-        //}
+            var viewbox = new Viewbox();
+            viewbox.Child = chart;
+            viewbox.Measure(chart.RenderSize);
+            viewbox.Arrange(new Rect(new System.Windows.Point(0, 0), chart.RenderSize));
+            chart.Update(true, true); //force chart redraw
+            viewbox.UpdateLayout();
+
+            var histViewbox = new Viewbox();
+            histViewbox.Child = histogram;
+            histViewbox.Measure(histogram.RenderSize);
+            histViewbox.Arrange(new Rect(new System.Windows.Point(0, 0), histogram.RenderSize));
+            histogram.Update(true, true); //force chart redraw
+            histViewbox.UpdateLayout();
+
+            MessageBox.Show("Files saved", "Done", MessageBoxButton.OK, MessageBoxImage.Information);
+            //png file was created at the root directory.
+        }
 
         //private static void EncodeVisual(FrameworkElement visual, string fileName, BitmapEncoder encoder)
         //{
@@ -323,6 +322,17 @@ namespace ViewModel
         //    using (var stream = File.Create(fileName)) encoder.Save(stream);
         //}
 
-        //#endregion
+        public void SaveDataToFile(string path)
+        {
+            SignalData.SaveToFile(path);
+        }
+
+        public void LoadDataFromFile(string path)
+        {
+            SignalData.UsesSamples = true;
+            SignalData.LoadFromFile(path);
+        }
+
+        #endregion
     }
 }

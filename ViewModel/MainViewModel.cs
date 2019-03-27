@@ -189,16 +189,16 @@ namespace ViewModel
 
         public void Load()
         {
-            MessageBox.Show("WIP");
-            //SelectedTab.LoadDataFromFile(LoadPath(true));
-            //SelectedTab.DrawCharts(); coś ten
-            //SelectedTab.CalculateSignalInfo(isDiscrete: true, fromSamples: true);
+            //MessageBox.Show("WIP");
+            SelectedTab.LoadDataFromFile(LoadPath(true));
+            SelectedTab.DrawCharts(); 
+            SelectedTab.CalculateSignalInfo(isDiscrete: true, fromSamples: true);
         }
 
         public void Save()
         {
-            MessageBox.Show("WIP");
-            //SelectedTab.SaveDataToFile(LoadPath(false));
+            //MessageBox.Show("WIP");
+            SelectedTab.SaveDataToFile(LoadPath(false));
         }
 
         public string LoadPath(bool loadMode)

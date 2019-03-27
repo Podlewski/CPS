@@ -77,7 +77,7 @@ namespace ViewModel
 
             ChartValues<Logic.Point> values = new ChartValues<Logic.Point>();
 
-            if (SignalData.FromSamples)
+            if (SignalData.UsesSamples)
             {
                 for (int i = 0; i < SignalData.SamplesX.Count; i++)
                     values.Add(new Logic.Point(SignalData.SamplesX[i], SignalData.SamplesY[i]));
@@ -89,7 +89,7 @@ namespace ViewModel
             }
 
 
-            if (IsScattered || SignalData.FromSamples)
+            if (IsScattered || SignalData.UsesSamples)
             {
                 Chart = new SeriesCollection(mapper)
                 {

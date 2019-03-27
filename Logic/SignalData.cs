@@ -10,11 +10,11 @@ namespace Logic
 {
     public class SignalData
     {
-        private List<double> _samples;
+        public byte Type { get; set; }
+
 
         public double StartTime { get; set; }
         public double Sampling { get; set; }
-        public byte Type { get; set; }
 
         public List<double> PointsX { get; set; }
         public List<double> PointsY { get; set; }
@@ -22,7 +22,7 @@ namespace Logic
         public List<double> SamplesY { get; set; }
 
 
-        public bool FromSamples { get; set; }
+        public bool UsesSamples { get; set; }
 
 
         public SignalData()
@@ -45,20 +45,27 @@ namespace Logic
             SamplesY = new List<double>();
         }
 
-        //public bool HasData()
-        //{
-        //    if (FromSamples)
-        //    {
-        //        if (Samples == null || Samples.Count == 0)
-        //            return false;
-        //        return true;
-        //    }
-        //    if (PointsX == null || PointsX.Count == 0)
-        //        return false;
-        //    if (PointsY == null || PointsY.Count == 0)
-        //        return false;
-        //    return true;
-        //}
+        public bool HasData()
+        {
+            if (UsesSamples)
+            {
+                if (SamplesX == null || SamplesX.Count == 0)
+                    return false;
+
+                if (SamplesY == null || SamplesY.Count == 0)
+                    return false;
+
+                return true;
+            }
+
+            if (PointsX == null || PointsX.Count == 0)
+                return false;
+
+            if (PointsY == null || PointsY.Count == 0)
+                return false;
+
+            return true;
+        }
 
         //public bool IsValid(SignalData data)
         //{

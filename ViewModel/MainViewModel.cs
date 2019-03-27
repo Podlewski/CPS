@@ -117,7 +117,7 @@ namespace ViewModel
 
                 if (SelectedTab.IsScattered == false)
                 {
-                    for (double i = T1_StartTime; i < T1_StartTime + D_DurationOfTheSignal; i += D_DurationOfTheSignal / 1000)
+                    for (double i = T1_StartTime; i < T1_StartTime + D_DurationOfTheSignal; i += D_DurationOfTheSignal / 500)
                     {
                         signalData.PointsX.Add(i);
                         signalData.PointsY.Add(selectedGeneration(i));

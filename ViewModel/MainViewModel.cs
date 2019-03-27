@@ -151,7 +151,7 @@ namespace ViewModel
                         double j = (double)i;
 
                         signalData.PointsX.Add(j);
-                        signalData.PointsY.Add(0);
+                        signalData.PointsY.Add(selectedGeneration(j));
                     }
                 }
 

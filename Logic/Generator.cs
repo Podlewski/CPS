@@ -119,6 +119,7 @@ namespace Logic
         public double ImpulseNoise(double time = 0)
         {
             double RandomDouble = Random.NextDouble();
+
             if (P > RandomDouble)
             {
                 return A;

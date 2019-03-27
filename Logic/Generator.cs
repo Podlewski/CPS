@@ -107,9 +107,9 @@ namespace Logic
         // 10) Impuls jednostkowy - Kronecker delta
         public double UnitImpulse(double time)
         {
-            if (time >= 0)
+            if (time == Ts)
             {
-                return 1;   
+                return A;   
             }
 
             return 0;

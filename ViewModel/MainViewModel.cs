@@ -86,7 +86,7 @@ namespace ViewModel
 
             AddTabCommand = new RelayCommand(AddTab);
             GenerateCommand = new RelayCommand(Generate);
-            ComputeCommand = new RelayCommand(Compute);
+            //ComputeCommand = new RelayCommand(Compute);
             LoadCommand = new RelayCommand(Load);
             SaveCommand = new RelayCommand(Save);
         }
@@ -108,66 +108,85 @@ namespace ViewModel
                 P = P_Probability
             };
 
-            SelectedTab.PointsX = new List<double>();
-            SelectedTab.PointsY = new List<double>();
-            SelectedTab.Data.Samples = new List<double>();
+            Func<double, double> selectedGeneration = generator.SelectGenerator(SelectedSignal);
 
-            Func<double, double> SelectedGeneration = generator.SelectGenerator(SelectedSignal);
-
-            for (double i = T1_StartTime; i < T1_StartTime + D_DurationOfTheSignal; i += 1 / Sampling)
+            if (selectedGeneration != null)
             {
-                SelectedTab.Data.Samples.Add(SelectedGeneration(i));
-            }
+                SignalData signalData = new SignalData(T1_StartTime, Sampling);
+                SelectedTab.IsScattered = SelectedSignal.IsGenerationScattered();
 
-            for (double i = T1_StartTime; i < T1_StartTime + D_DurationOfTheSignal; i += D_DurationOfTheSignal / 500)
-            {
-                SelectedTab.PointsX.Add(i);
-                SelectedTab.PointsY.Add(SelectedGeneration(i));
-            }
-
-            SelectedTab.LoadData(SelectedTab.PointsX, SelectedTab.PointsY, false);
-            SelectedTab.CalculateSignalInfo(T1_StartTime, T1_StartTime + D_DurationOfTheSignal);
-            SelectedTab.DrawCharts();
-        }
-
-        public void Compute()
-        {
-            if (FirstOperationTab.Data.HasData() && SecondOperationTab.Data.HasData())
-            {
-                if (!SecondOperationTab.Data.IsValid(FirstOperationTab.Data))
+                if (SelectedTab.IsScattered == false)
                 {
-                    MessageBox.Show("Given signals are not valid", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
+                    for (double i = T1_StartTime; i < T1_StartTime + D_DurationOfTheSignal; i += D_DurationOfTheSignal / 1000)
+                    {
+                        signalData.PointsX.Add(i);
+                        signalData.PointsY.Add(selectedGeneration(i));
+                    }
+
+                    for (double i = T1_StartTime; i < T1_StartTime + D_DurationOfTheSignal; i += 1 / Sampling)
+                    {
+                        signalData.SamplesX.Add(i);
+                        signalData.SamplesY.Add(selectedGeneration(i));
+                    }
+                }
+                else
+                {
+                    for (double i = T1_StartTime; i < T1_StartTime + D_DurationOfTheSignal; i += 1 / Sampling)
+                    {
+                        signalData.PointsX.Add(i / Sampling);
+
+                        if (SelectedSignal.Substring(0, 2) == "10")
+                            signalData.PointsY.Add(selectedGeneration(i / Sampling));
+                        else if (SelectedSignal.Substring(0, 2) == "11")
+                            signalData.PointsY.Add(0);
+                    }
                 }
 
-                DataHandler data = new DataHandler();
-                List<double> pointsY = new List<double>();
-
-                pointsY = SelectedOperation.SignalOperation(FirstOperationTab.Data.Samples,
-                                                            SecondOperationTab.Data.Samples);
-
-                data.StartTime = SelectedTab.Data.StartTime;
-                data.Frequency = SelectedTab.Data.Frequency;
-                data.Samples = pointsY;
-                data.FromSamples = true;
-                SelectedTab.IsScattered = true;
-                SelectedTab.LoadData(data);
+                SelectedTab.SignalData = signalData; 
                 SelectedTab.DrawCharts();
             }
         }
 
+            
+
+        //public void Compute()
+        //{
+        //    if (FirstOperationTab.SignalData.HasData() && SecondOperationTab.SignalData.HasData())
+        //    {
+        //        if (!SecondOperationTab.SignalData.IsValid(FirstOperationTab.SignalData))
+        //        {
+        //            MessageBox.Show("Given signals are not valid", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        //            return;
+        //        }
+
+        //        SignalData data = new SignalData();
+        //        List<double> pointsY = new List<double>();
+
+        //        pointsY = SelectedOperation.SignalOperation(FirstOperationTab.SignalData.Samples,
+        //                                                    SecondOperationTab.SignalData.Samples);
+
+        //        data.StartTime = SelectedTab.SignalData.StartTime;
+        //        data.Sampling = SelectedTab.SignalData.Sampling;
+        //        data.Samples = pointsY;
+        //        data.FromSamples = true;
+        //        SelectedTab.IsScattered = true;
+        //        SelectedTab.LoadData(data);
+        //        SelectedTab.DrawCharts();
+        //    }
+        //}
+
         public void Load()
         {
             MessageBox.Show("WIP");
-            SelectedTab.LoadDataFromFile(LoadPath(true));
+            //SelectedTab.LoadDataFromFile(LoadPath(true));
             //SelectedTab.DrawCharts(); coś ten
-            SelectedTab.CalculateSignalInfo(isDiscrete: true, fromSamples: true);
+            //SelectedTab.CalculateSignalInfo(isDiscrete: true, fromSamples: true);
         }
 
         public void Save()
         {
             MessageBox.Show("WIP");
-            SelectedTab.SaveDataToFile(LoadPath(false));
+            //SelectedTab.SaveDataToFile(LoadPath(false));
         }
 
         public string LoadPath(bool loadMode)

@@ -36,6 +36,14 @@ namespace Logic
             }
         }
 
+        public static bool IsGenerationScattered(this string signal)
+        {
+            if (signal.Substring(0, 2) == "10" || signal.Substring(0, 2) == "11")
+                return true;
+
+            return false;
+        }
+
         public static List<double> SignalOperation(this string operation, List<double> firstSamples, List<double> secondSamples)
         {
             switch (operation.Substring(0, 1))

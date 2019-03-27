@@ -19,14 +19,11 @@ namespace ViewModel
 
         public string TabName { get; set; }
 
-
-        public DataHandler Data { get; set; }
+        public SignalData SignalData { get; set; }
         public SeriesCollection Chart { get; set; }
         public bool IsScattered { get; set; }
-
-        public List<double> PointsX { get; set; }
-        public List<double> PointsY { get; set; }
         public SeriesCollection Histogram { get; set; }
+
         public int HistogramStep { get; set; }
         public string[] Labels { get; set; }
 
@@ -51,8 +48,8 @@ namespace ViewModel
             set
             {
                 Slider = value;
-                LoadHistogram(Slider);
-            }
+                //LoadHistogram(Slider);
+            } 
         }
 
         #endregion
@@ -63,14 +60,13 @@ namespace ViewModel
         {
             TabName = "Karta " + tabNumber;
 
-            IsScattered = false;
-            Data = new DataHandler();
+            SignalData = new SignalData();
 
             //SaveCharts = new RelayCommand(SaveChartsToFile);
 
             SliderValue = 20;
 
-            LoadHistogram(SliderValue);
+            //LoadHistogram(SliderValue);
         }
 
         public void DrawCharts()
@@ -80,24 +76,20 @@ namespace ViewModel
                 .Y(value => value.Y);
 
             ChartValues<Logic.Point> values = new ChartValues<Logic.Point>();
-            List<double> pointsX;
-            List<double> pointsY;
-            if (Data.FromSamples)
+
+            if (SignalData.FromSamples)
             {
-                pointsX = Data.SamplesX;
-                pointsY = Data.Samples;
+                for (int i = 0; i < SignalData.SamplesX.Count; i++)
+                    values.Add(new Logic.Point(SignalData.SamplesX[i], SignalData.SamplesY[i]));
             }
             else
             {
-                pointsX = PointsX;
-                pointsY = PointsY;
-            }
-            for (int i = 0; i < pointsX.Count; i++)
-            {
-                values.Add(new Logic.Point(pointsX[i], pointsY[i]));
+                for (int i = 0; i < SignalData.PointsX.Count; i++)
+                    values.Add(new Logic.Point(SignalData.PointsX[i], SignalData.PointsY[i]));
             }
 
-            if (IsScattered || Data.FromSamples)
+
+            if (IsScattered || SignalData.FromSamples)
             {
                 Chart = new SeriesCollection(mapper)
                 {
@@ -124,19 +116,19 @@ namespace ViewModel
                 };
             }
 
-            var histogramResults = Data.GetDataForHistogram(SliderValue);
-            HistogramStep = 1;
-            Histogram = new SeriesCollection
-                {
-                    new ColumnSeries
-                    {
-                        Values = new ChartValues<int> (histogramResults.Select(n=>n.Item3)),
-                        ColumnPadding = 0,
-                        CacheMode = new BitmapCache()
+            //var histogramResults = SignalData.GetDataForHistogram(SliderValue);
+            //HistogramStep = 1;
+            //Histogram = new SeriesCollection
+            //    {
+            //        new ColumnSeries
+            //        {
+            //            Values = new ChartValues<int> (histogramResults.Select(n=>n.Item3)),
+            //            ColumnPadding = 0,
+            //            CacheMode = new BitmapCache()
 
-                    }
-                };
-            Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray();
+            //        }
+            //    };
+            //Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray();
 
 
             OnPropertyChanged(nameof(Chart));
@@ -148,82 +140,82 @@ namespace ViewModel
             return TabName;
         }
 
-        public void CalculateSignalInfo(double t1 = 0, double t2 = 0, bool isDiscrete = false, bool fromSamples = false)
-        {
-            List<double> points;
+        //public void CalculateSignalInfo(double t1 = 0, double t2 = 0, bool isDiscrete = false, bool fromSamples = false)
+        //{
+        //    List<double> points;
 
-            if (fromSamples)         
-                points = Data.Samples;
+        //    if (fromSamples)         
+        //        points = SignalData.Samples;
             
-            else
-                points = Data.PointsY;
+        //    else
+        //        points = SignalData.PointsY;
 
-            AverageValue = Operations.Average(points, t1, t2, isDiscrete);
-            AverageAbsValue = Operations.AbsAverage(points, t1, t2, isDiscrete);
-            RootMeanSquare = Operations.RootMeanSquare(points, t1, t2, isDiscrete); 
-            Variance = Operations.Variance(points, t1, t2, isDiscrete);
-            AveragePower = Operations.AveragePower(points, t1, t2, isDiscrete);
+        //    AverageValue = Operations.Average(points, t1, t2, isDiscrete);
+        //    AverageAbsValue = Operations.AbsAverage(points, t1, t2, isDiscrete);
+        //    RootMeanSquare = Operations.RootMeanSquare(points, t1, t2, isDiscrete); 
+        //    Variance = Operations.Variance(points, t1, t2, isDiscrete);
+        //    AveragePower = Operations.AveragePower(points, t1, t2, isDiscrete);
 
-            OnPropertyChanged(nameof(AverageValue));
-            OnPropertyChanged(nameof(AverageAbsValue));
-            OnPropertyChanged(nameof(RootMeanSquare));
-            OnPropertyChanged(nameof(Variance));
-            OnPropertyChanged(nameof(AveragePower));
+        //    OnPropertyChanged(nameof(AverageValue));
+        //    OnPropertyChanged(nameof(AverageAbsValue));
+        //    OnPropertyChanged(nameof(RootMeanSquare));
+        //    OnPropertyChanged(nameof(Variance));
+        //    OnPropertyChanged(nameof(AveragePower));
 
-            //MessageBox.Show(" points  " + str + " sampl " + fromSamples.ToString(), "Done", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
+        //    //MessageBox.Show(" points  " + str + " sampl " + fromSamples.ToString(), "Done", MessageBoxButton.OK, MessageBoxImage.Information);
+        //}
 
-        public void LoadData(DataHandler data)
+        public void LoadData(SignalData data)
         {
-            Data = data;
+            SignalData = data;
         }
 
-        public void LoadData(List<double> x, List<double> y, bool fromSamples)
-        {
-            if (fromSamples)
-            {
-                Data.FromSamples = true;
-                Data.Samples = y;
-            }
+        //public void LoadData(List<double> x, List<double> y, bool fromSamples)
+        //{
+        //    if (fromSamples)
+        //    {
+        //        SignalData.FromSamples = true;
+        //        SignalData.Samples = y;
+        //    }
 
-            else
-            {
-                Data.FromSamples = false;
-                Data.PointsX = x;
-                Data.PointsY = y;
-            }
-        }
+        //    else
+        //    {
+        //        SignalData.FromSamples = false;
+        //        SignalData.PointsX = x;
+        //        SignalData.PointsY = y;
+        //    }
+        //}
 
-        public void SaveDataToFile(string path)
-        {
-            Data.SaveToFile(path);
-        }
+        //public void SaveDataToFile(string path)
+        //{
+        //    SignalData.SaveToFile(path);
+        //}
 
-        public void LoadDataFromFile(string path)
-        {
-            Data.FromSamples = true;
-            Data.LoadFromFile(path);
-        }
+        //public void LoadDataFromFile(string path)
+        //{
+        //    SignalData.FromSamples = true;
+        //    SignalData.LoadFromFile(path);
+        //}
 
-        public void LoadHistogram(int c)
-        {
-            if (Data.HasData())
-            {
-                var histogramResults = Data.GetDataForHistogram(c);
-                HistogramStep = (int)Math.Ceiling(c / 20.0);
-                Histogram = new SeriesCollection
-                {
-                    new ColumnSeries
-                    {
-                        Values = new ChartValues<int> (histogramResults.Select(n=>n.Item3)),
-                        ColumnPadding = 0,
-                        CacheMode = new BitmapCache()
-                    }
-                };
-                Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray();
+        //public void LoadHistogram(int c)
+        //{
+        //    if (SignalData.HasData())
+        //    {
+        //        var histogramResults = SignalData.GetDataForHistogram(c);
+        //        HistogramStep = (int)Math.Ceiling(c / 20.0);
+        //        Histogram = new SeriesCollection
+        //        {
+        //            new ColumnSeries
+        //            {
+        //                Values = new ChartValues<int> (histogramResults.Select(n=>n.Item3)),
+        //                ColumnPadding = 0,
+        //                CacheMode = new BitmapCache()
+        //            }
+        //        };
+        //        Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray();
 
-            }
-        }
+        //    }
+        //}
 
         //#region Save Charts
 

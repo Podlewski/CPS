@@ -158,7 +158,7 @@
 
         <!-- TabUserControl -->
         <TabControl Grid.Column="1" Grid.Row="0" Background="#454545" Margin="10 50 20 10" ItemContainerStyle="{DynamicResource TabItemStyle}" 
-                    ItemsSource="{Binding TabList}"  >
+                    ItemsSource="{Binding TabList}" SelectedItem="{Binding SelectedTab}"  >
             <TabControl.ItemTemplate >
                 <DataTemplate>
                     <TextBlock Text="{Binding TabName}" />

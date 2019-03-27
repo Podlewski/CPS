@@ -50,7 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataHandler.cs" />
+    <Compile Include="SignalData.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Generator.cs" />
     <Compile Include="Operations.cs" />

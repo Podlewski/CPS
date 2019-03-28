@@ -5,200 +5,311 @@
 \newcommand{\BibTeX}{{\sc Bib}\TeX} 
 \usepackage{graphicx}
 \usepackage{amsfonts}
+\usepackage{float}
 
 \setlength{\textheight}{21cm}
 
-\title{{\bf Zadanie nr N - nazwa zadania}\linebreak
+\title{{\bf Zadanie nr 1 - Generacja sygna³u i szumu}\linebreak
 Cyfrowe Przetwarzanie Sygna³ów}
-\author{Imiê Nazwisko, Nr albumu \and Imiê Nazwisko, Nr albumu}
-\date{data oddania zadania}
+\author{Justyna Hubert, 210200 \and Karol Podlewski, 210294}
+\date{29.03.2019}
 
 \begin{document}
 \clearpage\maketitle
 \thispagestyle{empty}
 \newpage
 \setcounter{page}{1}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% CEL ZADANIA
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Cel zadania}
+Celem zadania jest zapoznanie siê z wybranymi w³asnoœciami podstawowych rodzajów sygna³ów oraz napisanie aplikacji, przy pomocy której bêd¹ generowane i wyœwietlane (wykres oraz histogram) sygna³y i szumy o okreœlonych parametrach:
+\begin{itemize}
+	\item szum o rozk³adzie jednostajnym;
+	\item szum gaussowski;
+	\item sygna³ sinusoidalny;
+	\item sygna³ sinusoidalny wyprostowany jednopo³ówkowo;
+	\item sygna³ sinusoidalny wyprostowany dwupo³ówkowo;
+	\item sygna³ prostok¹tny;
+	\item sygna³ prostok¹tny symetryczny;
+	\item sygna³ trójk¹tny;
+	\item skok jednostkowy;
+	\item impuls jednostkowy;
+	\item szum impulsowy;
+\end{itemize}
+oraz wykonanie na nich podstawowych dzia³añ:
+\begin{itemize}
+	\item dodawanie;
+	\item odejmowanie;
+	\item mno¿enie;
+	\item dzielenie;
+\end{itemize}
+Aplikacja ma umo¿liwiaæ zapis do pliku biranego i odczyt z tego pliku.
 
-Opis celu zadania (proszê nie przepisywaæ treœci instrukcji!).\\
-Sprawozdanie nale¿y wykonaæ na podstawie\\ 
-szablonu \LaTeX-owego \texttt{sprawozdanie-wzor.tex}.
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% WSTÊP TEORETYCZNY
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Wstêp teoretyczny}
+Program zosta³ stworzony w jêzyku C\# zgodnie z opisem zamieszczonym na platforme WIKAMP~\cite{instrukcja}. Graficzny interfejs u¿ytkownika zosta³ stworzony przy  wykorzystaniu Windows Presentation Foundation~\cite{wpf}. Logika aplikacji zosta³a odseparowana od GUI, w zgodzie ze wzorcem projektowym Model-view-viewmodel (MVVM), poprzez implementacje trzech projektów (Logic, ViewModel i View). Biblioteka LiveCharts~\cite{livechart} wykorzystana jest do generowania wykresów.
+\newline
 
-Krótki opis wykorzystywanych metod~\cite{dowolna_etykieta_artykulu}. Proszê nie umieszczaæ ogólnie znanych z literatury
-wzorów oraz definicji. Nale¿y podaæ jaka metoda zosta³a zastosowana, dlaczego oraz podaæ wykorzystan¹ literaturê (korzystaj¹c z odwo³añ do pozycji bibliografii~\cite{dowolna_etykieta_ksiazki}).\\
-Przygotowuj¹c bibliografiê nale¿y korzystaæ z podanego\\ 
-szablonu \BibTeX-owego \texttt{bibliografia-wzor.bib}.
+% G£ÓWNY WIDOK
+Po uruchomieniu aplikacji, u¿ytkownikowi ukazujê nastêpuj¹cy interfejs graficzny:
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=1\textwidth]{{Aplikacja/Interfejs.png}}
+	\caption{Interfejs u¿ytkownika}
+\end{figure}
 
+Lewa strona aplikacji przeznaczona jest do ustawiania generowania wybranych sygna³ów przy okreœloniu ich paramterów, wykonania operacji na dwóch dowolnie wybranych sygna³ach oraz zapisania b¹dŸ wczytania wygenerowanego wczeœniej sygna³u.
+\pagebreak
+
+% GENERACJA SYGNA£U
+Pierwsza zak³adka z lewej strony s³u¿y do generacji sygna³u/szumu:
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=0.7\textwidth]{{Aplikacja/Generacja.png}}
+	\caption{Generacja sygna³u}
+\end{figure}
+Sygna³ wygeneruje siê na obecnie otworzonej karcie. Zaprezentowanie na zrzucie ekranu wartoœci parametrów s¹ wartoœciami domyœlnymi.
+\pagebreak
+
+% OPERACJE NA SYGNA£ACH
+Kolejna zak³adka umo¿liwia wykonanie operacji na sygnale. Wraz z wybran¹ operacj¹, wybieramy sygna³y które maj¹ zostaæ przetworzone:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{{Aplikacja/Operacje.png}} 
+	\caption{Operacje na sygna³ach}
+\end{figure}
+Sygna³ wygeneruje siê na obecnie otworzonej karcie.
+\pagebreak
+
+% DANE SYGNA£U
+Ostatnia zak³adka umo¿liwia zapisanie obecnie otworzonego wykresu b¹dŸ wczytanie na obecnie otworzonej karcie:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{{Aplikacja/Zapis.png}}
+	\caption{Zapis oraz wczytanie sygna³u}
+\end{figure}
+
+% WIZUALIZACJA
+Sekcja z lewej strony sk³ada siê z kart, na których mo¿emy generowaæ nasze wykresy:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{{Aplikacja/Karty.png}}
+	\caption{Widok kart}
+\end{figure}
+Ka¿da karta zawiera trzy zak³adki, pozwalaj¹ce zobaczyæ wykres, histogram oraz dane sygna³u:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{{Aplikacja/Wykres.png}}
+	\caption{Wykres}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{{Aplikacja/Histogram.png}}
+	\caption{Histogram}
+\end{figure}
+Po lewej stronie od histogramu znajduje siê suwak, dziêki któremu mo¿emy ustawiæ liczbê przedzia³ów w zakresie 1-20.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{{Aplikacja/Dane.png}}
+	\caption{Zapis oraz wczytanie sygna³u}
+\end{figure}
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SEKCJA EKSPERYMENTÓW
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Eksperymenty i wyniki}
 
-Opis wykonywanych eksperymentów. Wymagane jest ilustrowanie przeprowadzanych doœwiadczeñ wykresami oraz tabelami.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% PODROZDZIA£ PT. EKSPERYMENT NR 1 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsection{Eksperyment nr 1}
-
-Eksperyment nr 1...\\
-Identycznoœciowa funkcja aktywacji ma postaæ:
-\begin{equation}
- \forall\: s \in \mathbb{R}\:\:\:\: f(s) = s
- \label{równanie funkcji identycznoœciowej}
-\end{equation}
-Jak widaæ z definicji (\ref{równanie funkcji identycznoœciowej}) funkcja ta...
-
-\subsubsection{Za³o¿enia}
-
-\subsubsection{Przebieg}
-\newpage
-
-\subsubsection{Rezultat}
-
-Rezultaty badañ eksperymentalnych przedstawione s¹ w Tab. \ref{wyniki eksperymentu pierwszego}.
-\begin{table}[h!]
- \caption{Rezultaty eksperymentu nr 1}
- \centering
- \vspace{0.2cm}
- \begin{tabular}{c c c c}
-  \hline\hline\\[-0.4cm]
-  \textbf{Przypadek} & \textbf{Metoda 1} & \textbf{Metoda 2} & \textbf{Metoda 3}\\[0.1cm]
-  \hline
-  \textbf{1} & 50 & 837 & 970  \\
-  \textbf{2} & 47 & 877 & 230  \\
-  \textbf{3} & 31 &  25 & 415  \\
-  \textbf{4} & 35 & 144 & 2356 \\
-  \textbf{5} & 45 & 300 & 556  \\ [0.1cm]
-  \hline
- \end{tabular}
- \label{wyniki eksperymentu pierwszego}
-\end{table}
-
-\noindent Jak widaæ w Tab. \ref{wyniki eksperymentu pierwszego}...\newline
-Graficzna interpretacja wyników z Tab. \ref{wyniki eksperymentu pierwszego} 
-przedstawiona jest na wykresie Rys. \ref{rysunek do eksperymentu pierwszego} gdzie mo¿na zauwa¿yæ, ¿e...
-\begin{figure}[h!]
- \centering
- \includegraphics[width=9.3cm]{wykres.pdf}
- \vspace{-0.3cm}
- \caption{Wykres dla wyników eksperymentu pierwszego}
- \label{rysunek do eksperymentu pierwszego}
-\end{figure}
-
-\noindent Jak widaæ z wykresu Rys. \ref{rysunek do eksperymentu pierwszego}...\newline
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% PODROZDZIA£ PT. EKSPERYMENT NR 2 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\newpage
-\subsection{Eksperyment nr 2}
-
-Eksperyment nr 2 polega³ na...\\
-Sigmoidalna funkcja aktywacji ma postaæ:
-\begin{equation}
- \forall\: s \in \mathbb{R}\:\:\:\:\:\: f(s) = \frac{1}{\:\:\:1 + e^{-\beta \cdot s}\:}\:,
- \:\:\:\:\textnormal{gdzie}\:\:\beta \in \mathbb{R}_{+}
- \label{równanie funkcji sigmoidalnej}
-\end{equation}
-Jak widaæ z równania definicyjnego (\ref{równanie funkcji sigmoidalnej}) 
-funkcja\footnote{ang. \textit{sigmoidal function} lub \textit{unipolar function}}
-ta ma wykres przedstawiony 
-na rysunku Rys. \ref{funkcja sigmoidalna}, gdzie paramater $\beta$ ...
-\begin{figure}[h!]
- \centering
- \includegraphics[width=7.3cm]{funkcja.png}
- \vspace{-0.1cm}
- \caption{Wykres funkcji sigmoidalnej}
- \label{funkcja sigmoidalna}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%% EKSPERYMENT #1  
+\subsection{Generowanie sygna³u sinusoidalnego}
+Celem eksperymentu by³o wygenerowanie sygna³u sinusoidalnego.
+Funkcja opisuj¹ca sygna³ sinusoidalny ma postaæ:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.3\textwidth]{{Wzory/Sinus.png}}
 \end{figure}
 
 \subsubsection{Za³o¿enia}
-
-\subsubsection{Przebieg}
+Wartoœci parametrów s³u¿¹ce do wygenerowania sygna³u:
+\begin{itemize}
+	\item Amplituda = 1
+	\item Czas pocz¹tkowy = 0s
+	\item Czas trwania sygna³u = 4s
+	\item Okres podstawowy = 1s
+\end{itemize}
 
 \subsubsection{Rezultat}
+Wygenerowany zosta³ nastêpuj¹cy sygna³: 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{{Wykresy/Sinus_Wykres.png}}
+	\caption{Wykres sygna³u sinusoidalnego}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{{Wykresy/Sinus_Histogram.png}}
+	\caption{Histogram sygna³u sinusoidalnego}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{{Wykresy/Sinus_Dane.png}}
+	\caption{Obliczone wartoœci dla sygna³u sinusoidalnego}
+\end{figure}
+\pagebreak
 
-Rezultaty badañ eksperymentalnych przedstawione s¹ w Tab. \ref{wyniki eksperymentu drugiego}.
-\vspace{-0.5cm}
-\begin{table}[h!]
- \caption{Rezultaty eksperymentu nr 2}
- \centering
- \vspace{0.2cm}
- \begin{tabular}{c c c }
-  \hline\hline\\[-0.4cm]
-  \textbf{Przypadek} & \textbf{Metoda 1} & \textbf{Metoda 2}\\[0.1cm]
-  \hline
-  \textbf{1} & 50 & 837 \\
-  \textbf{2} & 47 & 877 \\
-  \textbf{3} & 45 & 300 \\ [0.1cm]
-  \hline
- \end{tabular}
- \label{wyniki eksperymentu drugiego}
-\end{table}
-
-\noindent Jak widaæ w Tab. \ref{wyniki eksperymentu drugiego}...\newline
-Wyniki w Tab. \ref{wyniki eksperymentu drugiego} œwiadcz¹ o tym, ¿e...
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% PODROZDZIA£ PT. EKSPERYMENT NR N 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsection{Eksperyment nr n}
-Eksperyment nr n zak³ada³, i¿...\\
-Dla dowolnej liczby $N \in \mathbb{N}$ funkcjê 
-$F_{N}:\mathbb{C}^{\:N}\!\rightarrow\mathbb{C}^{\:N}$
-zdefiniowan¹ w nastêpuj¹cy sposób:
-\vspace{-0.4cm}
-\begin{equation}
- \forall\:\mathbf{x} \in \mathbb{C}^{\:N}\:\:\:\:\:
- \forall\:k \in \{\:0,\dots,N - 1\:\!\}\:\:\:\:\:
- F_{N}\:\!(\:\mathbf{x}\:)_{k}\:\stackrel{\Delta}{=}\:
- \frac{1}{\sqrt{N}}\:
- \sum_{n = 0}^{N - 1}\:x_{n}\:\cdot\:
- e^{-j 2 \pi n k / N}
- \label{równanie dyskretnej transformaty Fouriera}
-\end{equation}
-nazywamy $N$ -- punktowym prostym jednowymiarowym dyskretnym przekszta³ceniem Fouriera.
-Na Rys. \ref{FFT} przedstawiono szybki algorytm obliczania dyskretnego 
-przekszta³cenia Fouriera\footnote{ang. \textit{Fast Fourier Transform}}.
-\begin{figure}[h!]
- \centering
- \includegraphics[width=0.8\linewidth]{transformata.pdf}
- \vspace{-0.1cm}
- \caption{Szybkie przekszta³cenie Fouriera}
- \label{FFT}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%% EKSPERYMENT #2  
+\subsection{Generowanie sygna³u prostok¹tnego}
+Celem eksperymentu by³o wygenerowanie sygna³u prostok¹tnego.
+Funkcja opisuj¹ca sygna³ sinusoidalny ma postaæ:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{{Wzory/Prostokat.png}}
 \end{figure}
 
 \subsubsection{Za³o¿enia}
-
-\subsubsection{Przebieg}
+Wartoœci parametrów s³u¿¹ce do wygenerowania sygna³u:
+\begin{itemize}
+	\item Amplituda = -2
+	\item Czas pocz¹tkowy = 0s
+	\item Czas trwania sygna³u = 4s
+	\item Okres podstawowy = 1s
+	\item Wspó³czynnik wype³nienia = 0.25
+\end{itemize}
 
 \subsubsection{Rezultat}
-\newpage
+Wygenerowany zosta³ nastêpuj¹cy sygna³: 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{{Wykresy/Prostokat_Wykres.png}}
+	\caption{Wykres sygna³u prostok¹tnego}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{{Wykresy/Prostokat_Histogram.png}}
+	\caption{Histogram sygna³u prostok¹tnego}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{{Wykresy/Prostokat_Dane.png}}
+	\caption{Obliczone wartoœci dla sygna³u prostok¹tnego}
+\end{figure}
+\pagebreak
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%% EKSPERYMENT #3  
+\subsection{Generowanie sygna³u trójk¹tnego}
+Celem eksperymentu by³o wygenerowanie sygna³u trójk¹tnego.
+Funkcja opisuj¹ca sygna³ sinusoidalny ma postaæ:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{{Wzory/Trojkat.png}}
+\end{figure}
+
+\subsubsection{Za³o¿enia}
+Wartoœci parametrów s³u¿¹ce do wygenerowania sygna³u:
+\begin{itemize}
+	\item Amplituda = 3
+	\item Czas pocz¹tkowy = 0s
+	\item Czas trwania sygna³u = 4s
+	\item Okres podstawowy = 1s
+	\item Wspó³czynnik wype³nienia = 0.75
+\end{itemize}
+
+\subsubsection{Rezultat}
+Wygenerowany zosta³ nastêpuj¹cy sygna³: 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{{Wykresy/Trojkat_Wykres.png}}
+	\caption{Wykres sygna³u trójk¹tnego}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{{Wykresy/Trojkat_Histogram.png}}
+	\caption{Histogram sygna³u trójk¹tnego}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{{Wykresy/Trojkat_Dane.png}}
+	\caption{Obliczone wartoœci dla sygna³u trójk¹tnego}
+\end{figure}
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%% EKSPERYMENT #4  
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%% EKSPERYMENT #5
+\subsection{Dodawanie sygna³u sinusoidalnego oraz sygna³u trójk¹tnego}
+Celem eksperymentu by³o wygenerowanie sygna³u bêd¹cego wynikiem dodawania sygna³u sinusoidalnego i sygna³u trójk¹tnego.
+
+\subsubsection{Za³o¿enia}
+Funkcja powsta³a w wyniku dodawania sygna³ów z podpunktów 3.1 oraz 3.3.
+
+\subsubsection{Rezultat}
+Wygenerowany zosta³ nastêpuj¹cy sygna³: 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{{Wykresy/Sin_Tr_Wykres.png}}
+	\caption{Wykres dla sygna³u otrzymanego po dodawaniu}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{{Wykresy/Sin_Tr_Histogram.png}}
+	\caption{Histogram dla sygna³u otrzymanego po dodawaniu}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{{Wykresy/Sin_Tr_Dane.png}}
+	\caption{Obliczone wartoœci dla sygna³u otrzymanego po dodawaniu}
+\end{figure}
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%% EKSPERYMENT #6
+\subsection{Odejmoanie sygna³u trójk¹tnego od sygna³u prostok¹tnego}
+Celem eksperymentu by³o wygenerowanie sygna³u bêd¹cego wynikiem odejmowania sygna³u trójk¹tnego od sygna³u prostok¹tnego..
+
+\subsubsection{Za³o¿enia}
+Funkcja powsta³a w wyniku odejmowania sygna³ów z podpunktu 3.3 od sygna³u 3.2.
+
+\subsubsection{Rezultat}
+Wygenerowany zosta³ nastêpuj¹cy sygna³: 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{{Wykresy/Tr_Pr_Wykres.png}}
+	\caption{Wykres dla sygna³u otrzymanego po odejmowaniu}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{{Wykresy/Tr_Pr_Histogram.png}}
+	\caption{Histogram dla sygna³u otrzymanego po odejmowaniu}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{{Wykresy/Tr_Pr_Dane.png}}
+	\caption{Obliczone wartoœci dla sygna³u otrzymanego po odejmowaniu}
+\end{figure}
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% WNIOSKI
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Wnioski}
+Aplikacja zosta³a napisana zgodnie z instrukcj¹ do zadania ~\cite{instrukcja}. Program poprawnie implementuje generowanie wymaganych sygna³ów, operacje na nich oraz umo¿liwia zapis i odczyt danych. Aplikacja zosta³a napisana w sposób, aby umo¿liwiæ nam rozszerzenie jej o kolejne funkcjonalnoœci.
 
-Wnioski z przeprowadzonych eksperymentów dowodz¹, ¿e...
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% PODROZDZIA£ PT. ZALACZNIKI
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Za³¹czniki*}
-
-Opcjonalnie, w zale¿noœci od zadania,
-np. fragment kodu Ÿród³owego.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% BIBLIOGRAFIA
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% BIBLIOGRAFIA
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \renewcommand\refname{Bibliografia}
 \bibliographystyle{plain}
-\bibliography{bibliografia_wzor}
+\bibliography{Zad1_Bibliografia}
 
 \end{document}

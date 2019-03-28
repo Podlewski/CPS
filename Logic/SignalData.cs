@@ -45,16 +45,27 @@ namespace Logic
             return true;
         }
 
-        public bool IsInvalid(SignalData data)
+        public bool IsInvalid(SignalData data, string message)
         {
+            message = "Błąd: te sygnały nie pasują do siebie: ";
+
             if (!data.StartTime.Equals(StartTime))
+            {
+                message += "inne czasy rozpoczęcia.";
                 return true;
+            }
 
             if (data.SamplesX.Count != SamplesX.Count)
+            {
+                message += "niezgodna liczba próbek.";
                 return true;
+            }
 
             if (!data.Sampling.Equals(Sampling))
+            {
+                message += "niezgodna częstotliwość próbkowania.";
                 return true;
+            }
 
             return false;
         }

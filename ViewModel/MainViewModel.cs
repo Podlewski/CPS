@@ -11,7 +11,6 @@ namespace ViewModel
 {
     public class MainViewModel : BaseViewModel
     {
-
         #region Commands
 
         public ICommand AddTabCommand { get; set; }
@@ -132,9 +131,11 @@ namespace ViewModel
         {
             if (FirstOperationTab.SignalData.IsEmpty() && SecondOperationTab.SignalData.IsEmpty())
             {
-                if (SecondOperationTab.SignalData.IsInvalid(FirstOperationTab.SignalData))
+                string message = "";
+
+                if (SecondOperationTab.SignalData.IsInvalid(FirstOperationTab.SignalData, message))
                 {
-                    MessageBox.Show("Błąd: te sygnały nie pasują do siebie.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 

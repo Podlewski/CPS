@@ -101,7 +101,7 @@ Sekcja z lewej strony sk³ada siê z kart, na których mo¿emy generowaæ nasze wykre
 	\includegraphics[width=1\textwidth]{{Aplikacja/Karty.png}}
 	\caption{Widok kart}
 \end{figure}
-Ka¿da karta zawiera trzy zak³adki, pozwalaj¹ce zobaczyæ wykres, histogram oraz dane sygna³u:
+Ka¿da karta zawiera trzy zak³adki, pozwalaj¹ce zobaczyæ wykres, histogram oraz wyliczone parametry sygna³u:
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{{Aplikacja/Wykres.png}}
@@ -115,8 +115,8 @@ Ka¿da karta zawiera trzy zak³adki, pozwalaj¹ce zobaczyæ wykres, histogram oraz d
 Po lewej stronie od histogramu znajduje siê suwak, dziêki któremu mo¿emy ustawiæ liczbê przedzia³ów w zakresie 1-20.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.6\textwidth]{{Aplikacja/Dane.png}}
-	\caption{Zapis oraz wczytanie sygna³u}
+	\includegraphics[width=0.6\textwidth]{{Aplikacja/Parametry.png}}
+	\caption{Parametry sygna³u}
 \end{figure}
 \pagebreak
 
@@ -142,6 +142,7 @@ Wartoœci parametrów s³u¿¹ce do wygenerowania sygna³u:
 	\item Czas pocz¹tkowy = 0s
 	\item Czas trwania sygna³u = 4s
 	\item Okres podstawowy = 1s
+	\item Czêstotliwoœæ próbkowania = 500Hz
 \end{itemize}
 
 \subsubsection{Rezultat}
@@ -158,8 +159,8 @@ Wygenerowany zosta³ nastêpuj¹cy sygna³:
 \end{figure}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{{Wykresy/Sinus_Dane.png}}
-	\caption{Obliczone wartoœci dla sygna³u sinusoidalnego}
+	\includegraphics[width=0.8\textwidth]{{Wykresy/Sinus_Parametry.png}}
+	\caption{Wyliczone parametry dla sygna³u sinusoidalnego}
 \end{figure}
 \pagebreak
 
@@ -181,6 +182,7 @@ Wartoœci parametrów s³u¿¹ce do wygenerowania sygna³u:
 	\item Czas trwania sygna³u = 4s
 	\item Okres podstawowy = 1s
 	\item Wspó³czynnik wype³nienia = 0.25
+	\item Czêstotliwoœæ próbkowania = 500Hz
 \end{itemize}
 
 \subsubsection{Rezultat}
@@ -197,8 +199,8 @@ Wygenerowany zosta³ nastêpuj¹cy sygna³:
 \end{figure}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{{Wykresy/Prostokat_Dane.png}}
-	\caption{Obliczone wartoœci dla sygna³u prostok¹tnego}
+	\includegraphics[width=0.8\textwidth]{{Wykresy/Prostokat_Parametry.png}}
+	\caption{Wyliczone parametry dla sygna³u prostok¹tnego}
 \end{figure}
 \pagebreak
 
@@ -220,6 +222,7 @@ Wartoœci parametrów s³u¿¹ce do wygenerowania sygna³u:
 	\item Czas trwania sygna³u = 4s
 	\item Okres podstawowy = 1s
 	\item Wspó³czynnik wype³nienia = 0.75
+	\item Czêstotliwoœæ próbkowania = 500Hz
 \end{itemize}
 
 \subsubsection{Rezultat}
@@ -236,14 +239,44 @@ Wygenerowany zosta³ nastêpuj¹cy sygna³:
 \end{figure}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{{Wykresy/Trojkat_Dane.png}}
-	\caption{Obliczone wartoœci dla sygna³u trójk¹tnego}
+	\includegraphics[width=0.8\textwidth]{{Wykresy/Trojkat_Parametry.png}}
+	\caption{Wyliczone parametry dla sygna³u trójk¹tnego}
 \end{figure}
 \pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%% EKSPERYMENT #4  
+\subsection{Generowanie szumu impulsowego}
+Celem eksperymentu by³o wygenerowanie szumu impulsowego. Jest on sygna³em dyskretnym, którego amplituda przyjmuje dwie wartoœci 0 oraz A.
 
+\subsubsection{Za³o¿enia}
+Wartoœci parametrów s³u¿¹ce do wygenerowania szumu:
+\begin{itemize}
+	\item Amplituda = 1
+	\item Czas pocz¹tkowy = 0s
+	\item Czas trwania sygna³u = 1s
+	\item Prawodopobieñstwo = 0.5
+	\item Czêstotliwoœæ próbkowania = 50Hz
+\end{itemize}
+
+\subsubsection{Rezultat}
+Wygenerowany zosta³ nastêpuj¹cy sygna³: 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{{Wykresy/Impuls_Wykres.png}}
+	\caption{Wykres szumu impulsowego}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{{Wykresy/Impuls_Histogram.png}}
+	\caption{Histogram szumu impulsowego}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{{Wykresy/Impuls_Parametry.png}}
+	\caption{Wyliczone parametry dla szumu impulsowego}
+\end{figure}
+\pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%% EKSPERYMENT #5
@@ -267,8 +300,8 @@ Wygenerowany zosta³ nastêpuj¹cy sygna³:
 \end{figure}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{{Wykresy/Sin_Tr_Dane.png}}
-	\caption{Obliczone wartoœci dla sygna³u otrzymanego po dodawaniu}
+	\includegraphics[width=0.8\textwidth]{{Wykresy/Sin_Tr_Parametry.png}}
+	\caption{Wyliczone parametry dla sygna³u otrzymanego po dodawaniu}
 \end{figure}
 \pagebreak
 
@@ -294,8 +327,8 @@ Wygenerowany zosta³ nastêpuj¹cy sygna³:
 \end{figure}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{{Wykresy/Tr_Pr_Dane.png}}
-	\caption{Obliczone wartoœci dla sygna³u otrzymanego po odejmowaniu}
+	\includegraphics[width=0.8\textwidth]{{Wykresy/Tr_Pr_Parametry.png}}
+	\caption{Wyliczone parametry dla sygna³u otrzymanego po odejmowaniu}
 \end{figure}
 \pagebreak
 

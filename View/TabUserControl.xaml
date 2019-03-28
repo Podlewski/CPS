@@ -16,7 +16,7 @@
                         <ColumnDefinition Width="0.05*"/>
                     </Grid.ColumnDefinitions>
 
-                    <lvc:CartesianChart Hoverable="False" DataTooltip="{x:Null}" ChartLegend="{x:Null}" Series="{Binding Chart}" />
+                    <lvc:CartesianChart Hoverable="False" DataTooltip="{x:Null}" ChartLegend="{x:Null}" Series="{Binding Chart}" DisableAnimations="True" />
                 </Grid>
             </TabItem>
 
@@ -31,7 +31,7 @@
                         <ColumnDefinition Width="0.05*"/>
                     </Grid.ColumnDefinitions>
 
-                    <lvc:CartesianChart Grid.RowSpan="2" Hoverable="False" DataTooltip="{x:Null}" ChartLegend="{x:Null}" Series="{Binding Histogram}">
+                    <lvc:CartesianChart Grid.RowSpan="2" Hoverable="False" DataTooltip="{x:Null}" ChartLegend="{x:Null}" Series="{Binding Histogram}" DisableAnimations="True" >
                         <lvc:CartesianChart.AxisX>
                             <lvc:Axis Labels="{Binding Labels}">
                                 <lvc:Axis.Separator>

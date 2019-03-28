@@ -126,7 +126,7 @@ namespace ViewModel
                         CacheMode = new BitmapCache()
                     }
                 };
-            Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray();
+            Labels = histogramResults.Select(n => n.Item1 + " do " + n.Item2).ToArray();
 
             OnPropertyChanged(nameof(Histogram));
             OnPropertyChanged(nameof(Chart));
@@ -138,7 +138,7 @@ namespace ViewModel
             return TabName;
         }
 
-        public void CalculateSignalInfo(double t1 = 0, double t2 = 0, bool isDiscrete = false, bool fromSamples = false)
+        public void CalculateSignalInfo(double t1 = 0, double t2 = 0, bool fromSamples = false, bool isDiscrete = false)
         {
             List<double> points;
 

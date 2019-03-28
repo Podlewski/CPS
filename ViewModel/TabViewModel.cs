@@ -63,8 +63,6 @@ namespace ViewModel
 
             SignalData = new SignalData();
 
-            //SaveCharts = new RelayCommand(SaveChartsToFile);
-
             SliderValue = 10;
         }
 
@@ -253,7 +251,6 @@ namespace ViewModel
 
             var histogramResults = SignalData.GetDataForHistogram(SliderValue);
 
-            //HistogramStep = (int)Math.Ceiling(SliderValue / 20.0);
             histogram.Series = new SeriesCollection
             {
                 new ColumnSeries
@@ -263,7 +260,6 @@ namespace ViewModel
                 }
             };
 
-            //Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray();
             chart.AxisX = new AxesCollection() { new Axis() { FontSize = 20, Title = "t[s]" } };
             chart.AxisY = new AxesCollection() { new Axis() { FontSize = 20, Title = "A" } };
 
@@ -274,14 +270,14 @@ namespace ViewModel
             viewbox.Child = chart;
             viewbox.Measure(chart.RenderSize);
             viewbox.Arrange(new Rect(new System.Windows.Point(0, 0), chart.RenderSize));
-            chart.Update(true, true); //force chart redraw
+            chart.Update(true, true); 
             viewbox.UpdateLayout();
 
             var histViewbox = new Viewbox();
             histViewbox.Child = histogram;
             histViewbox.Measure(histogram.RenderSize);
             histViewbox.Arrange(new Rect(new System.Windows.Point(0, 0), histogram.RenderSize));
-            histogram.Update(true, true); //force chart redraw
+            histogram.Update(true, true); 
             histViewbox.UpdateLayout();
 
             MessageBox.Show("Files saved", "Done", MessageBoxButton.OK, MessageBoxImage.Information);

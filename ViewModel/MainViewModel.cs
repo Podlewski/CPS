@@ -157,7 +157,6 @@ namespace ViewModel
 
         public void Load()
         {
-            //MessageBox.Show("WIP");
             SelectedTab.LoadDataFromFile(LoadPath(true));
             SelectedTab.DrawCharts(); 
             SelectedTab.CalculateSignalInfo(isDiscrete: true, fromSamples: true);
@@ -165,7 +164,6 @@ namespace ViewModel
 
         public void Save()
         {
-            //MessageBox.Show("WIP");
             SelectedTab.SaveDataToFile(LoadPath(false));
         }
 

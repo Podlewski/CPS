@@ -112,15 +112,6 @@ namespace Logic
                 }
 
                 SamplesX = points;
-
-                String str = "";
-
-                for(int i=0; i<SamplesX.Count(); i++)
-                {
-                    str += SamplesX[i] + " ";
-                }
-
-                Console.WriteLine(str + " " + StartTime + " " + Sampling + " " + Type);
             }
         }
 

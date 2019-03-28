@@ -122,6 +122,7 @@ namespace ViewModel
                 }
 
                 SelectedTab.SignalData = signalData;
+                SelectedTab.IsScattered = SelectedSignal.IsGenerationScattered();
                 SelectedTab.CalculateSignalInfo(T1_StartTime, T1_StartTime + D_DurationOfTheSignal);
                 SelectedTab.DrawCharts();
             }

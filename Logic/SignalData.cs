@@ -93,7 +93,7 @@ namespace Logic
         {
             using (BinaryReader reader = new BinaryReader(File.OpenRead(filePath)))
             {
-                SamplesX = new List<double>();
+                SamplesY = new List<double>();
                 StartTime = reader.ReadDouble();
                 Sampling = reader.ReadDouble();
                 Type = reader.ReadByte();
@@ -102,9 +102,25 @@ namespace Logic
                 for (int i = 0; i < length; i++)
                 {
 
-                    SamplesX.Add(reader.ReadDouble());
+                    SamplesY.Add(reader.ReadDouble());
                 }
-                //CalculateSamplesX();
+
+                List<double> points = new List<double>();
+                for (int i = 0; i < SamplesY.Count; i++)
+                {
+                    points.Add(StartTime + (i / Sampling));
+                }
+
+                SamplesX = points;
+
+                String str = "";
+
+                for(int i=0; i<SamplesX.Count(); i++)
+                {
+                    str += SamplesX[i] + " ";
+                }
+
+                Console.WriteLine(str + " " + StartTime + " " + Sampling + " " + Type);
             }
         }
 

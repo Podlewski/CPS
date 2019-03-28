@@ -285,7 +285,6 @@ namespace ViewModel
             histViewbox.UpdateLayout();
 
             MessageBox.Show("Files saved", "Done", MessageBoxButton.OK, MessageBoxImage.Information);
-            //png file was created at the root directory.
         }
 
         public void SaveDataToFile(string path)

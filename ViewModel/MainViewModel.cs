@@ -113,7 +113,6 @@ namespace ViewModel
             if (selectedGeneration != null)
             {
                 SignalData signalData = new SignalData(T1_StartTime, Sampling);
-                SelectedTab.IsScattered = SelectedSignal.IsGenerationScattered();
 
                 for (decimal i = (decimal)T1_StartTime; i < (decimal)(T1_StartTime + D_DurationOfTheSignal); i += 1 / (decimal)Sampling)
                 {
@@ -124,8 +123,7 @@ namespace ViewModel
                 }
 
                 SelectedTab.SignalData = signalData;
-                SelectedTab.CalculateSignalInfo(T1_StartTime, T1_StartTime + D_DurationOfTheSignal,
-                                                SelectedTab.IsScattered);
+                SelectedTab.CalculateSignalInfo(T1_StartTime, T1_StartTime + D_DurationOfTheSignal);
                 SelectedTab.DrawCharts();
             }
         }
@@ -151,8 +149,7 @@ namespace ViewModel
                 SelectedTab.SignalData = signalData;
                 SelectedTab.IsScattered = true;
                 SelectedTab.CalculateSignalInfo(signalData.StartTime,
-                                                signalData.StartTime + (signalData.SamplesY.Count / signalData.Sampling),
-                                                true);
+                                                signalData.StartTime + (signalData.SamplesY.Count / signalData.Sampling));
                 SelectedTab.DrawCharts();
             }
         }

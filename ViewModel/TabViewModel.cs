@@ -65,7 +65,7 @@ namespace ViewModel
 
             //SaveCharts = new RelayCommand(SaveChartsToFile);
 
-            SliderValue = 20;
+            SliderValue = 10;
         }
 
         public void DrawCharts()
@@ -98,9 +98,6 @@ namespace ViewModel
                 {
                     new LineSeries()
                     {
-                        //LineSmoothness = 0,
-                        //StrokeThickness = 0.5,
-                        //Fill = Brushes.Transparent,
                         PointGeometry = null,
                         Values = values
                     }

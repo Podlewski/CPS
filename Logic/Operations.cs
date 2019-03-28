@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Logic
 {
@@ -58,7 +55,7 @@ namespace Logic
             return result;
         }
 
-        public static double Average(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = false)
+        public static double Average(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = true)
         {
             if (isDiscrete)
             {
@@ -68,7 +65,7 @@ namespace Logic
             return 1 / (t2 - t1) * Integral(Math.Abs((t2 - t1) / samples.Count), samples);
         }
 
-        public static double Variance(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = false)
+        public static double Variance(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = true)
         {
             if (isDiscrete)
             {
@@ -78,7 +75,7 @@ namespace Logic
             return 1 / (t2 - t1) * Integral(Math.Abs((t2 - t1) / samples.Count), samples, d => Math.Pow(d - Average(samples, t1, t2), 2));
 
         }
-        public static double AbsAverage(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = false)
+        public static double AbsAverage(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = true)
         {
             if (isDiscrete)
             {
@@ -88,7 +85,7 @@ namespace Logic
             return 1 / (t2 - t1) * Integral(Math.Abs((t2 - t1) / samples.Count), samples, Math.Abs);
         }
 
-        public static double AveragePower(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = false)
+        public static double AveragePower(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = true)
         {
             if (isDiscrete)
             {
@@ -98,7 +95,7 @@ namespace Logic
             return 1 / (t2 - t1) * Integral(Math.Abs((t2 - t1) / samples.Count), samples, d => d * d);
         }
 
-        public static double RootMeanSquare(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = false)
+        public static double RootMeanSquare(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = true)
         {
             if (isDiscrete)
             {

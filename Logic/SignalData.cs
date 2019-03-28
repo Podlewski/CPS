@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Logic
 {
@@ -14,10 +11,9 @@ namespace Logic
 
         public double StartTime { get; set; }
         public double Sampling { get; set; }
-
         public List<double> SamplesX { get; set; }
         public List<double> SamplesY { get; set; }
-
+        public bool IsDiscrete { get; set; }
 
         public SignalData()
         {
@@ -33,6 +29,7 @@ namespace Logic
 
         private void Initialize()
         {
+            IsDiscrete = true;
             SamplesX = new List<double>();
             SamplesY = new List<double>();
         }

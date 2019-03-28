@@ -134,7 +134,7 @@ namespace ViewModel
         {
             List<double> points;
 
-            points = SignalData.SamplesX;
+            points = SignalData.SamplesY;
 
             AverageValue = Operations.Average(points, t1, t2, isDiscrete);
             AverageAbsValue = Operations.AbsAverage(points, t1, t2, isDiscrete);

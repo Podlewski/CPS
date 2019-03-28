@@ -15,12 +15,8 @@ namespace Logic
         public double StartTime { get; set; }
         public double Sampling { get; set; }
 
-        public List<double> PointsX { get; set; }
-        public List<double> PointsY { get; set; }
         public List<double> SamplesX { get; set; }
         public List<double> SamplesY { get; set; }
-
-        public bool UsesSamples { get; set; }
 
 
         public SignalData()
@@ -37,29 +33,16 @@ namespace Logic
 
         private void Initialize()
         {
-            PointsX = new List<double>();
-            PointsY = new List<double>();
             SamplesX = new List<double>();
             SamplesY = new List<double>();
         }
 
         public bool IsEmpty()
         {
-            if (UsesSamples)
-            {
-                if (SamplesX == null || SamplesX.Count == 0)
-                    return false;
-
-                if (SamplesY == null || SamplesY.Count == 0)
-                    return false;
-
-                return true;
-            }
-
-            if (PointsX == null || PointsX.Count == 0)
+            if (SamplesX == null || SamplesX.Count == 0)
                 return false;
 
-            if (PointsY == null || PointsY.Count == 0)
+            if (SamplesY == null || SamplesY.Count == 0)
                 return false;
 
             return true;
@@ -82,28 +65,17 @@ namespace Logic
         public List<(double, double, int)> GetDataForHistogram(int count)
         {
             List<(double, double, int)> result = new List<(double, double, int)>(count);
-            List<double> pointsY;
-            if (UsesSamples)
-            {
-                pointsY = SamplesY;
-            }
-            else
-            {
-                pointsY = PointsY;
-            }
-
-            double max = pointsY.Max();
-            double min = pointsY.Min();
-
+            double max = SamplesY.Max();
+            double min = SamplesY.Min();
 
             double range = max - min;
             double interval = range / count;
             for (int i = 0; i < count - 1; i++)
             {
-                int points = pointsY.Count(n => n >= min + (interval * i) && n < min + (interval * (i + 1)));
+                int points = SamplesY.Count(n => n >= min + (interval * i) && n < min + (interval * (i + 1)));
                 result.Add((Math.Round(min + (interval * i), 2), Math.Round(min + (interval * (i + 1)), 2), points));
             }
-            int lastPoints = pointsY.Count(n => n >= min + (interval * (count - 1)) && n <= min + (interval * count));
+            int lastPoints = SamplesY.Count(n => n >= min + (interval * (count - 1)) && n <= min + (interval * count));
             result.Add((Math.Round(min + (interval * (count - 1)), 2), Math.Round(min + (interval * count), 2), lastPoints));
 
             return result;

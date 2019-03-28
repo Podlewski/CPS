@@ -76,19 +76,11 @@ namespace ViewModel
 
             ChartValues<Logic.Point> values = new ChartValues<Logic.Point>();
 
-            if (SignalData.UsesSamples)
-            {
-                for (int i = 0; i < SignalData.SamplesX.Count; i++)
-                    values.Add(new Logic.Point(SignalData.SamplesX[i], SignalData.SamplesY[i]));
-            }
-            else
-            {
-                for (int i = 0; i < SignalData.PointsX.Count; i++)
-                    values.Add(new Logic.Point(SignalData.PointsX[i], SignalData.PointsY[i]));
-            }
+            for (int i = 0; i < SignalData.SamplesX.Count; i++)
+                values.Add(new Logic.Point(SignalData.SamplesX[i], SignalData.SamplesY[i]));
 
 
-            if (IsScattered || SignalData.UsesSamples)
+            if (IsScattered)
             {
                 Chart = new SeriesCollection(mapper)
                 {
@@ -138,15 +130,11 @@ namespace ViewModel
             return TabName;
         }
 
-        public void CalculateSignalInfo(double t1 = 0, double t2 = 0, bool fromSamples = false, bool isDiscrete = false)
+        public void CalculateSignalInfo(double t1 = 0, double t2 = 0, bool isDiscrete = false, bool fromSamples = false)
         {
             List<double> points;
 
-            if (fromSamples)
-                points = SignalData.SamplesX;
-
-            else
-                points = SignalData.PointsY;
+            points = SignalData.SamplesX;
 
             AverageValue = Operations.Average(points, t1, t2, isDiscrete);
             AverageAbsValue = Operations.AbsAverage(points, t1, t2, isDiscrete);
@@ -159,8 +147,6 @@ namespace ViewModel
             OnPropertyChanged(nameof(RootMeanSquare));
             OnPropertyChanged(nameof(Variance));
             OnPropertyChanged(nameof(AveragePower));
-
-            //MessageBox.Show(" points  " + str + " sampl " + fromSamples.ToString(), "Done", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         public void LoadData(SignalData data)
@@ -170,18 +156,18 @@ namespace ViewModel
 
         public void LoadData(List<double> x, List<double> y, bool fromSamples)
         {
-            if (fromSamples)
-            {
-                SignalData.UsesSamples = true;
-                SignalData.SamplesY = y;
-            }
+            //if (fromSamples)
+            //{
+            //    SignalData.UsesSamples = true;
+            //    SignalData.SamplesY = y;
+            //}
 
-            else
-            {
-                SignalData.UsesSamples = false;
-                SignalData.PointsX = x;
-                SignalData.PointsY = y;
-            }
+            //else
+            //{
+            //    SignalData.UsesSamples = false;
+            //    SignalData.PointsX = x;
+            //    SignalData.PointsY = y;
+            //}
         }
 
         public void LoadHistogram(int c)
@@ -236,18 +222,10 @@ namespace ViewModel
 
             ChartValues<Logic.Point> values = new ChartValues<Logic.Point>();
 
-            if (SignalData.UsesSamples)
-            {
-                for (int i = 0; i < SignalData.SamplesX.Count; i++)
-                    values.Add(new Logic.Point(SignalData.SamplesX[i], SignalData.SamplesY[i]));
-            }
-            else
-            {
-                for (int i = 0; i < SignalData.PointsX.Count; i++)
-                    values.Add(new Logic.Point(SignalData.PointsX[i], SignalData.PointsY[i]));
-            }
+            for (int i = 0; i < SignalData.SamplesX.Count; i++)
+                values.Add(new Logic.Point(SignalData.SamplesX[i], SignalData.SamplesY[i]));
 
-            if (IsScattered || SignalData.UsesSamples)
+            if (IsScattered)
             {
                 Chart = new SeriesCollection(mapper)
                 {
@@ -320,7 +298,6 @@ namespace ViewModel
 
         public void LoadDataFromFile(string path)
         {
-            SignalData.UsesSamples = true;
             SignalData.LoadFromFile(path);
         }
 

@@ -45,7 +45,7 @@ namespace ViewModel
         public double Kw_DutyCycle { get; set; } = 0.5;
         public double Ts_TimeStep { get; set; } = 2;
         public double P_Probability { get; set; } = 0.5;
-        public double Sampling { get; set; } = 1;
+        public double Sampling { get; set; } = 100;
 
         #endregion
 
@@ -115,48 +115,17 @@ namespace ViewModel
                 SignalData signalData = new SignalData(T1_StartTime, Sampling);
                 SelectedTab.IsScattered = SelectedSignal.IsGenerationScattered();
 
-                if (SelectedTab.IsScattered == false)
+                for (decimal i = (decimal)T1_StartTime; i < (decimal)(T1_StartTime + D_DurationOfTheSignal); i += 1 / (decimal)Sampling)
                 {
-                    for (decimal i = (decimal)T1_StartTime; i < (decimal)(T1_StartTime + D_DurationOfTheSignal);
-                         i += (decimal)D_DurationOfTheSignal / 500)
-                    {
-                        double j = (double)i;
+                    double j = (double)i;
 
-                        signalData.PointsX.Add(j);
-                        signalData.PointsY.Add(selectedGeneration(j));
-                    }
-
-                    for (decimal i = (decimal)T1_StartTime; i < (decimal)(T1_StartTime + D_DurationOfTheSignal); i += 1 / (decimal)Sampling)
-                    {
-                        double j = (double)i;
-
-                        signalData.SamplesX.Add(j);
-                        signalData.SamplesY.Add(selectedGeneration(j));
-                    }
-                }
-                else if (SelectedSignal.Substring(0, 2) == "10")
-                {
-                    for (decimal i = (decimal)T1_StartTime; i < (decimal)(T1_StartTime + D_DurationOfTheSignal); i += 1 / (decimal)Sampling)
-                    {
-                        double j = (double)i;
-
-                        signalData.PointsX.Add(j);
-                        signalData.PointsY.Add(selectedGeneration(j));
-                    }
-                }
-                else if (SelectedSignal.Substring(0, 2) == "11")
-                {
-                    for (decimal i = (decimal)T1_StartTime; i < (decimal)(T1_StartTime + D_DurationOfTheSignal); i += 1 / (decimal)Sampling)
-                    {
-                        double j = (double)i;
-
-                        signalData.PointsX.Add(j);
-                        signalData.PointsY.Add(selectedGeneration(j));
-                    }
+                    signalData.SamplesX.Add(j);
+                    signalData.SamplesY.Add(selectedGeneration(j));
                 }
 
                 SelectedTab.SignalData = signalData;
-                SelectedTab.CalculateSignalInfo(T1_StartTime, T1_StartTime + D_DurationOfTheSignal);
+                SelectedTab.CalculateSignalInfo(T1_StartTime, T1_StartTime + D_DurationOfTheSignal,
+                                                SelectedTab.IsScattered);
                 SelectedTab.DrawCharts();
             }
         }
@@ -176,9 +145,7 @@ namespace ViewModel
                 {
                     SamplesX = FirstOperationTab.SignalData.SamplesX,
                     SamplesY = SelectedOperation.SignalOperation(FirstOperationTab.SignalData.SamplesY,
-                                                            SecondOperationTab.SignalData.SamplesY),
-
-                    UsesSamples = true
+                                                            SecondOperationTab.SignalData.SamplesY)
                 };
 
                 SelectedTab.SignalData = signalData;

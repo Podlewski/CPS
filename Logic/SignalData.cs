@@ -136,7 +136,7 @@ namespace Logic
                 writer.Write(Sampling);
                 writer.Write(Type);
                 writer.Write(SamplesX.Count);
-                foreach (double sample in SamplesX)
+                foreach (double sample in SamplesY)
                 {
                     writer.Write(sample);
                 }
@@ -151,7 +151,7 @@ namespace Logic
                 writer.WriteLine("Number of samples: " + SamplesX.Count);
                 for (int i = 0; i < SamplesX.Count; i++)
                 {
-                    writer.WriteLine(i + 1 + ". " + SamplesX[i]);
+                    writer.WriteLine(i + 1 + ". " + SamplesY[i]);
                 }
             }
         }

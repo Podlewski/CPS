@@ -38,13 +38,13 @@ namespace ViewModel
 
         #region Factors
 
-        public double A_Amplitude { get; set; }
+        public double A_Amplitude { get; set; } = 1;
         public double T1_StartTime { get; set; }
-        public double D_DurationOfTheSignal { get; set; }
-        public double T_BasicPeroid { get; set; }
-        public double Kw_DutyCycle { get; set; }
-        public double Ts_TimeStep { get; set; }
-        public double P_Probability { get; set; }
+        public double D_DurationOfTheSignal { get; set; } = 4;
+        public double T_BasicPeroid { get; set; } = 1;
+        public double Kw_DutyCycle { get; set; } = 0.5;
+        public double Ts_TimeStep { get; set; } = 2;
+        public double P_Probability { get; set; } = 0.5;
         public double Sampling { get; set; } = 1;
 
         #endregion

@@ -18,6 +18,7 @@ namespace ViewModel
         public ICommand ComputeCommand { get; set; }
         public ICommand LoadCommand { get; set; }
         public ICommand SaveCommand { get; set; }
+        public ICommand QuitCommand { get; set; }
 
         #endregion
 
@@ -88,6 +89,7 @@ namespace ViewModel
             ComputeCommand = new RelayCommand(Compute);
             LoadCommand = new RelayCommand(Load);
             SaveCommand = new RelayCommand(Save);
+            QuitCommand = new RelayCommand(Quit);
         }
 
         public void AddTab()
@@ -158,14 +160,28 @@ namespace ViewModel
 
         public void Load()
         {
-            SelectedTab.LoadDataFromFile(LoadPath(true));
-            SelectedTab.DrawCharts(); 
-            SelectedTab.CalculateSignalInfo(isDiscrete: true, fromSamples: true);
+            try
+            {
+                SelectedTab.LoadDataFromFile(LoadPath(true));
+                SelectedTab.DrawCharts(); 
+                SelectedTab.CalculateSignalInfo(isDiscrete: true, fromSamples: true);
+            }
+            catch
+            {
+
+            }
         }
 
         public void Save()
         {
-            SelectedTab.SaveDataToFile(LoadPath(false));
+            try
+            {
+                SelectedTab.SaveDataToFile(LoadPath(false));
+            }
+            catch
+            {
+
+            }
         }
 
         public string LoadPath(bool loadMode)
@@ -206,5 +222,12 @@ namespace ViewModel
             return saveFileDialog.FileName;
         }
 
+        private void Quit()
+        {
+            // nie działa "lepsze" rozwiązanie :c
+            // Application.Current.Shutdown();
+
+            Environment.Exit(0);
+        }
     }
 }

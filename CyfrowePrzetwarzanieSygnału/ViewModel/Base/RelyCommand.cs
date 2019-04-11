@@ -21,7 +21,9 @@ namespace ViewModel
             mAction();
         }
 
+#pragma warning disable 67
         public event EventHandler CanExecuteChanged;
+#pragma warning restore 67
     }
     public class RelayCommand<T> : ICommand
     {
@@ -32,8 +34,6 @@ namespace ViewModel
             mAction = execute;
         }
 
-        public event EventHandler CanExecuteChanged;
-
         public bool CanExecute(object parameter)
         {
             return true;
@@ -43,5 +43,9 @@ namespace ViewModel
         {
             mAction((T)(object)int.Parse((string)parameter));
         }
+
+#pragma warning disable 67
+        public event EventHandler CanExecuteChanged;
+#pragma warning restore 67
     }
 }

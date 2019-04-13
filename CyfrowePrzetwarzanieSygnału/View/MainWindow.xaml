@@ -162,7 +162,7 @@
                 FontSize="13px" Command="{Binding AddTabCommand}" Style="{DynamicResource ButtonStyle}" Content="Dodaj kartę" />
 
         <!-- TabUserControl -->
-        <TabControl Grid.Column="1" Grid.Row="0" Background="#454545" Margin="10 70 20 10" ItemContainerStyle="{DynamicResource TabItemStyle}" 
+        <TabControl Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Background="#454545" Margin="10 70 20 20" ItemContainerStyle="{DynamicResource TabItemStyle}" 
                     ItemsSource="{Binding TabList}" SelectedItem="{Binding SelectedTab}"  >
             <TabControl.ItemTemplate >
                 <DataTemplate>

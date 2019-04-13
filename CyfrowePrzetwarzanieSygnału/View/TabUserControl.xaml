@@ -6,29 +6,77 @@
              xmlns:local="clr-namespace:View"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d" 
-             d:DesignHeight="350" d:DesignWidth="800">
+             d:DesignHeight="650" d:DesignWidth="800">
     <Grid>
         <TabControl Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="0" Grid.RowSpan="2" Background="#454545" Margin="5 5 0 0" ItemContainerStyle="{DynamicResource TabItemStyle}" >
             <TabItem Header="Wykres" >
                 <Grid>
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.05*"/>
+                        <ColumnDefinition Width="0.95*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <lvc:CartesianChart Grid.Column="1" Hoverable="False" DataTooltip="{x:Null}" ChartLegend="{x:Null}" Series="{Binding Chart}" DisableAnimations="True" />
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Konwersja A/C" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.05*"/>
+                        <ColumnDefinition Width="0.95*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" FontSize="14px" Foreground="White" Content="Próbkowanie" >
+                        <Label.LayoutTransform>
+                            <RotateTransform Angle="270" />
+                        </Label.LayoutTransform>
+                    </Label>
+                    <lvc:CartesianChart Grid.Row="0" Grid.Column="1" Hoverable="False" DataTooltip="{x:Null}" ChartLegend="{x:Null}"  DisableAnimations="True" Series="{Binding SamplingChart}"/>
+
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" FontSize="14px" Foreground="White" Content="Kwantyzacja równomierna z obcięciem" >
+                        <Label.LayoutTransform>
+                            <RotateTransform Angle="270" />
+                        </Label.LayoutTransform>
+                    </Label>
+                    <lvc:CartesianChart Grid.Row="1" Grid.Column="1" Hoverable="False" DataTooltip="{x:Null}" ChartLegend="{x:Null}" DisableAnimations="True" Series="{Binding QuantizationChart}" />
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Konwersja C/A" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.95*"/>
                         <ColumnDefinition Width="0.05*"/>
                     </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
 
-                    <lvc:CartesianChart Hoverable="False" DataTooltip="{x:Null}" ChartLegend="{x:Null}" Series="{Binding Chart}" DisableAnimations="True" />
+                    <lvc:CartesianChart Hoverable="False" DataTooltip="{x:Null}" ChartLegend="{x:Null}" Series="{Binding Xyz}" DisableAnimations="True" />
                 </Grid>
             </TabItem>
 
             <TabItem Header="Histogram" >
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="0.87*"/>
-                        <RowDefinition Height="0.13*"/>
+                        <RowDefinition Height="0.9*"/>
+                        <RowDefinition Height="0.1*"/>
+                        <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.95*"/>
                         <ColumnDefinition Width="0.05*"/>
+
                     </Grid.ColumnDefinitions>
 
                     <lvc:CartesianChart Grid.RowSpan="2" Hoverable="False" DataTooltip="{x:Null}" ChartLegend="{x:Null}" Series="{Binding Histogram}" DisableAnimations="True" >
@@ -39,9 +87,12 @@
                                 </lvc:Axis.Separator>
                             </lvc:Axis>
                         </lvc:CartesianChart.AxisX>
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis MinValue="0"/>
+                        </lvc:CartesianChart.AxisY>
                     </lvc:CartesianChart>   
 
-                        <Slider Grid.Column="1" Value="{Binding SliderValue}" MaxHeight="280" Orientation="Vertical" HorizontalAlignment="Center"
+                        <Slider Grid.Column="1" Value="{Binding SliderValue}" Margin="0 10 0 10" Orientation="Vertical" HorizontalAlignment="Center"
                             Maximum="20" Minimum="1" IsSnapToTickEnabled="True" TickFrequency="1" Name="Slider" Style="{DynamicResource SliderStyle}"  />
 
                     <TextBox Grid.Row="1" Grid.Column="1" Height="20px" Width="26px" VerticalAlignment="Top" Background="#34414F" Foreground="White" 
@@ -58,7 +109,7 @@
                         <RowDefinition/>
                         <RowDefinition/>
                         <RowDefinition/>
-                        <RowDefinition Height="6.0*"/>
+                        <RowDefinition Height="12.0*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.65*"/>

@@ -20,10 +20,12 @@ namespace ViewModel
 
         public string TabName { get; set; }
 
-        public SignalData SignalData { get; set; }
         public SeriesCollection Chart { get; set; }
         public bool IsScattered { get; set; }
+        public SeriesCollection SamplingChart { get; set; }
+        public SeriesCollection QuantizationChart { get; set; }
         public SeriesCollection Histogram { get; set; }
+        public SignalData SignalData { get; set; }
 
         public int HistogramStep { get; set; }
         public string[] Labels { get; set; }
@@ -77,7 +79,6 @@ namespace ViewModel
             for (int i = 0; i < SignalData.SamplesX.Count; i++)
                 values.Add(new Logic.Point(SignalData.SamplesX[i], SignalData.SamplesY[i]));
 
-
             if (IsScattered)
             {
                 Chart = new SeriesCollection(mapper)
@@ -86,7 +87,8 @@ namespace ViewModel
                     {
                         PointGeometry = new EllipseGeometry(),
                         StrokeThickness = 5,
-                        Values = values
+                        Values = values,
+                        Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#26A0DA"))
                     }
                 };
             }
@@ -97,10 +99,53 @@ namespace ViewModel
                     new LineSeries()
                     {
                         PointGeometry = null,
-                        Values = values
+                        StrokeThickness = 2,
+                        Values = values,
+                        Fill = Brushes.Transparent,
+                        Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#26A0DA"))
                     }
                 };
             }
+
+            SamplingChart = new SeriesCollection(mapper)
+            {
+                new LineSeries()
+                {
+                    PointGeometry = null,
+                    StrokeThickness = 3,
+                    Values = values,
+                    Fill = Brushes.Transparent,
+                    Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#34414F"))
+                },
+                new ScatterSeries()
+                {
+                    PointGeometry = new EllipseGeometry(),
+                    StrokeThickness = 5,
+                    Values = values,
+                    Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#26A0DA"))
+                }
+            };
+
+            QuantizationChart = new SeriesCollection(mapper)
+            {
+                new LineSeries()
+                {
+                    PointGeometry = null,
+                    StrokeThickness = 3,
+                    Values = values,
+                    Fill = Brushes.Transparent,
+                    Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#34414F"))
+                },
+                new StepLineSeries()
+                {
+                    PointGeometry = null,
+                    StrokeThickness = 3,
+                    Values = values,
+                    Fill = Brushes.Transparent,
+                    Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#26A0DA"))
+                }
+            };
+
 
             var histogramResults = SignalData.GetDataForHistogram(SliderValue);
             HistogramStep = 1;
@@ -110,13 +155,16 @@ namespace ViewModel
                     {
                         Values = new ChartValues<int> (histogramResults.Select(n=>n.Item3)),
                         ColumnPadding = 0,
-                        CacheMode = new BitmapCache()
+                        CacheMode = new BitmapCache(),
+                        Fill = (SolidColorBrush)(new BrushConverter().ConvertFrom("#26A0DA"))
                     }
                 };
             Labels = histogramResults.Select(n => n.Item1 + " do " + n.Item2).ToArray();
 
-            OnPropertyChanged(nameof(Histogram));
             OnPropertyChanged(nameof(Chart));
+            OnPropertyChanged(nameof(SamplingChart));
+            OnPropertyChanged(nameof(QuantizationChart));
+            OnPropertyChanged(nameof(Histogram));
         }
 
 
@@ -149,22 +197,6 @@ namespace ViewModel
             SignalData = data;
         }
 
-        public void LoadData(List<double> x, List<double> y, bool fromSamples)
-        {
-            //if (fromSamples)
-            //{
-            //    SignalData.UsesSamples = true;
-            //    SignalData.SamplesY = y;
-            //}
-
-            //else
-            //{
-            //    SignalData.UsesSamples = false;
-            //    SignalData.PointsX = x;
-            //    SignalData.PointsY = y;
-            //}
-        }
-
         public void LoadHistogram(int c)
         {
             if (SignalData.IsEmpty())
@@ -177,7 +209,8 @@ namespace ViewModel
                     {
                         Values = new ChartValues<int> (histogramResults.Select(n=>n.Item3)),
                         ColumnPadding = 0,
-                        CacheMode = new BitmapCache()
+                        CacheMode = new BitmapCache(),
+                        Fill = (SolidColorBrush)(new BrushConverter().ConvertFrom("#26A0DA"))
                     }
                 };
                 Labels = histogramResults.Select(n => n.Item1 + " to " + n.Item2).ToArray();

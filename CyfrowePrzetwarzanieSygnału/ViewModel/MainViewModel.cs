@@ -45,7 +45,7 @@ namespace ViewModel
         public double Kw_DutyCycle { get; set; } = 0.5;
         public double Ts_TimeStep { get; set; } = 2;
         public double P_Probability { get; set; } = 0.5;
-        public double Sampling { get; set; } = 100;
+        public double Sampling { get; set; } = 10;
 
         #endregion
 
@@ -73,7 +73,7 @@ namespace ViewModel
                 "10) Impuls jednostkowy",
                 "11) Szum impulsowy"
             };
-            SelectedSignal = SignalList[0];
+            SelectedSignal = SignalList[2];
 
             OperationList = new List<string>()
             {

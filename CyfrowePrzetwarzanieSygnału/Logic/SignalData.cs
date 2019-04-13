@@ -10,9 +10,12 @@ namespace Logic
         public byte Type { get; set; }
 
         public double StartTime { get; set; }
-        public double Sampling { get; set; }
+        public int Sampling { get; set; }
+        public int QuantizationSampling { get; set; }
         public List<double> SamplesX { get; set; }
         public List<double> SamplesY { get; set; }
+        public List<double> QuantizationSamplesX { get; set; }
+        public List<double> QuantizationSamplesY { get; set; }
         public bool IsDiscrete { get; set; }
 
         public SignalData()
@@ -20,11 +23,12 @@ namespace Logic
             Initialize();
         }
 
-        public SignalData(double startTime, double sampling)
+        public SignalData(double startTime, int sampling, int quantizationSampling)
         {
             Initialize();
             StartTime = startTime;
             Sampling = sampling;
+            QuantizationSampling = quantizationSampling;
         }
 
         private void Initialize()
@@ -32,6 +36,8 @@ namespace Logic
             IsDiscrete = true;
             SamplesX = new List<double>();
             SamplesY = new List<double>();
+            QuantizationSamplesX = new List<double>();
+            QuantizationSamplesY = new List<double>();
         }
 
         public bool IsEmpty()
@@ -40,6 +46,12 @@ namespace Logic
                 return false;
 
             if (SamplesY == null || SamplesY.Count == 0)
+                return false;
+
+            if (QuantizationSamplesX == null || QuantizationSamplesX.Count == 0)
+                return false;
+
+            if (QuantizationSamplesY == null || QuantizationSamplesY.Count == 0)
                 return false;
 
             return true;
@@ -95,7 +107,7 @@ namespace Logic
             {
                 SamplesY = new List<double>();
                 StartTime = reader.ReadDouble();
-                Sampling = reader.ReadDouble();
+                Sampling = reader.ReadInt32();
                 Type = reader.ReadByte();
 
                 int length = reader.ReadInt32();

@@ -54,15 +54,27 @@
             <TabItem Header="Konwersja C/A" >
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.95*"/>
                         <ColumnDefinition Width="0.05*"/>
+                        <ColumnDefinition Width="0.95*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
 
-                    <lvc:CartesianChart Hoverable="False" DataTooltip="{x:Null}" ChartLegend="{x:Null}" Series="{Binding Xyz}" DisableAnimations="True" />
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" FontSize="14px" Foreground="White" Content="Interpolacja pierwszego rzędu" >
+                        <Label.LayoutTransform>
+                            <RotateTransform Angle="270" />
+                        </Label.LayoutTransform>
+                    </Label>
+                    <lvc:CartesianChart Grid.Row="0" Grid.Column="1" Hoverable="False" DataTooltip="{x:Null}" ChartLegend="{x:Null}"  DisableAnimations="True" Series="{Binding InterpolationChart}"/>
+
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" FontSize="14px" Foreground="White" Content="Rekonstrukcja w oparciu o funkcję sinc" >
+                        <Label.LayoutTransform>
+                            <RotateTransform Angle="270" />
+                        </Label.LayoutTransform>
+                    </Label>
+                    <lvc:CartesianChart Grid.Row="1" Grid.Column="1" Hoverable="False" DataTooltip="{x:Null}" ChartLegend="{x:Null}" DisableAnimations="True" Series="{Binding RecounstructionChart}" />
                 </Grid>
             </TabItem>
 

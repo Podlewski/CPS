@@ -22,8 +22,11 @@ namespace ViewModel
 
         public SeriesCollection Chart { get; set; }
         public bool IsScattered { get; set; }
+
         public SeriesCollection SamplingChart { get; set; }
         public SeriesCollection QuantizationChart { get; set; }
+        public SeriesCollection InterpolationChart { get; set; }
+        
         public SeriesCollection Histogram { get; set; }
         public SignalData SignalData { get; set; }
 
@@ -75,9 +78,13 @@ namespace ViewModel
                 .Y(value => value.Y);
 
             ChartValues<Logic.Point> values = new ChartValues<Logic.Point>();
+            ChartValues<Logic.Point> quantizationValues = new ChartValues<Logic.Point>();
 
             for (int i = 0; i < SignalData.SamplesX.Count; i++)
                 values.Add(new Logic.Point(SignalData.SamplesX[i], SignalData.SamplesY[i]));
+
+            for (int i = 0; i < SignalData.QuantizationSamplesX.Count; i++)
+                quantizationValues.Add(new Logic.Point(SignalData.QuantizationSamplesX[i], SignalData.QuantizationSamplesY[i]));
 
             if (IsScattered)
             {
@@ -121,7 +128,7 @@ namespace ViewModel
                 {
                     PointGeometry = new EllipseGeometry(),
                     StrokeThickness = 5,
-                    Values = values,
+                    Values = quantizationValues,
                     Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#26A0DA"))
                 }
             };
@@ -140,30 +147,53 @@ namespace ViewModel
                 {
                     PointGeometry = null,
                     StrokeThickness = 3,
-                    Values = values,
+                    Values = quantizationValues,
                     Fill = Brushes.Transparent,
                     Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#26A0DA"))
                 }
             };
 
+            //LineSmoothness="0"
+
+            InterpolationChart = new SeriesCollection(mapper)
+            {
+                new LineSeries()
+                {
+                    PointGeometry = null,
+                    StrokeThickness = 3,
+                    Values = values,
+                    Fill = Brushes.Transparent,
+                    Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#34414F"))
+                },
+                new LineSeries()
+                {
+                    PointGeometry = null,
+                    StrokeThickness = 3,
+                    LineSmoothness = 0,
+                    Values = quantizationValues,
+                    Fill = Brushes.Transparent,
+                    Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#26A0DA"))
+                }
+            };
 
             var histogramResults = SignalData.GetDataForHistogram(SliderValue);
             HistogramStep = 1;
             Histogram = new SeriesCollection
+            {
+                new ColumnSeries
                 {
-                    new ColumnSeries
-                    {
-                        Values = new ChartValues<int> (histogramResults.Select(n=>n.Item3)),
-                        ColumnPadding = 0,
-                        CacheMode = new BitmapCache(),
-                        Fill = (SolidColorBrush)(new BrushConverter().ConvertFrom("#26A0DA"))
-                    }
-                };
+                    Values = new ChartValues<int> (histogramResults.Select(n=>n.Item3)),
+                    ColumnPadding = 0,
+                    CacheMode = new BitmapCache(),
+                    Fill = (SolidColorBrush)(new BrushConverter().ConvertFrom("#26A0DA"))
+                }
+            };
             Labels = histogramResults.Select(n => n.Item1 + " do " + n.Item2).ToArray();
 
             OnPropertyChanged(nameof(Chart));
             OnPropertyChanged(nameof(SamplingChart));
             OnPropertyChanged(nameof(QuantizationChart));
+            OnPropertyChanged(nameof(InterpolationChart));
             OnPropertyChanged(nameof(Histogram));
         }
 

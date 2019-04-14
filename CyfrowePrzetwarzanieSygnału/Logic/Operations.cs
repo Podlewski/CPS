@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Logic
 {
@@ -163,5 +164,70 @@ namespace Logic
 
             return sum;
         }
+
+        public static double MeanSquaredError(List<double> orignalSignal, List<double> quantizedSignal)
+        {
+            int N = quantizedSignal.Count;
+            double fraction = 1.0 / N;
+            double sum = 0;
+
+            for (int i = 0; i < N; i++)
+            {
+                sum += Math.Pow((orignalSignal[i] - quantizedSignal[i]), 2);
+            }
+
+            return fraction * sum;
+        }
+
+        public static double SignalToNoiseRatio(List<double> orignalSignal, List<double> quantizedSignal)
+        {
+            double numerator = 0;
+            double denominator = 0;
+            int N = quantizedSignal.Count;
+
+            for (int i = 0; i < N; i++)
+            {
+                numerator += Math.Pow(orignalSignal[i], 2);
+            }
+
+            for (int i = 0; i < N; i++)
+            {
+                denominator += Math.Pow(orignalSignal[i] - quantizedSignal[i], 2);
+            }
+
+            return 10 * Math.Log10(numerator / denominator);
+        }
+
+        public static double PeakSignalToNoiseRatio(List<double> orignalSignal, List<double> quantizedSignal)
+        {
+            double mse = MeanSquaredError(orignalSignal, quantizedSignal);
+            int N = quantizedSignal.Count();
+            double numerator = quantizedSignal.Max();
+
+            return 10 * Math.Log10(numerator / mse);
+        }
+
+        public static double MaximumDifference(List<double> orignalSignal, List<double> quantizedSignal)
+        {
+            int N = quantizedSignal.Count;
+            List<double> differences = new List<double>(N);
+
+            for (int i = 0; i < N; i++)
+            {
+                differences.Add(Math.Abs(orignalSignal[i] - quantizedSignal[i]));
+            }
+
+            return differences.Max();
+        }
+
+        public static double EffectiveNumberOfBits(List<double> orignalSignal, List<double> quantizedSignal)
+        {
+            double snr =  SignalToNoiseRatio(orignalSignal, quantizedSignal);
+
+            return (snr - 1.76) / 6.02;
+        }
+
+
+
     }
 }

@@ -150,8 +150,8 @@ namespace ViewModel
                 {
                     for(int i = 0; i < signalData.SamplesX.Count; i += Sampling/QuantizationSampling)
                     {
-                        signalData.QuantizationSamplesX.Add(signalData.SamplesX[i]);
-                        signalData.QuantizationSamplesY.Add(signalData.SamplesY[i]);
+                        signalData.ConversionSamplesX.Add(signalData.SamplesX[i]);
+                        signalData.ConversionSamplesY.Add(signalData.SamplesY[i]);
                     }
                 }
                 else
@@ -160,8 +160,8 @@ namespace ViewModel
                     {
                         double j = (double)i;
 
-                        signalData.QuantizationSamplesX.Add(j);
-                        signalData.QuantizationSamplesY.Add(selectedGeneration(j));
+                        signalData.ConversionSamplesX.Add(j);
+                        signalData.ConversionSamplesY.Add(selectedGeneration(j));
                     }
                 }
 
@@ -186,7 +186,7 @@ namespace ViewModel
 
                 SignalData signalData = new SignalData(FirstOperationTab.SignalData.StartTime,
                                                        FirstOperationTab.SignalData.Sampling,
-                                                       FirstOperationTab.SignalData.QuantizationSampling)
+                                                       FirstOperationTab.SignalData.ConversionSampling)
                 {
                     SamplesX = FirstOperationTab.SignalData.SamplesX,
                     SamplesY = SelectedOperation.SignalOperation(FirstOperationTab.SignalData.SamplesY,

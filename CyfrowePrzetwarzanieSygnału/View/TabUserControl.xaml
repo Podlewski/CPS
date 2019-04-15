@@ -121,7 +121,13 @@
                         <RowDefinition/>
                         <RowDefinition/>
                         <RowDefinition/>
-                        <RowDefinition Height="12.0*"/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition Height="7.0*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.65*"/>
@@ -130,19 +136,30 @@
                         <ColumnDefinition Width="1.0*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Label Margin="20 0 0 0" Grid.Row="1" Grid.Column="0" FontSize="12px" Foreground="White" Content="Wartość średnia sygnału:"/>
-                    <Label Margin="20 0 0 0" Grid.Row="2" Grid.Column="0" FontSize="12px" Foreground="White" Content="Wartość średnia bezwzględna sygnału:"/>
-                    <Label Margin="20 0 0 0" Grid.Row="3" Grid.Column="0" FontSize="12px" Foreground="White" Content="Wartość skuteczna sygnału:"/>
-                    <Label Margin="20 0 0 0" Grid.Row="4" Grid.Column="0" FontSize="12px" Foreground="White" Content="Wariancja sygnału:"/>
-                    <Label Margin="20 0 0 0" Grid.Row="5" Grid.Column="0" FontSize="12px" Foreground="White" Content="Moc średnia sygnału:"/>
-                    <Label Margin="20 0 0 0" Grid.Row="6" Grid.Column="0" FontSize="12px" Foreground="White" Content="Błąd średniokwadratowy:"/>
+                    <Label Margin="20 0 0 0" Grid.Row="1" Grid.Column="0" FontSize="12px" Foreground="White" VerticalContentAlignment="Center" Content="Wartość średnia sygnału:" />
+                    <Label Margin="20 0 0 0" Grid.Row="2" Grid.Column="0" FontSize="12px" Foreground="White" VerticalContentAlignment="Center" Content="Wartość średnia bezwzględna sygnału:"/>
+                    <Label Margin="20 0 0 0" Grid.Row="3" Grid.Column="0" FontSize="12px" Foreground="White" VerticalContentAlignment="Center" Content="Wartość skuteczna sygnału:"/>
+                    <Label Margin="20 0 0 0" Grid.Row="4" Grid.Column="0" FontSize="12px" Foreground="White" VerticalContentAlignment="Center" Content="Wariancja sygnału:"/>
+                    <Label Margin="20 0 0 0" Grid.Row="5" Grid.Column="0" FontSize="12px" Foreground="White" VerticalContentAlignment="Center" Content="Moc średnia sygnału:"/>
+                   
+                    <Label Margin="20 0 0 0" Grid.Row="7" Grid.Column="0" FontSize="12px" Foreground="White" VerticalContentAlignment="Center" Content="Błąd średniokwadratowy:"/>
+                    <Label Margin="20 0 0 0" Grid.Row="8" Grid.Column="0" FontSize="12px" Foreground="White" VerticalContentAlignment="Center" Content="Stosunek sygnał - szum:"/>
+                    <Label Margin="20 0 0 0" Grid.Row="9" Grid.Column="0" FontSize="12px" Foreground="White" VerticalContentAlignment="Center" Content="Sczytowy stosunek sygnał - szum:"/>
+                    <Label Margin="20 0 0 0" Grid.Row="10" Grid.Column="0" FontSize="12px" Foreground="White" VerticalContentAlignment="Center" Content="Maksymalna różnica:"/>
+                    <Label Margin="20 0 0 0" Grid.Row="11" Grid.Column="0" FontSize="12px" Foreground="White" VerticalContentAlignment="Center" Content="Efektywna liczba bitów:"/>
 
                     <TextBox Grid.Row="1" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding AverageValue}"/>
                     <TextBox Grid.Row="2" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding AverageAbsValue}"/>
                     <TextBox Grid.Row="3" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding RootMeanSquare}"/>
                     <TextBox Grid.Row="4" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding Variance}"/>
                     <TextBox Grid.Row="5" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding AveragePower}"/>
-
+                    
+                    <TextBox Grid.Row="7" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding MeanSquaredErrorValue}"/>
+                    <TextBox Grid.Row="8" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding SignalToNoiseRatioValue}"/>
+                    <TextBox Grid.Row="9" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding PeakSignalToNoiseRatioValue}"/>
+                    <TextBox Grid.Row="10" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding MaximumDifferenceValue}"/>
+                    <TextBox Grid.Row="11" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding EffectiveNumberOfBitsValue}"/>
+                    
                 </Grid>
             </TabItem>
         </TabControl>

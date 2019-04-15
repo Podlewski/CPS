@@ -69,7 +69,7 @@ namespace Logic
                 result = 1 / (t2 - t1) * Integral(Math.Abs((t2 - t1) / samples.Count), samples);
             }
 
-            return Math.Round(result, 2, MidpointRounding.AwayFromZero);
+            return Math.Round(result, 4, MidpointRounding.AwayFromZero);
         }
 
         public static double Variance(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = true)
@@ -100,7 +100,7 @@ namespace Logic
                 result = 1 / (t2 - t1) * Integral(Math.Abs((t2 - t1) / samples.Count), samples, Math.Abs);
             }
 
-            return Math.Round(result, 2, MidpointRounding.AwayFromZero);
+            return Math.Round(result, 4, MidpointRounding.AwayFromZero);
         }
 
         public static double AveragePower(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = true)
@@ -116,7 +116,7 @@ namespace Logic
                 result = 1 / (t2 - t1) * Integral(Math.Abs((t2 - t1) / samples.Count), samples, d => d * d);
             }
 
-            return Math.Round(result, 2, MidpointRounding.AwayFromZero);
+            return Math.Round(result, 4, MidpointRounding.AwayFromZero);
         }
 
         public static double RootMeanSquare(List<double> samples, double t1 = 0, double t2 = 0, bool isDiscrete = true)
@@ -132,7 +132,7 @@ namespace Logic
                 result = Math.Sqrt(AveragePower(samples, t1, t2));
             }
 
-            return Math.Round(result, 2, MidpointRounding.AwayFromZero);
+            return Math.Round(result, 4, MidpointRounding.AwayFromZero);
         }
 
         private static double Integral(double dx, List<double> samples, Func<double, double> additionalFunc = null)
@@ -175,8 +175,10 @@ namespace Logic
             return Math.Sin(Math.PI * t) / (Math.PI * t);
         }
 
-        public static double MeanSquaredError(List<double> orignalSignal, List<double> quantizedSignal)
+        public static double MeanSquaredError(List<double> orignalSignal, List<double> sampledSignal)
         {
+            List<double> quantizedSignal = QuantizedSignal(orignalSignal.Count(), sampledSignal);
+
             int N = quantizedSignal.Count;
             double fraction = 1.0 / N;
             double sum = 0;
@@ -186,11 +188,15 @@ namespace Logic
                 sum += Math.Pow((orignalSignal[i] - quantizedSignal[i]), 2);
             }
 
-            return fraction * sum;
+            double result = fraction * sum;
+
+            return Math.Round(result, 4, MidpointRounding.AwayFromZero); 
         }
 
-        public static double SignalToNoiseRatio(List<double> orignalSignal, List<double> quantizedSignal)
+        public static double SignalToNoiseRatio(List<double> orignalSignal, List<double> sampledSignal)
         {
+            List<double> quantizedSignal = QuantizedSignal(orignalSignal.Count(), sampledSignal);
+
             double numerator = 0;
             double denominator = 0;
             int N = quantizedSignal.Count;
@@ -205,20 +211,27 @@ namespace Logic
                 denominator += Math.Pow(orignalSignal[i] - quantizedSignal[i], 2);
             }
 
-            return 10 * Math.Log10(numerator / denominator);
+            double result = 10 * Math.Log10(numerator / denominator);
+
+            return Math.Round(result, 4, MidpointRounding.AwayFromZero);
         }
 
-        public static double PeakSignalToNoiseRatio(List<double> orignalSignal, List<double> quantizedSignal)
+        public static double PeakSignalToNoiseRatio(List<double> orignalSignal, List<double> sampledSignal)
         {
+            List<double> quantizedSignal = QuantizedSignal(orignalSignal.Count(), sampledSignal);
+
             double mse = MeanSquaredError(orignalSignal, quantizedSignal);
-            int N = quantizedSignal.Count();
             double numerator = quantizedSignal.Max();
 
-            return 10 * Math.Log10(numerator / mse);
+            double result = 10 * Math.Log10(numerator / mse);
+
+            return Math.Round(result, 4, MidpointRounding.AwayFromZero);
         }
 
-        public static double MaximumDifference(List<double> orignalSignal, List<double> quantizedSignal)
+        public static double MaximumDifference(List<double> orignalSignal, List<double> sampledSignal)
         {
+            List<double> quantizedSignal = QuantizedSignal(orignalSignal.Count(), sampledSignal);
+
             int N = quantizedSignal.Count;
             List<double> differences = new List<double>(N);
 
@@ -227,14 +240,38 @@ namespace Logic
                 differences.Add(Math.Abs(orignalSignal[i] - quantizedSignal[i]));
             }
 
-            return differences.Max();
+            double result = differences.Max();
+
+            return Math.Round(result, 4, MidpointRounding.AwayFromZero);
         }
 
-        public static double EffectiveNumberOfBits(List<double> orignalSignal, List<double> quantizedSignal)
+        public static double EffectiveNumberOfBits(List<double> orignalSignal, List<double> sampledSignal)
         {
+            List<double> quantizedSignal = QuantizedSignal(orignalSignal.Count(), sampledSignal);
+
             double snr =  SignalToNoiseRatio(orignalSignal, quantizedSignal);
 
-            return (snr - 1.76) / 6.02;
+            double result = (snr - 1.76) / 6.02;
+
+            return Math.Round(result, 4, MidpointRounding.AwayFromZero);
+        }
+
+        private static List<double> QuantizedSignal(int orignalSignalCount, List<double> sampledSignal)
+        {
+            if (orignalSignalCount % sampledSignal.Count() == 0)
+            {
+                List<double> result = new List<double>();
+
+                for(int i = 0; i < sampledSignal.Count(); i++)
+                {
+                    for(int j = 0; j < orignalSignalCount/sampledSignal.Count(); j++)
+                        result.Add(sampledSignal[i]);
+                }
+
+                return result;
+            }
+            else
+                return sampledSignal;
         }
     }
 }

@@ -11,11 +11,11 @@ namespace Logic
 
         public double StartTime { get; set; }
         public int Sampling { get; set; }
-        public int QuantizationSampling { get; set; }
+        public int ConversionSampling { get; set; }
         public List<double> SamplesX { get; set; }
         public List<double> SamplesY { get; set; }
-        public List<double> QuantizationSamplesX { get; set; }
-        public List<double> QuantizationSamplesY { get; set; }
+        public List<double> ConversionSamplesX { get; set; }
+        public List<double> ConversionSamplesY { get; set; }
         public bool IsDiscrete { get; set; }
 
         public SignalData()
@@ -28,7 +28,7 @@ namespace Logic
             Initialize();
             StartTime = startTime;
             Sampling = sampling;
-            QuantizationSampling = quantizationSampling;
+            ConversionSampling = quantizationSampling;
         }
 
         private void Initialize()
@@ -36,8 +36,8 @@ namespace Logic
             IsDiscrete = true;
             SamplesX = new List<double>();
             SamplesY = new List<double>();
-            QuantizationSamplesX = new List<double>();
-            QuantizationSamplesY = new List<double>();
+            ConversionSamplesX = new List<double>();
+            ConversionSamplesY = new List<double>();
         }
 
         public bool IsEmpty()
@@ -48,10 +48,10 @@ namespace Logic
             if (SamplesY == null || SamplesY.Count == 0)
                 return false;
 
-            if (QuantizationSamplesX == null || QuantizationSamplesX.Count == 0)
+            if (ConversionSamplesX == null || ConversionSamplesX.Count == 0)
                 return false;
 
-            if (QuantizationSamplesY == null || QuantizationSamplesY.Count == 0)
+            if (ConversionSamplesY == null || ConversionSamplesY.Count == 0)
                 return false;
 
             return true;

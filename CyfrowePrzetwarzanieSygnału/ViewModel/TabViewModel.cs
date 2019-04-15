@@ -90,8 +90,8 @@ namespace ViewModel
             for (int i = 0; i < SignalData.SamplesX.Count; i++)
                 values.Add(new Logic.Point(SignalData.SamplesX[i], SignalData.SamplesY[i]));
 
-            for (int i = 0; i < SignalData.QuantizationSamplesX.Count; i++)
-                quantizationValues.Add(new Logic.Point(SignalData.QuantizationSamplesX[i], SignalData.QuantizationSamplesY[i]));
+            for (int i = 0; i < SignalData.ConversionSamplesX.Count; i++)
+                quantizationValues.Add(new Logic.Point(SignalData.ConversionSamplesX[i], SignalData.ConversionSamplesY[i]));
 
             if (IsScattered)
             {
@@ -216,7 +216,7 @@ namespace ViewModel
             List<double> quantizedPoints;
 
             points = SignalData.SamplesY;
-            quantizedPoints = SignalData.QuantizationSamplesY;
+            quantizedPoints = SignalData.ConversionSamplesY;
 
             AverageValue = Operations.Average(points, t1, t2, isDiscrete);
             AverageAbsValue = Operations.AbsAverage(points, t1, t2, isDiscrete);

@@ -258,20 +258,15 @@ namespace Logic
 
         private static List<double> QuantizedSignal(int orignalSignalCount, List<double> sampledSignal)
         {
-            if (orignalSignalCount % sampledSignal.Count() == 0)
+            List<double> result = new List<double>();
+
+            for (int i = 0; i < sampledSignal.Count(); i++)
             {
-                List<double> result = new List<double>();
-
-                for(int i = 0; i < sampledSignal.Count(); i++)
-                {
-                    for(int j = 0; j < orignalSignalCount/sampledSignal.Count(); j++)
-                        result.Add(sampledSignal[i]);
-                }
-
-                return result;
+                for (int j = 0; j < (int)orignalSignalCount / sampledSignal.Count(); j++)
+                    result.Add(sampledSignal[i]);
             }
-            else
-                return sampledSignal;
+
+            return result;
         }
     }
 }

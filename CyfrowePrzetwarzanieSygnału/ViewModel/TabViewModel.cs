@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows;
 using System.Windows.Controls;
+using System.Diagnostics;
 
 namespace ViewModel
 {
@@ -42,6 +43,12 @@ namespace ViewModel
         public double RootMeanSquare { get; set; }
         public double Variance { get; set; }
         public double AveragePower { get; set; }
+
+        public double MeanSquaredErrorValue { get; set; }
+        public double SignalToNoiseRatioValue { get; set; }
+        public double PeakSignalToNoiseRatioValue { get; set; }
+        public double MaximumDifferenceValue { get; set; }
+        public double EffectiveNumberOfBitsValue { get; set; }
 
         #endregion
 
@@ -213,7 +220,10 @@ namespace ViewModel
             AverageAbsValue = Operations.AbsAverage(points, t1, t2, isDiscrete);
             RootMeanSquare = Operations.RootMeanSquare(points, t1, t2, isDiscrete);
             Variance = Operations.Variance(points, t1, t2, isDiscrete);
-            AveragePower = Operations.AveragePower(points, t1, t2, isDiscrete);
+            //AveragePower = Operations.AveragePower(points, t1, t2, isDiscrete);
+            Debug.WriteLine("***" + SignalData.QuantizationSamplesY[0]);
+            Debug.WriteLine("$$$" + SignalData.QuantizationSamplesX[0]);
+            AveragePower = Operations.MeanSquaredError(points, SignalData.QuantizationSamplesY);
 
             OnPropertyChanged(nameof(AverageValue));
             OnPropertyChanged(nameof(AverageAbsValue));

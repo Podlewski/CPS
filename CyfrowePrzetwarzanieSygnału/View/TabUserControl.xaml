@@ -135,6 +135,7 @@
                     <Label Margin="20 0 0 0" Grid.Row="3" Grid.Column="0" FontSize="12px" Foreground="White" Content="Wartość skuteczna sygnału:"/>
                     <Label Margin="20 0 0 0" Grid.Row="4" Grid.Column="0" FontSize="12px" Foreground="White" Content="Wariancja sygnału:"/>
                     <Label Margin="20 0 0 0" Grid.Row="5" Grid.Column="0" FontSize="12px" Foreground="White" Content="Moc średnia sygnału:"/>
+                    <Label Margin="20 0 0 0" Grid.Row="6" Grid.Column="0" FontSize="12px" Foreground="White" Content="Błąd średniokwadratowy:"/>
 
                     <TextBox Grid.Row="1" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding AverageValue}"/>
                     <TextBox Grid.Row="2" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding AverageAbsValue}"/>

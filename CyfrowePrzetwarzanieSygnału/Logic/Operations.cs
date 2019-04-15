@@ -165,6 +165,16 @@ namespace Logic
             return sum;
         }
 
+        public static double SinusCardinalis(double t)
+        {
+            if (t.Equals(0))
+            {
+                return 1;
+            }
+
+            return Math.Sin(Math.PI * t) / (Math.PI * t);
+        }
+
         public static double MeanSquaredError(List<double> orignalSignal, List<double> quantizedSignal)
         {
             int N = quantizedSignal.Count;
@@ -226,8 +236,5 @@ namespace Logic
 
             return (snr - 1.76) / 6.02;
         }
-
-
-
     }
 }

@@ -1,0 +1,132 @@
+\documentclass[12pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[T1]{polski}
+\usepackage[cp1250]{inputenc}
+\newcommand{\BibTeX}{{\sc Bib}\TeX} 
+\usepackage{graphicx}
+\usepackage{amsfonts}
+\usepackage{float}
+
+\setlength{\textheight}{21cm}
+
+\title{{\bf Zadanie nr 2 - Próbkowanie i kwantyzacja}\linebreak
+Cyfrowe Przetwarzanie Sygna³ów}
+\author{Justyna Hubert, 210200 \and Karol Podlewski, 210294}
+\date{17.04.2019}
+
+\begin{document}
+\clearpage\maketitle
+\thispagestyle{empty}
+\newpage
+\setcounter{page}{1}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% CEL ZADANIA
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Cel zadania}
+Celem æwiczenia jest zapoznanie siê z praktycznymi aspektami procesu konwersji
+analogowo-cyfrowej (A/C) i cyfrowo-analogowej (C/A) sygna³ów. Zadanie polega³o na zaimplementowaniu procesu przetwarzania analogowo-cyfrowego z uwzglêdnieniem operacji próbkowania i kwantyzacji oraz konwersji odwrotnej, tj. cyfrowo-analogowej. Zosta³y wykonane nastêpuj¹ce warianty:
+\begin{itemize}
+	\item (S1) Próbkowanie równomierne,
+	\item (Q1) Kwantyzacja równomierna z obciêciem,
+	\item (R2) Interpolacja pierwszego rzêdu,
+	\item (R3) Rekonstrukcja w oparciu o funkcjê sinc.
+\end{itemize}
+Ponadto, w ramach realizacji æwiczenia nale¿a³o zaimplementowaæ nastêpuj¹ce miary:
+\begin{itemize}
+	\item B³¹d œredniokwadratowy (MSE),
+	\item Stosunek sygna³ - szum (SNR),
+	\item Szczytowy stosunek sygna³ - szum (PSNR).
+	\item Maksymalna ró»nica (MD),
+	\item Efektywna liczba bitów (ENOB).
+\end{itemize}
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% WSTÊP TEORETYCZNY
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Wstêp teoretyczny}
+Program zosta³ stworzony w jêzyku C\# zgodnie z opisem zamieszczonym na platforme WIKAMP~\cite{instrukcja}. Graficzny interfejs u¿ytkownika zosta³ stworzony przy  wykorzystaniu Windows Presentation Foundation~\cite{wpf}. Logika aplikacji zosta³a odseparowana od GUI, w zgodzie ze wzorcem projektowym Model-view-viewmodel (MVVM), poprzez implementacje trzech projektów (Logic, ViewModel i View). Biblioteka LiveCharts~\cite{livechart} wykorzystana jest do generowania wykresów.
+\newline
+
+% G£ÓWNY WIDOK
+Po uruchomieniu aplikacji, u¿ytkownikowi ukazujê nastêpuj¹cy interfejs graficzny:
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=1\textwidth]{{Aplikacja/Interfejs.png}}
+	\caption{Interfejs u¿ytkownika}
+\end{figure}
+
+Lewa strona aplikacji przeznaczona jest do ustawiania generowania wybranych sygna³ów przy okreœlaniu ich parametrów, wykonania operacji na dwóch dowolnie wybranych sygna³ach oraz zapisania b¹dŸ wczytania wygenerowanego wczeœniej sygna³u.
+\pagebreak
+
+% GENERACJA SYGNA£U
+Pierwsza zak³adka z lewej strony s³u¿y do generacji sygna³u/szumu:
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=0.7\textwidth]{{Aplikacja/Generacja.png}}
+	\caption{Generacja sygna³u}
+\end{figure}
+Sygna³ wygeneruje siê na obecnie otworzonej karcie. Zaprezentowanie na zrzucie ekranu wartoœci parametrów s¹ wartoœciami domyœlnymi.
+\pagebreak
+
+% OPERACJE NA SYGNA£ACH
+Kolejna zak³adka umo¿liwia wykonanie operacji na sygnale. Wraz z wybran¹ operacj¹, wybieramy sygna³y które maj¹ zostaæ przetworzone:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{{Aplikacja/Operacje.png}} 
+	\caption{Operacje na sygna³ach}
+\end{figure}
+Sygna³ wygeneruje siê na obecnie otworzonej karcie.
+\pagebreak
+
+% WIZUALIZACJA
+Sekcja z lewej strony sk³ada siê z kart, na których mo¿emy generowaæ nasze wykresy:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{{Aplikacja/Karty.png}}
+	\caption{Widok kart}
+\end{figure}
+Ka¿da karta zawiera piêæ zak³adek, pozwalaj¹cych zobaczyæ wykres, konwersje A/C i C/A histogram oraz wyliczone parametry sygna³u:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{{Aplikacja/Wykres.png}}
+	\caption{Widok karty sygna³u wraz z kolejnymi dostêpnymi opcjami}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{{Aplikacja/Parametry.png}}
+	\caption{Parametry sygna³u}
+\end{figure}
+
+% ZAPIS / ODCZYT
+Aby zapisaæ b¹dŸ wczytaæ wykres, nale¿y skorzystaæ z menu kontekstowego (mo¿emy tutaj tak¿e zamkn¹æ nasz¹ aplikacjê):
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\textwidth]{{Aplikacja/Zapis.png}}
+	\caption{Zapis oraz wczytanie sygna³u}
+\end{figure}
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SEKCJA EKSPERYMENTÓW
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Eksperymenty i wyniki}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% WNIOSKI
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Wnioski}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% BIBLIOGRAFIA
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand\refname{Bibliografia}
+\bibliographystyle{plain}
+\bibliography{Zad2_Bibliografia}
+
+\end{document}

@@ -213,23 +213,32 @@ namespace ViewModel
         public void CalculateSignalInfo(double t1 = 0, double t2 = 0, bool isDiscrete = false, bool fromSamples = false)
         {
             List<double> points;
+            List<double> quantizedPoints;
 
             points = SignalData.SamplesY;
+            quantizedPoints = SignalData.QuantizationSamplesY;
 
             AverageValue = Operations.Average(points, t1, t2, isDiscrete);
             AverageAbsValue = Operations.AbsAverage(points, t1, t2, isDiscrete);
             RootMeanSquare = Operations.RootMeanSquare(points, t1, t2, isDiscrete);
             Variance = Operations.Variance(points, t1, t2, isDiscrete);
-            //AveragePower = Operations.AveragePower(points, t1, t2, isDiscrete);
-            Debug.WriteLine("***" + SignalData.QuantizationSamplesY[0]);
-            Debug.WriteLine("$$$" + SignalData.QuantizationSamplesX[0]);
-            AveragePower = Operations.MeanSquaredError(points, SignalData.QuantizationSamplesY);
+            AveragePower = Operations.AveragePower(points, t1, t2, isDiscrete);
+            MeanSquaredErrorValue = Operations.MeanSquaredError(points, quantizedPoints);
+            SignalToNoiseRatioValue = Operations.SignalToNoiseRatio(points, quantizedPoints);
+            PeakSignalToNoiseRatioValue = Operations.PeakSignalToNoiseRatio(points, quantizedPoints);
+            MaximumDifferenceValue = Operations.MaximumDifference(points, quantizedPoints);
+            EffectiveNumberOfBitsValue = Operations.EffectiveNumberOfBits(points, quantizedPoints);
 
             OnPropertyChanged(nameof(AverageValue));
             OnPropertyChanged(nameof(AverageAbsValue));
             OnPropertyChanged(nameof(RootMeanSquare));
             OnPropertyChanged(nameof(Variance));
             OnPropertyChanged(nameof(AveragePower));
+            OnPropertyChanged(nameof(MeanSquaredErrorValue));
+            OnPropertyChanged(nameof(SignalToNoiseRatioValue));
+            OnPropertyChanged(nameof(PeakSignalToNoiseRatioValue));
+            OnPropertyChanged(nameof(MaximumDifferenceValue));
+            OnPropertyChanged(nameof(EffectiveNumberOfBitsValue));
         }
 
         public void LoadData(SignalData data)

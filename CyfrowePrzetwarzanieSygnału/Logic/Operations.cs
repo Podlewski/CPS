@@ -165,16 +165,6 @@ namespace Logic
             return sum;
         }
 
-        public static double SinusCardinalis(double t)
-        {
-            if (t.Equals(0))
-            {
-                return 1;
-            }
-
-            return Math.Sin(Math.PI * t) / (Math.PI * t);
-        }
-
         public static double MeanSquaredError(List<double> orignalSignal, List<double> sampledSignal)
         {
             List<double> quantizedSignal = QuantizedSignal(orignalSignal.Count(), sampledSignal);
@@ -267,6 +257,47 @@ namespace Logic
             }
 
             return result;
+        }
+
+        public static List<double> SincReconstruction(List<double> sapledX, List<double> sampledY, double Duration, int newFrequency)
+        {
+            List<double> resultY = new List<double>();
+
+            int points = (int)(Duration * newFrequency);
+            double interval = 1 / (double)newFrequency;
+
+            for (int i = 0; i < sampledY.Count(); i++)
+                resultY.Add(0);
+
+            for (int n = 0; n < points; n++)
+            {
+                double ys = 0;
+                
+                for (int i = 0; i < sapledX.Count(); i++)
+                {
+                    if (sapledX[i] > n * interval)
+                        break;
+
+                    ys = sampledY[i];
+                }
+
+                for (int i = 0; i < sapledX.Count(); i++)
+                {
+                    resultY[i] += ys * SinusCardinalis(sapledX[i] / (interval - n));
+                }
+            }
+
+            return resultY;
+        }
+
+        public static double SinusCardinalis(double t)
+        {
+            if (t.Equals(0))
+            {
+                return 1;
+            }
+
+            return Math.Sin(Math.PI * t) / (Math.PI * t);
         }
     }
 }

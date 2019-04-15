@@ -165,6 +165,11 @@ namespace ViewModel
                     }
                 }
 
+                signalData.ReconstructionSamplesY = Operations.SincReconstruction(signalData.ConversionSamplesX,
+                                                                                  signalData.ConversionSamplesY,
+                                                                                  D_DurationOfTheSignal,
+                                                                                  ReconstructionSamples);
+
                 SelectedTab.SignalData = signalData;
                 SelectedTab.IsScattered = SelectedSignal.IsGenerationScattered();
                 SelectedTab.CalculateSignalInfo(T1_StartTime, T1_StartTime + D_DurationOfTheSignal);

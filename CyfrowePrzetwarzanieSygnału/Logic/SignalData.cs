@@ -14,8 +14,10 @@ namespace Logic
         public int ConversionSampling { get; set; }
         public List<double> SamplesX { get; set; }
         public List<double> SamplesY { get; set; }
+        // also ReconstructionSamplesX
         public List<double> ConversionSamplesX { get; set; }
         public List<double> ConversionSamplesY { get; set; }
+        public List<double> ReconstructionSamplesY { get; set; }
         public bool IsDiscrete { get; set; }
 
         public SignalData()
@@ -38,6 +40,7 @@ namespace Logic
             SamplesY = new List<double>();
             ConversionSamplesX = new List<double>();
             ConversionSamplesY = new List<double>();
+            ReconstructionSamplesY = new List<double>();
         }
 
         public bool IsEmpty()

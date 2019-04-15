@@ -74,7 +74,7 @@
                             <RotateTransform Angle="270" />
                         </Label.LayoutTransform>
                     </Label>
-                    <lvc:CartesianChart Grid.Row="1" Grid.Column="1" Hoverable="False" DataTooltip="{x:Null}" ChartLegend="{x:Null}" DisableAnimations="True" Series="{Binding RecounstructionChart}" />
+                    <lvc:CartesianChart Grid.Row="1" Grid.Column="1" Hoverable="False" DataTooltip="{x:Null}" ChartLegend="{x:Null}" DisableAnimations="True" Series="{Binding ReconstructionChart}" />
                 </Grid>
             </TabItem>
 

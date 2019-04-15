@@ -27,7 +27,8 @@ namespace ViewModel
         public SeriesCollection SamplingChart { get; set; }
         public SeriesCollection QuantizationChart { get; set; }
         public SeriesCollection InterpolationChart { get; set; }
-        
+        public SeriesCollection ReconstructionChart { get; set; }
+
         public SeriesCollection Histogram { get; set; }
         public SignalData SignalData { get; set; }
 
@@ -86,12 +87,16 @@ namespace ViewModel
 
             ChartValues<Logic.Point> values = new ChartValues<Logic.Point>();
             ChartValues<Logic.Point> quantizationValues = new ChartValues<Logic.Point>();
+            ChartValues<Logic.Point> reconstructionValues = new ChartValues<Logic.Point>();
 
             for (int i = 0; i < SignalData.SamplesX.Count; i++)
                 values.Add(new Logic.Point(SignalData.SamplesX[i], SignalData.SamplesY[i]));
 
             for (int i = 0; i < SignalData.ConversionSamplesX.Count; i++)
                 quantizationValues.Add(new Logic.Point(SignalData.ConversionSamplesX[i], SignalData.ConversionSamplesY[i]));
+
+            for (int i = 0; i < SignalData.ConversionSamplesX.Count; i++)
+                reconstructionValues.Add(new Logic.Point(SignalData.ConversionSamplesX[i], SignalData.ReconstructionSamplesY[i]));
 
             if (IsScattered)
             {
@@ -160,8 +165,6 @@ namespace ViewModel
                 }
             };
 
-            //LineSmoothness="0"
-
             InterpolationChart = new SeriesCollection(mapper)
             {
                 new LineSeries()
@@ -178,6 +181,26 @@ namespace ViewModel
                     StrokeThickness = 3,
                     LineSmoothness = 0,
                     Values = quantizationValues,
+                    Fill = Brushes.Transparent,
+                    Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#26A0DA"))
+                }
+            };
+
+            ReconstructionChart = new SeriesCollection(mapper)
+            {
+                new LineSeries()
+                {
+                    PointGeometry = null,
+                    StrokeThickness = 3,
+                    Values = values,
+                    Fill = Brushes.Transparent,
+                    Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#34414F"))
+                },
+                new LineSeries()
+                {
+                    PointGeometry = null,
+                    StrokeThickness = 3,
+                    Values = reconstructionValues,
                     Fill = Brushes.Transparent,
                     Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#26A0DA"))
                 }
@@ -201,6 +224,7 @@ namespace ViewModel
             OnPropertyChanged(nameof(SamplingChart));
             OnPropertyChanged(nameof(QuantizationChart));
             OnPropertyChanged(nameof(InterpolationChart));
+            OnPropertyChanged(nameof(ReconstructionChart));
             OnPropertyChanged(nameof(Histogram));
         }
 

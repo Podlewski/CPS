@@ -32,6 +32,8 @@ analogowo-cyfrowej (A/C) i cyfrowo-analogowej (C/A) sygna³ów.
 %% WSTÊP TEORETYCZNY
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Wstêp teoretyczny}
+Jest to usprawniony program z zadania 1, dostosowany do instrukcji z zadania drugiego ~\cite{instrukcja}. \\
+
 Zadanie polega³o na zaimplementowaniu procesu przetwarzania analogowo-cyfrowego z uwzglêdnieniem operacji próbkowania i kwantyzacji oraz konwersji odwrotnej, tj. cyfrowo-analogowej. Zosta³y wykonane nastêpuj¹ce warianty:
 \begin{itemize}
 	\item (S1) Próbkowanie równomierne,
@@ -46,7 +48,8 @@ Ponadto, w ramach realizacji æwiczenia nale¿a³o zaimplementowaæ nastêpuj¹ce miar
 	\item Szczytowy stosunek sygna³ - szum (PSNR).
 	\item Maksymalna ró»nica (MD),
 	\item Efektywna liczba bitów (ENOB).
-\end{itemize}
+\end{itemize} 
+Rekonstrukcja w oparciu o funkcjê sinc zosta³a wykonana zgodnie z ~\cite{interpolacjaSinc}.
 \pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -61,25 +64,25 @@ Eksperymenty postanowilismy przeprowadzic na trzech rodzajach sygnalów: sinusoid
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{SinParametry.png}}
+		\includegraphics[width=0.7\textwidth]{{Rysunki/SinParametry.png}}
 	\caption{Parametry, które przyjmuje funkcja sinusoidalna.}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{SinAc.png}}
+		\includegraphics[width=1\textwidth]{{Rysunki/SinAc.png}}
 	\caption{Konwersja A/C.}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{SinCa.png}}
+		\includegraphics[width=1\textwidth]{{Rysunki/SinCa.png}}
 	\caption{Konwersja C/A.}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{SinWyniki.png}}
+		\includegraphics[width=0.7\textwidth]{{Rysunki/SinWyniki.png}}
 	\caption{Miary jakie osiagnela funkcja sinusoidalna.}
 \end{figure}
 
@@ -91,25 +94,25 @@ Eksperymenty postanowilismy przeprowadzic na trzech rodzajach sygnalów: sinusoid
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{SinParametry.png}}
+		\includegraphics[width=0.7\textwidth]{{Rysunki/SinParametry.png}}
 	\caption{Parametry, które przyjmuje funkcja sinusoidalna wyprostowana jednopolówkowo.}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{SinWyprostAc.png}}
+		\includegraphics[width=1\textwidth]{{Rysunki/SinWyprostAc.png}}
 	\caption{Konwersja A/C.}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{SinWyprostCa.png}}
+		\includegraphics[width=1\textwidth]{{Rysunki/SinWyprostCa.png}}
 	\caption{Konwersja C/A.}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{SinWyprostWyniki.png}}
+		\includegraphics[width=0.7\textwidth]{{Rysunki/SinWyprostWyniki.png}}
 	\caption{Miary jakie osiagnela funkcja sinusoidalna wyprostowana jednopolówkowo.}
 \end{figure}
 
@@ -121,35 +124,34 @@ Eksperymenty postanowilismy przeprowadzic na trzech rodzajach sygnalów: sinusoid
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{SinParametry.png}}
+		\includegraphics[width=0.7\textwidth]{{Rysunki/SinParametry.png}}
 	\caption{Parametry, które przyjmuje funkcja trójkatna.}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{TrojkAc.png}}
+		\includegraphics[width=1\textwidth]{{Rysunki/TrojkAc.png}}
 	\caption{Konwersja A/C.}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{TrojkCa.png}}
+		\includegraphics[width=1\textwidth]{{Rysunki/TrojkCa.png}}
 	\caption{Konwersja C/A.}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{TrojkWyniki.png}}
+		\includegraphics[width=0.7\textwidth]{{Rysunki/TrojkWyniki.png}}
 	\caption{Miary jakie osiagnela funkcja trójkatna.}
 \end{figure}
-
 \pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% WNIOSKI
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Wnioski}
-Aplikacja zosta³a napisana zgodnie z instrukcj¹ do zadania [1]. Program
+Aplikacja zosta³a napisana zgodnie z instrukcj¹ do zadania ~\cite{instrukcja}. Program
 poprawnie implementuje konwersjê A/C oraz C/A wraz z obliczaniem parametrów. Aplikacja zosta³a napisana w sposób, aby umo¿liwiaj¹cy nam rozszerzenie jej o kolejne funkcjonalnoœci.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

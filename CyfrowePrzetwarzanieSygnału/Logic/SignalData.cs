@@ -14,10 +14,10 @@ namespace Logic
         public int ConversionSampling { get; set; }
         public List<double> SamplesX { get; set; }
         public List<double> SamplesY { get; set; }
-        // also ReconstructionSamplesX
         public List<double> ConversionSamplesX { get; set; }
         public List<double> ConversionSamplesY { get; set; }
         public List<double> ReconstructionSamplesY { get; set; }
+        public List<double> ReconstructionSamplesX { get; set; }
         public bool IsDiscrete { get; set; }
 
         public SignalData()
@@ -25,12 +25,12 @@ namespace Logic
             Initialize();
         }
 
-        public SignalData(double startTime, int sampling, int quantizationSampling)
+        public SignalData(double startTime, int frequency, int quantizationFrequency)
         {
             Initialize();
             StartTime = startTime;
-            Sampling = sampling;
-            ConversionSampling = quantizationSampling;
+            Sampling = frequency;
+            ConversionSampling = quantizationFrequency;
         }
 
         private void Initialize()
@@ -40,6 +40,7 @@ namespace Logic
             SamplesY = new List<double>();
             ConversionSamplesX = new List<double>();
             ConversionSamplesY = new List<double>();
+            ReconstructionSamplesX = new List<double>();
             ReconstructionSamplesY = new List<double>();
         }
 

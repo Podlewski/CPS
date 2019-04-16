@@ -95,8 +95,8 @@ namespace ViewModel
             for (int i = 0; i < SignalData.ConversionSamplesX.Count; i++)
                 quantizationValues.Add(new Logic.Point(SignalData.ConversionSamplesX[i], SignalData.ConversionSamplesY[i]));
 
-            for (int i = 0; i < SignalData.ConversionSamplesX.Count; i++)
-                reconstructionValues.Add(new Logic.Point(SignalData.ConversionSamplesX[i], SignalData.ReconstructionSamplesY[i]));
+            for (int i = 0; i < SignalData.ReconstructionSamplesX.Count; i++)
+                reconstructionValues.Add(new Logic.Point(SignalData.ReconstructionSamplesX[i], SignalData.ReconstructionSamplesY[i]));
 
             if (IsScattered)
             {

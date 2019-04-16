@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Logic
 {
@@ -128,5 +130,30 @@ namespace Logic
             return 0;
         }
 
+        // Rekonstrukcja w opraciu o Sinc
+        public double SincReconstruction(List<double> sampledY, double time, double frequency)
+        {
+            double result = 0;
+
+            double T_s = 1 / frequency;
+
+            for (int n = 0; n < sampledY.Count(); n++)
+            {
+                result += sampledY[n] * SinusCardinalis(time / T_s - n);
+            }
+
+            return result;
+        }
+
+        public double SinusCardinalis(double t)
+        {
+            // jeżeli byłoby "prawie zero" - problem z precyzją double
+            if (Math.Round(t, 6).Equals(0))
+            {
+                return 1;
+            }
+
+            return Math.Sin(Math.PI * t) / (Math.PI * t);
+        }
     }
 }

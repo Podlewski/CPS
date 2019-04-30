@@ -39,8 +39,8 @@
             <TabItem Header="Generacja">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="0.77*"/>
-                        <RowDefinition Height="0.93*"/>
+                        <RowDefinition Height="0.6*"/>
+                        <RowDefinition Height="1.0*"/>
                         <RowDefinition Height="0.2*"/>
                     </Grid.RowDefinitions>
 
@@ -64,10 +64,12 @@
                                 <RowDefinition/>
                                 <RowDefinition/>
                                 <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="0.55*"/>
-                                <ColumnDefinition Width="0.35*"/>
+                                <ColumnDefinition Width="0.6*"/>
+                                <ColumnDefinition Width="0.3*"/>
                                 <ColumnDefinition Width="0.08*"/>
                             </Grid.ColumnDefinitions>
 
@@ -79,8 +81,10 @@
                             <Label Margin="5 0 0 0" Grid.Row="5" Grid.Column="0" FontSize="12px" Foreground="White" Content="Czas skoku (ts):"/>
                             <Label Margin="5 0 0 0" Grid.Row="6" Grid.Column="0" FontSize="12px" Foreground="White" Content="Prawdopodobieństwo (p):"/>
                             <Label Margin="5 0 0 0" Grid.Row="8" Grid.Column="0" FontSize="12px" Foreground="White" Content="Częstotliwość próbkowania:"/>
-                            <Label Margin="5 0 0 0" Grid.Row="9" Grid.Column="0" FontSize="12px" Foreground="White" Content="Częst. próbkowania (kwantyzacja):"/>
-                            <Label Margin="5 0 0 0" Grid.Row="10" Grid.Column="0" FontSize="12px" Foreground="White" Content="Częst. próbkowania (rek. sinc):"/>
+                            <Label Margin="5 0 0 0" Grid.Row="9" Grid.Column="0" FontSize="12px" Foreground="White" Content="Częst. próbkowania (próbkowanie):"/>
+                            <Label Margin="5 0 0 0" Grid.Row="10" Grid.Column="0" FontSize="12px" Foreground="White" Content="Progi kwantyzacji:"/>
+                            <Label Margin="5 0 0 0" Grid.Row="11" Grid.Column="0" FontSize="12px" Foreground="White" Content="Częst. próbkowania (rekonsutrkcja):"/>
+                            <Label Margin="5 0 0 0" Grid.Row="12" Grid.Column="0" FontSize="12px" Foreground="White" Content="Liczba próbek (rekonsutrkcja):"/>
 
                             <TextBox Grid.Row="0" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding A_Amplitude}"/>
                             <TextBox Grid.Row="1" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding T1_StartTime}"/>
@@ -90,8 +94,10 @@
                             <TextBox Grid.Row="5" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding Ts_TimeStep}"/>
                             <TextBox Grid.Row="6" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding P_Probability}"/>
                             <TextBox Grid.Row="8" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding Frequency}" />
-                            <TextBox Grid.Row="9" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding QuantizationFrequency}"/>
-                            <TextBox Grid.Row="10" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding ReconstructionFrequency}"/>
+                            <TextBox Grid.Row="9" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding SamplingFrequency}"/>
+                            <TextBox Grid.Row="10" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding QuantizationThresholds}"/>
+                            <TextBox Grid.Row="11" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding ReconstructionFrequency}"/>
+                            <TextBox Grid.Row="12" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding ReconstructionSamples}"/>
 
                             <Label Grid.Row="0" Grid.Column="2" FontSize="12px" Foreground="White" Content=""/>
                             <Label Grid.Row="1" Grid.Column="2" FontSize="12px" Foreground="White" Content="s"/>
@@ -102,7 +108,11 @@
                             <Label Grid.Row="6" Grid.Column="2" FontSize="12px" Foreground="White" Content=""/>
                             <Label Grid.Row="8" Grid.Column="2" FontSize="12px" Foreground="White" Content="Hz"/>
                             <Label Grid.Row="9" Grid.Column="2" FontSize="12px" Foreground="White" Content="Hz"/>
-                            <Label Grid.Row="10" Grid.Column="2" FontSize="12px" Foreground="White" Content="Hz"/>
+                            <Label Grid.Row="10" Grid.Column="2" FontSize="12px" Foreground="White" Content=""/>
+                            <Label Grid.Row="11" Grid.Column="2" FontSize="12px" Foreground="White" Content="Hz"/>
+
+                            <Button Grid.Row="12" Grid.Column="2" Height="21px" Width="21px" FontSize="12px" 
+                            Command="{Binding ReconstructionInfoCommand}" Style="{DynamicResource ButtonStyle}" Content="?" />
 
                         </Grid>
                     </GroupBox>

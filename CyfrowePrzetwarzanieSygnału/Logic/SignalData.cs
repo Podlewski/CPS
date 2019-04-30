@@ -16,6 +16,7 @@ namespace Logic
         public List<double> SamplesY { get; set; }
         public List<double> ConversionSamplesX { get; set; }
         public List<double> ConversionSamplesY { get; set; }
+        public List<double> QuantizationSamplesY { get; set; }
         public List<double> ReconstructionSamplesY { get; set; }
         public List<double> ReconstructionSamplesX { get; set; }
         public bool IsDiscrete { get; set; }
@@ -40,6 +41,7 @@ namespace Logic
             SamplesY = new List<double>();
             ConversionSamplesX = new List<double>();
             ConversionSamplesY = new List<double>();
+            QuantizationSamplesY = new List<double>();
             ReconstructionSamplesX = new List<double>();
             ReconstructionSamplesY = new List<double>();
         }

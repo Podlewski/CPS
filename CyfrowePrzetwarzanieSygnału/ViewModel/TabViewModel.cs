@@ -86,6 +86,7 @@ namespace ViewModel
                 .Y(value => value.Y);
 
             ChartValues<Logic.Point> values = new ChartValues<Logic.Point>();
+            ChartValues<Logic.Point> samplingValues = new ChartValues<Logic.Point>();
             ChartValues<Logic.Point> quantizationValues = new ChartValues<Logic.Point>();
             ChartValues<Logic.Point> reconstructionValues = new ChartValues<Logic.Point>();
 
@@ -93,7 +94,10 @@ namespace ViewModel
                 values.Add(new Logic.Point(SignalData.SamplesX[i], SignalData.SamplesY[i]));
 
             for (int i = 0; i < SignalData.ConversionSamplesX.Count; i++)
-                quantizationValues.Add(new Logic.Point(SignalData.ConversionSamplesX[i], SignalData.ConversionSamplesY[i]));
+                samplingValues.Add(new Logic.Point(SignalData.ConversionSamplesX[i], SignalData.ConversionSamplesY[i]));
+
+            for (int i = 0; i < SignalData.ConversionSamplesX.Count; i++)
+                quantizationValues.Add(new Logic.Point(SignalData.ConversionSamplesX[i], SignalData.QuantizationSamplesY[i]));
 
             for (int i = 0; i < SignalData.ReconstructionSamplesX.Count; i++)
                 reconstructionValues.Add(new Logic.Point(SignalData.ReconstructionSamplesX[i], SignalData.ReconstructionSamplesY[i]));
@@ -140,7 +144,7 @@ namespace ViewModel
                 {
                     PointGeometry = new EllipseGeometry(),
                     StrokeThickness = 5,
-                    Values = quantizationValues,
+                    Values = samplingValues,
                     Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#26A0DA"))
                 }
             };
@@ -237,21 +241,21 @@ namespace ViewModel
         public void CalculateSignalInfo(double t1 = 0, double t2 = 0, bool isDiscrete = false, bool fromSamples = false)
         {
             List<double> points;
-            List<double> quantizedPoints;
+            List<double> reconstructionPoints;
 
             points = SignalData.SamplesY;
-            quantizedPoints = SignalData.ConversionSamplesY;
+            reconstructionPoints = SignalData.ReconstructionSamplesY;
 
             AverageValue = Operations.Average(points, t1, t2, isDiscrete);
             AverageAbsValue = Operations.AbsAverage(points, t1, t2, isDiscrete);
             RootMeanSquare = Operations.RootMeanSquare(points, t1, t2, isDiscrete);
             Variance = Operations.Variance(points, t1, t2, isDiscrete);
             AveragePower = Operations.AveragePower(points, t1, t2, isDiscrete);
-            MeanSquaredErrorValue = Operations.MeanSquaredError(points, quantizedPoints);
-            SignalToNoiseRatioValue = Operations.SignalToNoiseRatio(points, quantizedPoints);
-            PeakSignalToNoiseRatioValue = Operations.PeakSignalToNoiseRatio(points, quantizedPoints);
-            MaximumDifferenceValue = Operations.MaximumDifference(points, quantizedPoints);
-            EffectiveNumberOfBitsValue = Operations.EffectiveNumberOfBits(points, quantizedPoints);
+            MeanSquaredErrorValue = Operations.MeanSquaredError(points, reconstructionPoints);
+            SignalToNoiseRatioValue = Operations.SignalToNoiseRatio(points, reconstructionPoints);
+            PeakSignalToNoiseRatioValue = Operations.PeakSignalToNoiseRatio(points, reconstructionPoints);
+            MaximumDifferenceValue = Operations.MaximumDifference(points, reconstructionPoints);
+            EffectiveNumberOfBitsValue = Operations.EffectiveNumberOfBits(points, reconstructionPoints);
 
             OnPropertyChanged(nameof(AverageValue));
             OnPropertyChanged(nameof(AverageAbsValue));

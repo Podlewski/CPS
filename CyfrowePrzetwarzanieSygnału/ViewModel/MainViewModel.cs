@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
+using System.Linq;
 
 using Logic;
 using Microsoft.Win32;
@@ -16,6 +17,7 @@ namespace ViewModel
         public ICommand AddTabCommand { get; set; }
         public ICommand GenerateCommand { get; set; }
         public ICommand ComputeCommand { get; set; }
+        public ICommand ReconstructionInfoCommand { get; set; }
         public ICommand LoadCommand { get; set; }
         public ICommand SaveCommand { get; set; }
         public ICommand QuitCommand { get; set; }
@@ -45,9 +47,11 @@ namespace ViewModel
         public double Kw_DutyCycle { get; set; } = 0.5;
         public double Ts_TimeStep { get; set; } = 2;
         public double P_Probability { get; set; } = 0.5;
-        public int Frequency { get; set; } = 100;
-        public int QuantizationFrequency { get; set; } = 10;
-        public int ReconstructionFrequency { get; set; } = 20;
+        public int Frequency { get; set; } = 1000;
+        public int SamplingFrequency { get; set; } = 10;
+        public int QuantizationThresholds { get; set; } = 8;
+        public int ReconstructionFrequency { get; set; } = 1000;
+        public int ReconstructionSamples { get; set; } = 0;
 
         #endregion
 
@@ -89,6 +93,7 @@ namespace ViewModel
             AddTabCommand = new RelayCommand(AddTab);
             GenerateCommand = new RelayCommand(Generate);
             ComputeCommand = new RelayCommand(Compute);
+            ReconstructionInfoCommand = new RelayCommand(ReconstructionInfo);
             LoadCommand = new RelayCommand(Load);
             SaveCommand = new RelayCommand(Save);
             QuitCommand = new RelayCommand(Quit);
@@ -101,15 +106,22 @@ namespace ViewModel
 
         public void Generate()
         {
-            if (Frequency < QuantizationFrequency)
+            if (Frequency < SamplingFrequency)
             {
-                MessageBox.Show("Częstość próbkowania jest mniejsza od częstotliwości próbkowania przy kwantyzacji. Zamieniam", "Ostrzeżenie", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Częstość jest mniejsza od częstotliwości próbkowania. Zamieniam", "Ostrzeżenie", MessageBoxButton.OK, MessageBoxImage.Warning);
 
                 int tmpFrequency = Frequency;
-                Frequency = QuantizationFrequency;
-                QuantizationFrequency = tmpFrequency;
+                Frequency = SamplingFrequency;
+                SamplingFrequency = tmpFrequency;
                 OnPropertyChanged(nameof(Frequency));
-                OnPropertyChanged(nameof(QuantizationFrequency));
+                OnPropertyChanged(nameof(SamplingFrequency));
+            }
+            if (Frequency < ReconstructionFrequency)
+            {
+                MessageBox.Show("Częstość jest mniejsza od częstotliwości rekonstrukcji. Zwiększam", "Ostrzeżenie", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+                Frequency = ReconstructionFrequency;
+                OnPropertyChanged(nameof(Frequency));
             }
             if (Frequency < 100)
             {
@@ -117,10 +129,10 @@ namespace ViewModel
                 Frequency = 100;
                 OnPropertyChanged(nameof(Frequency));
             }
-            if (Frequency % QuantizationFrequency != 0)
-            {
-                MessageBox.Show("Częstotliwości próbkowania nie są dzielnikiem oraz dzielną. Osobne generowanie", "Ostrzeżenie", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
+            //if (Frequency % SamplingFrequency != 0)
+            //{
+            //    MessageBox.Show("Częstotliwości próbkowania nie są dzielnikiem oraz dzielną. Osobne generowanie", "Ostrzeżenie", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //}
 
             Generator generator = new Generator()
             {
@@ -136,7 +148,18 @@ namespace ViewModel
 
             if (selectedGeneration != null)
             {
-                SignalData signalData = new SignalData(T1_StartTime, Frequency, QuantizationFrequency);
+                SignalData signalData = new SignalData(T1_StartTime, Frequency, SamplingFrequency);
+
+                double step = 2 * A_Amplitude / (Math.Pow(2, QuantizationThresholds) - 1);
+                List<double> steps = new List<double>
+                {
+                    -A_Amplitude
+                };
+
+                for (int i = 1; i < Math.Pow(2, QuantizationThresholds); i++)
+                {
+                    steps.Add(steps[i - 1] + step);
+                }
 
                 for (decimal i = (decimal)T1_StartTime; i < (decimal)(T1_StartTime + D_DurationOfTheSignal); i += 1 / (decimal)Frequency)
                 {
@@ -144,29 +167,60 @@ namespace ViewModel
                     signalData.SamplesY.Add(selectedGeneration((double)i));
                 }
 
-                if (Frequency % QuantizationFrequency == 0)
+                if (Frequency % SamplingFrequency == 0)
                 {
                     // dla sygnałów generowanych losowo -> dzięki temu próbki są identyczne 
-                    for(int i = 0; i < signalData.SamplesX.Count; i += Frequency/QuantizationFrequency)
+                    for(int i = 0; i < signalData.SamplesX.Count; i += Frequency/SamplingFrequency)
                     {
                         signalData.ConversionSamplesX.Add(signalData.SamplesX[i]);
                         signalData.ConversionSamplesY.Add(signalData.SamplesY[i]);
+
+                        double diff = Math.Abs(signalData.SamplesY[i] - steps[0]);
+                        int iterator = 0;
+
+                        for(int j = 0; j < Math.Pow(2, QuantizationThresholds); j++)
+                        {
+                            if (Math.Abs(signalData.SamplesY[i] - steps[j]) <= diff)
+                            {
+                                diff = Math.Abs(signalData.SamplesY[i] - steps[j]);
+                                iterator = j;
+                            }
+                        }
+
+                        signalData.QuantizationSamplesY.Add(steps[iterator]);
                     }
                 }
                 else
                 {
-                    for (decimal i = (decimal)T1_StartTime; i < (decimal)(T1_StartTime + D_DurationOfTheSignal); i += 1 / (decimal)QuantizationFrequency)
+                    for (decimal i = (decimal)T1_StartTime; i < (decimal)(T1_StartTime + D_DurationOfTheSignal); i += 1 / (decimal)SamplingFrequency)
                     {
                         signalData.ConversionSamplesX.Add((double)i);
                         signalData.ConversionSamplesY.Add(selectedGeneration((double)i));
+                    }
+
+                    for (int i = 0; i < signalData.ConversionSamplesX.Count; i++)
+                    {
+                        double diff = signalData.SamplesX.LastOrDefault();
+                        int iterator = 0;
+
+                        for (int j = 0; j < Math.Pow(2, QuantizationThresholds); j++)
+                        {
+                            if (Math.Abs(signalData.ConversionSamplesY[i] - steps[j]) <= diff)
+                            {
+                                diff = Math.Abs(signalData.ConversionSamplesY[i] - steps[j]);
+                                iterator = j;
+                            }
+                        }
+
+                        signalData.QuantizationSamplesY.Add(steps[iterator]);
                     }
                 }
 
                 for(decimal i = (decimal)T1_StartTime; i < (decimal)(T1_StartTime + D_DurationOfTheSignal); i += 1 /(decimal)ReconstructionFrequency)
                 {
                     signalData.ReconstructionSamplesX.Add((double)i);
-                    signalData.ReconstructionSamplesY.Add(generator.SincReconstruction(signalData.ConversionSamplesY,
-                                                                                       (double)i, QuantizationFrequency));
+                    signalData.ReconstructionSamplesY.Add(generator.SincReconstruction(signalData.ConversionSamplesX, signalData.QuantizationSamplesY,
+                                                                                       (double)i, SamplingFrequency, ReconstructionSamples));
                 }
 
                 SelectedTab.SignalData = signalData;
@@ -203,6 +257,11 @@ namespace ViewModel
                                                 signalData.StartTime + (signalData.SamplesY.Count / signalData.Sampling));
                 SelectedTab.DrawCharts();
             }
+        }
+
+        public void ReconstructionInfo()
+        {
+            MessageBox.Show("Wpisz 0 aby skorzystać ze wszystkich próbek", "Informacja", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         public void Load()

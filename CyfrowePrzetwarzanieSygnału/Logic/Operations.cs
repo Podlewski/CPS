@@ -258,5 +258,135 @@ namespace Logic
 
             return result;
         }
+
+        #region Filtry
+
+        public static List<double> LowPassFilter(int M, double K)
+        {
+            List<double> factors = new List<double>();
+            int center = (M - 1) / 2;
+
+            for (int i = 1; i <= M; i++)
+            {
+                double factor;
+                if (i == center)
+                {
+                    factor = 2.0 / K;
+                }
+                else
+                {
+                    factor = Math.Sin(2 * Math.PI * (i - center) / K) / (Math.PI * (i - center));
+                }
+
+                factors.Add(factor);
+            }
+
+            return factors;
+        }
+
+        public static List<double> MidPassFilter(int M, double K)
+        {
+            List<double> lowPassFactors = LowPassFilter(M, K);
+            List<double> factors = new List<double>();
+
+            for (int i = 0; i < lowPassFactors.Count; i++)
+            {
+                factors.Add(lowPassFactors[i] * 2 * Math.Sin(Math.PI * i / 2.0));
+            }
+
+            return factors;
+        }
+
+        public static List<double> HighPassFilter(int M, double K)
+        {
+            List<double> lowPassFactors = LowPassFilter(M, K);
+            List<double> factors = new List<double>();
+
+            for (int i = 0; i < lowPassFactors.Count; i++)
+            {
+                factors.Add(lowPassFactors[i] * Math.Pow(-1.0, i));
+            }
+
+            return factors;
+        }
+
+        public static List<double> RectangularWindow(List<double> filterFactors, int M)
+        {
+            return filterFactors;
+        }
+
+        public static List<double> HammingWindow(List<double> filterFactors, int M)
+        {
+            List<double> factors = new List<double>();
+
+            for (int i = 0; i < filterFactors.Count; i++)
+            {
+                double windowFactor = 0.53836 - (0.46164 * Math.Cos(2 * Math.PI * i / M));
+                factors.Add(windowFactor * filterFactors[i]);
+            }
+
+            return factors;
+        }
+
+        public static List<double> HanningWindow(List<double> filterFactors, int M)
+        {
+            List<double> factors = new List<double>();
+
+            for (int i = 0; i < filterFactors.Count; i++)
+            {
+                double windowFactor = 0.5 - (0.5 * Math.Cos(2 * Math.PI * i / M));
+                factors.Add(windowFactor * filterFactors[i]);
+            }
+
+            return factors;
+        }
+
+        public static List<double> BlackmanWindow(List<double> filterFactors, int M)
+        {
+            List<double> factors = new List<double>();
+
+            for (int i = 0; i < filterFactors.Count; i++)
+            {
+                double windowFactor = 0.42 - (0.5 * Math.Cos(2 * Math.PI * i / M)) + (0.08 * Math.Cos(4 * Math.PI * i / M));
+                factors.Add(windowFactor * filterFactors[i]);
+            }
+
+            return factors;
+        }
+
+        #endregion
+
+        #region Korelacja
+
+        public static List<double> ComputeSignal(List<double> signal1, List<double> signal2)
+        {
+            var result = new List<double>();
+
+            for (int i = 0; i < signal1.Count + signal2.Count - 1; i++)
+            {
+                double sum = 0;
+
+                for (int j = 0; j < signal1.Count; j++)
+                {
+                    if (i - j < 0 || i - j >= signal2.Count)
+                        continue;
+                    sum += signal1[j] * signal2[i - j];
+                }
+
+                result.Add(sum);
+            }
+
+            return result;
+        }
+
+        public static List<double> Corelate(List<double> signal1, List<double> signal2)
+        {
+            List<double> signal = signal1.ToList();
+            signal.Reverse();
+
+            return ComputeSignal(signal, signal2);
+        }
+
+        #endregion
     }
 }

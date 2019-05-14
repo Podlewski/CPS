@@ -169,13 +169,13 @@ namespace Logic
         {
             List<double> quantizedSignal = QuantizedSignal(orignalSignal.Count(), sampledSignal);
 
-            int N = quantizedSignal.Count;
+            int N = sampledSignal.Count;
             double fraction = 1.0 / N;
             double sum = 0;
 
             for (int i = 0; i < N; i++)
             {
-                sum += Math.Pow((orignalSignal[i] - quantizedSignal[i]), 2);
+                sum += Math.Pow((orignalSignal[i] - sampledSignal[i]), 2);
             }
 
             double result = fraction * sum;
@@ -189,7 +189,7 @@ namespace Logic
 
             double numerator = 0;
             double denominator = 0;
-            int N = quantizedSignal.Count;
+            int N = sampledSignal.Count;
 
             for (int i = 0; i < N; i++)
             {
@@ -198,7 +198,7 @@ namespace Logic
 
             for (int i = 0; i < N; i++)
             {
-                denominator += Math.Pow(orignalSignal[i] - quantizedSignal[i], 2);
+                denominator += Math.Pow(orignalSignal[i] - sampledSignal[i], 2);
             }
 
             double result = 10 * Math.Log10(numerator / denominator);
@@ -210,8 +210,8 @@ namespace Logic
         {
             List<double> quantizedSignal = QuantizedSignal(orignalSignal.Count(), sampledSignal);
 
-            double mse = MeanSquaredError(orignalSignal, quantizedSignal);
-            double numerator = quantizedSignal.Max();
+            double mse = MeanSquaredError(orignalSignal, sampledSignal);
+            double numerator = sampledSignal.Max();
 
             double result = 10 * Math.Log10(numerator / mse);
 
@@ -222,12 +222,12 @@ namespace Logic
         {
             List<double> quantizedSignal = QuantizedSignal(orignalSignal.Count(), sampledSignal);
 
-            int N = quantizedSignal.Count;
+            int N = sampledSignal.Count;
             List<double> differences = new List<double>(N);
 
             for (int i = 0; i < N; i++)
             {
-                differences.Add(Math.Abs(orignalSignal[i] - quantizedSignal[i]));
+                differences.Add(Math.Abs(orignalSignal[i] - sampledSignal[i]));
             }
 
             double result = differences.Max();
@@ -239,7 +239,7 @@ namespace Logic
         {
             List<double> quantizedSignal = QuantizedSignal(orignalSignal.Count(), sampledSignal);
 
-            double snr =  SignalToNoiseRatio(orignalSignal, quantizedSignal);
+            double snr =  SignalToNoiseRatio(orignalSignal, sampledSignal);
 
             double result = (snr - 1.76) / 6.02;
 

@@ -131,15 +131,60 @@ namespace Logic
         }
 
         // Rekonstrukcja w opraciu o Sinc
-        public double SincReconstruction(List<double> sampledY, double time, double frequency)
+        public double SincReconstruction(List<double> sampledX, List<double> sampledY, double time, double frequency, int samples)
         {
             double result = 0;
 
             double T_s = 1 / frequency;
 
-            for (int n = 0; n < sampledY.Count(); n++)
+            if (samples == 0)
             {
-                result += sampledY[n] * SinusCardinalis(time / T_s - n);
+                for (int n = 0; n < sampledY.Count(); n++)
+                {
+                    result += sampledY[n] * SinusCardinalis(time / T_s - n);
+                }
+            }
+            else
+            {
+                int index = 0;
+                double diffrence = Math.Abs(sampledX.LastOrDefault());
+
+                for (int n = 0; n < sampledX.Count(); n++)
+                {
+                    if(Math.Abs(sampledX[n] - time) < diffrence)
+                    {
+                        index = n;
+                        diffrence = Math.Abs(sampledX[n] - time);
+                    }
+                }
+
+                if (sampledX[index] == time)
+                {
+                    for (int n = index - samples; n < index + samples; n++)
+                    {
+                        if (n >= 0 && n < sampledY.Count)
+                            result += sampledY[n] * SinusCardinalis(time / T_s - n);
+                    }
+                }
+                else if (sampledX[index] > time)
+                {
+                    for (int n = index - samples; n <= index + samples - 1; n++)
+                    {
+                        if (n >= 0 && n < sampledY.Count)
+                            result += sampledY[n] * SinusCardinalis(time / T_s - n);
+                    }
+                }
+                else
+                {
+                    for (int n = index - samples + 1; n <= index + samples; n++)
+                    {
+                        if (n >= 0 && n < sampledY.Count)
+                            result += sampledY[n] * SinusCardinalis(time / T_s - n);
+                    }
+                }
+
+
+
             }
 
             return result;

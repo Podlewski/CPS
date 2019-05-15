@@ -382,6 +382,11 @@ namespace Logic
             return factors;
         }
 
+        public static List<double> CreateFilterSignal(int M, double K, Func<int, double, List<double>> filterFunction, Func<List<double>, int, List<double>> windowFunction)
+        {
+            return windowFunction(filterFunction(M, K), M);
+        }
+
         #endregion
 
 

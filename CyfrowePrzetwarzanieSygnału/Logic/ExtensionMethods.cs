@@ -58,7 +58,9 @@ namespace Logic
                 case "5":
                     return Operations.ConvoluteSignals(firstSamples, secondSamples);
                 case "6":
-                    return Operations.CorelateSignals(firstSamples, secondSamples);
+                    return Operations.DirectlyCorelateSignals(firstSamples, secondSamples);
+                case "7":
+                    return Operations.IndirectlyCorelateSignals(firstSamples, secondSamples);
                 default:
                     return null;
             }

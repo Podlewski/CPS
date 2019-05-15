@@ -279,12 +279,31 @@ namespace Logic
             return result;
         }
 
-        public static List<double> CorelateSignals(List<double> signal1, List<double> signal2)
+        public static List<double> IndirectlyCorelateSignals(List<double> signal1, List<double> signal2)
         {
-            List<double> reversedSignal = signal1.ToList();
-            reversedSignal.Reverse();
+            signal1.Reverse();
+            return ConvoluteSignals(signal1, signal2);
+        }
 
-            return ConvoluteSignals(reversedSignal, signal2);
+        public static List<double> DirectlyCorelateSignals(List<double> signal1, List<double> signal2)
+        {
+            var result = new List<double>();
+
+            for (int i = signal2.Count - 1; i >= (-1) * signal1.Count; i--)
+            {
+                double sum = 0;
+                for (int j = 0; j < signal1.Count; j++)
+                {
+                    int k = i + j;
+                    if (i + j < 0 || i + j >= signal2.Count)
+                        continue;
+
+                    sum += signal1[j] * signal2[i + j];
+                }
+                result.Add(sum);
+            }
+
+            return result;
         }
 
         #region Filtry

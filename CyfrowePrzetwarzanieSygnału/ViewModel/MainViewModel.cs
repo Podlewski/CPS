@@ -88,7 +88,8 @@ namespace ViewModel
                 "3) Mnożenie",
                 "4) Dzielenie",
                 "5) Splot",
-                "6) Korelacja"
+                "6) Korelacja (bezpośrednia)",
+                "7) Korelacja (przez Splot)"
 
             };
             SelectedOperation = OperationList[0];
@@ -211,8 +212,8 @@ namespace ViewModel
         {
             if (FirstOperationTab.SignalData.IsEmpty() && SecondOperationTab.SignalData.IsEmpty())
             {
-
-                if (SelectedOperation == "5) Splot" || SelectedOperation == "6) Korelacja")
+                if (SelectedOperation == "5) Splot" || SelectedOperation == "6) Korelacja (bezpośrednia)" ||
+                    SelectedOperation == "7) Korelacja (przez Splot)")
                 {
                     List<double> ConvolutionXSamples = new List<double>();
 

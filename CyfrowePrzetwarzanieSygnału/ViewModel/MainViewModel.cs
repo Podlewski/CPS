@@ -17,7 +17,8 @@ namespace ViewModel
         public ICommand AddTabCommand { get; set; }
         public ICommand GenerateCommand { get; set; }
         public ICommand ComputeCommand { get; set; }
-        public ICommand ReconstructionInfoCommand { get; set; }
+        public ICommand CreateFilterCommand { get; set; }
+        public ICommand SamplingReconstructionInfoCommand { get; set; }
         public ICommand LoadCommand { get; set; }
         public ICommand SaveCommand { get; set; }
         public ICommand QuitCommand { get; set; }
@@ -31,12 +32,17 @@ namespace ViewModel
         public TabViewModel FirstOperationTab { get; set; }
         public TabViewModel SecondOperationTab { get; set; }
 
-
         public List<string> SignalList { get; set; }
         public string SelectedSignal { get; set; }
 
         public List<string> OperationList { get; set; }
         public string SelectedOperation { get; set; }
+
+        public List<string> FilterList { get; set; }
+        public string SelectedFilter { get; set; }
+
+        public List<string> WindowList { get; set; }
+        public string SelectedWindow { get; set; }
 
         #region Factors
 
@@ -52,6 +58,8 @@ namespace ViewModel
         public int QuantizationThresholds { get; set; } = 8;
         public int ReconstructionFrequency { get; set; } = 1000;
         public int ReconstructionSamples { get; set; } = 0;
+        public int M { get; set; } = 0;
+        public int K { get; set; } = 0;
 
         #endregion
 
@@ -94,10 +102,30 @@ namespace ViewModel
             };
             SelectedOperation = OperationList[0];
 
+            FilterList = new List<string>()
+            {
+                "1) Filtr dolnoprzepustowy",
+                "2) Filtr środkowoprzepustowy",
+                "3) Filtr górnoprzepustowy"
+
+            };
+            SelectedFilter = FilterList[0];
+
+            WindowList = new List<string>()
+            {
+                "1) Okno prostokątne",
+                "2) Okno Hamminga",
+                "3) Okno Hanninga",
+                "4) Okno Blackmana"
+
+            };
+            SelectedWindow = WindowList[0];
+
             AddTabCommand = new RelayCommand(AddTab);
             GenerateCommand = new RelayCommand(Generate);
             ComputeCommand = new RelayCommand(Compute);
-            ReconstructionInfoCommand = new RelayCommand(ReconstructionInfo);
+            CreateFilterCommand = new RelayCommand(CreateFilter);
+            SamplingReconstructionInfoCommand = new RelayCommand(SamplingReconstructionInfo);
             LoadCommand = new RelayCommand(Load);
             SaveCommand = new RelayCommand(Save);
             QuitCommand = new RelayCommand(Quit);
@@ -263,7 +291,51 @@ namespace ViewModel
             }
         }
 
-        public void ReconstructionInfo()
+        public void CreateFilter()
+        {
+            Func<int, double, List<double>> filterFunction = null;
+            Func<List<double>, int, List<double>> windowFunction = null;
+
+            switch (SelectedFilter.Substring(1, 1))
+            {
+                case "1":
+                    filterFunction = Operations.LowPassFilter;
+                    break;
+                case "2":
+                    filterFunction = Operations.MidPassFilter;
+                    break;
+                case "3:":
+                    filterFunction = Operations.HighPassFilter;
+                    break;
+            }
+
+            switch (SelectedWindow.Substring(1, 1))
+            {
+                case "1":
+                    windowFunction = Operations.RectangularWindow;
+                    break;
+                case "2":
+                    windowFunction = Operations.HammingWindow;
+                    break;
+                case "3":
+                    windowFunction = Operations.HanningWindow;
+                    break;
+                case "4":
+                    windowFunction = Operations.BlackmanWindow;
+                    break;
+            }
+
+            SignalData signalData = new SignalData
+            {
+                SamplesY = Logic.Operations.CreateFilterSignal(M, K, filterFunction, windowFunction)
+            };
+
+            SelectedTab.SignalData = signalData;
+            SelectedTab.IsScattered = true;
+            SelectedTab.DrawCharts(false);
+        }
+
+        public void SamplingReconstructionInfo()
         {
             MessageBox.Show("Wpisz 0 aby skorzystać ze wszystkich próbek", "Informacja", MessageBoxButton.OK, MessageBoxImage.Information);
         }

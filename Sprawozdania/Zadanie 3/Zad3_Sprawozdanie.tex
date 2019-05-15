@@ -1,0 +1,96 @@
+\documentclass[12pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[T1]{polski}
+\usepackage[cp1250]{inputenc}
+\newcommand{\BibTeX}{{\sc Bib}\TeX} 
+\usepackage{graphicx}
+\usepackage{amsfonts}
+\usepackage{float}
+
+\setlength{\textheight}{21cm}
+
+\title{{\bf Zadanie nr 2 - Próbkowanie i kwantyzacja}\linebreak
+Cyfrowe Przetwarzanie Sygnalów}
+\author{Justyna Hubert, 210200 \and Karol Podlewski, 210294}
+\date{17.04.2019}
+
+\begin{document}
+\clearpage\maketitle
+\thispagestyle{empty}
+\newpage
+\setcounter{page}{1}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% CEL ZADANIA
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Cel zadania}
+Celem æwiczenia jest zapoznanie sie z praktycznymi aspektami filtracji, korelacji oraz operacji splotu.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% WSTEP TEORETYCZNY
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Wstep teoretyczny}
+Jest to usprawniony program z zadania 1 oraz 2, dostosowany do instrukcji z zadania trzeciego ~\cite{instrukcja}. \\
+
+Zadanie polegalo na zaimplementowaniu algorytmu, który umo¿liwi projektowanie filtrów dolnoprzepustowycho zadanej liczbie wspólczynnikówi zadanej czestotliwosci obciecia z wykorzystaniem okna prostokatnego, zastosowaniu dodatkowych okien:
+\begin{itemize}
+	\item (O1) okno Hamminga,
+	\item (O2) okno Hanninga,
+	\item (O3) okno Blackmana,
+\end{itemize}
+
+Ponadto, w ramach realizacji æwiczenia nale¿alo zaprojektowac filtr z mo¿liwoscia wyboru funkcji okna i parametrów filtru jak wy¿ej:
+\begin{itemize}
+	\item (F1) srodkowoprzepustowy,
+	\item (F2) górnoprzepustowy,
+\end{itemize} 
+
+Nale¿alo tak¿e zaimplementowac operacje filtracji podstawiajac odpowiedz impulsowa filtru do wzoru na splot, zademonstrowac efekt filtracji na arbitralnie wybranych sygnalach testowych. Ponadto, wymagana jest implementacja operacji korelacji dla dowolnych dwóch sygnalów dyskretnych o arbitralnie podanych ilosciach próbek wzbogacone o dwa obligatoryjne warianty:
+\begin{itemize}
+	\item implementacje bezposrednia,
+	\item implementacje z u¿yciem splotu,
+\end{itemize}
+
+Celem czesci zadania zwiazanej z zastosowaniem analizy korelacyjnej (pomiaru dlugosci) byla symulacja dzialania korelacyjnego czujnika odleglosci. 
+
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SEKCJA EKSPERYMENTÓW
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Eksperymenty i wyniki}
+Eksperymenty postanowilismy przeprowadzic na trzech rodzajach sygnalów: sinusoidalnym, sinusoidalnym wyprostowanym jednopolówkowo oraz trójkatnym. Zaprezentujemy proces konwersji analogowo-cyfrowej i cyfrowo-analogowej.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%% EKSPERYMENT #1  
+\subsection{Sygnal sinusoidalny}
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=0.7\textwidth]{{Rysunki/SinParametry.png}}
+	\caption{Parametry, które przyjmuje funkcja sinusoidalna.}
+\end{figure}
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%% EKSPERYMENT #2  
+\subsection{Sygnal sinusoidalny}
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% WNIOSKI
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Wnioski}
+Aplikacja zostala napisana zgodnie z instrukcj¹ do zadania ~\cite{instrukcja}. Program poprawnie implementuje operacje splotu, filtracji oraz korelacji. Aplikacja zostala napisana w sposób, aby umo¿liwiaj¹cy nam rozszerzenie jej o kolejne funkcjonalnosci
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% BIBLIOGRAFIA
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand\refname{Bibliografia}
+\bibliographystyle{plain}
+\bibliography{Zad2_Bibliografia}
+
+\end{document}

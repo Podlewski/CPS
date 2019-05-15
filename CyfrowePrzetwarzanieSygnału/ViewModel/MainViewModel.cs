@@ -87,6 +87,9 @@ namespace ViewModel
                 "2) Odejmowanie",
                 "3) Mnożenie",
                 "4) Dzielenie",
+                "5) Splot",
+                "6) Korelacja"
+
             };
             SelectedOperation = OperationList[0];
 
@@ -106,29 +109,29 @@ namespace ViewModel
 
         public void Generate()
         {
-            if (Frequency < SamplingFrequency)
-            {
-                MessageBox.Show("Częstość jest mniejsza od częstotliwości próbkowania. Zamieniam", "Ostrzeżenie", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //if (Frequency < SamplingFrequency)
+            //{
+            //    MessageBox.Show("Częstość jest mniejsza od częstotliwości próbkowania. Zamieniam", "Ostrzeżenie", MessageBoxButton.OK, MessageBoxImage.Warning);
 
-                int tmpFrequency = Frequency;
-                Frequency = SamplingFrequency;
-                SamplingFrequency = tmpFrequency;
-                OnPropertyChanged(nameof(Frequency));
-                OnPropertyChanged(nameof(SamplingFrequency));
-            }
-            if (Frequency < ReconstructionFrequency)
-            {
-                MessageBox.Show("Częstość jest mniejsza od częstotliwości rekonstrukcji. Zwiększam", "Ostrzeżenie", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //    int tmpFrequency = Frequency;
+            //    Frequency = SamplingFrequency;
+            //    SamplingFrequency = tmpFrequency;
+            //    OnPropertyChanged(nameof(Frequency));
+            //    OnPropertyChanged(nameof(SamplingFrequency));
+            //}
+            //if (Frequency < ReconstructionFrequency)
+            //{
+            //    MessageBox.Show("Częstość jest mniejsza od częstotliwości rekonstrukcji. Zwiększam", "Ostrzeżenie", MessageBoxButton.OK, MessageBoxImage.Warning);
 
-                Frequency = ReconstructionFrequency;
-                OnPropertyChanged(nameof(Frequency));
-            }
-            if (Frequency < 100)
-            {
-                MessageBox.Show("Częstość próbkowania zwiększona do 100.", "Ostrzeżenie", MessageBoxButton.OK, MessageBoxImage.Warning);
-                Frequency = 100;
-                OnPropertyChanged(nameof(Frequency));
-            }
+            //    Frequency = ReconstructionFrequency;
+            //    OnPropertyChanged(nameof(Frequency));
+            //}
+            //if (Frequency < 100)
+            //{
+            //    MessageBox.Show("Częstość próbkowania zwiększona do 100.", "Ostrzeżenie", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //    Frequency = 100;
+            //    OnPropertyChanged(nameof(Frequency));
+            //}
             //if (Frequency % SamplingFrequency != 0)
             //{
             //    MessageBox.Show("Częstotliwości próbkowania nie są dzielnikiem oraz dzielną. Osobne generowanie", "Ostrzeżenie", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -226,7 +229,8 @@ namespace ViewModel
                 SelectedTab.SignalData = signalData;
                 SelectedTab.IsScattered = SelectedSignal.IsGenerationScattered();
                 SelectedTab.CalculateSignalInfo(T1_StartTime, T1_StartTime + D_DurationOfTheSignal);
-                SelectedTab.DrawCharts();
+                SelectedTab.CalculateReconstructionInfo();
+                SelectedTab.DrawCharts(true);
             }
         }
 
@@ -234,28 +238,54 @@ namespace ViewModel
         {
             if (FirstOperationTab.SignalData.IsEmpty() && SecondOperationTab.SignalData.IsEmpty())
             {
-                string message = "";
 
-                if (SecondOperationTab.SignalData.IsInvalid(FirstOperationTab.SignalData, message))
+                if (SelectedOperation == "5) Splot")
                 {
-                    MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
+                    List<double> ConvolutionXSamples = new List<double>();
+
+                    int FirstTabSamplesCounter = FirstOperationTab.SignalData.SamplesX.Count;
+                    int SecondTabSamplesCounter = SecondOperationTab.SignalData.SamplesX.Count;
+
+                    for (int i = 0; i < FirstTabSamplesCounter + SecondTabSamplesCounter - 1; i++)
+                        ConvolutionXSamples.Add(i);
+
+                    SignalData signalData = new SignalData(0, 0, 0)
+                    {
+                        SamplesX = ConvolutionXSamples,
+                        SamplesY = SelectedOperation.SignalOperation(FirstOperationTab.SignalData.SamplesY,
+                                                                SecondOperationTab.SignalData.SamplesY)
+                    };
+
+                    SelectedTab.SignalData = signalData;
+                    SelectedTab.IsScattered = true;
+                    SelectedTab.DrawCharts(false);
                 }
 
-                SignalData signalData = new SignalData(FirstOperationTab.SignalData.StartTime,
-                                                       FirstOperationTab.SignalData.Sampling,
-                                                       FirstOperationTab.SignalData.ConversionSampling)
+                else
                 {
-                    SamplesX = FirstOperationTab.SignalData.SamplesX,
-                    SamplesY = SelectedOperation.SignalOperation(FirstOperationTab.SignalData.SamplesY,
-                                                            SecondOperationTab.SignalData.SamplesY)
-                };
+                    string message = "";
 
-                SelectedTab.SignalData = signalData;
-                SelectedTab.IsScattered = true;
-                SelectedTab.CalculateSignalInfo(signalData.StartTime,
-                                                signalData.StartTime + (signalData.SamplesY.Count / signalData.Sampling));
-                SelectedTab.DrawCharts();
+                    if (SecondOperationTab.SignalData.IsInvalid(FirstOperationTab.SignalData, message))
+                    {
+                        MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    SignalData signalData = new SignalData(FirstOperationTab.SignalData.StartTime,
+                                                           FirstOperationTab.SignalData.Sampling,
+                                                           FirstOperationTab.SignalData.ConversionSampling)
+                    {
+                        SamplesX = FirstOperationTab.SignalData.SamplesX,
+                        SamplesY = SelectedOperation.SignalOperation(FirstOperationTab.SignalData.SamplesY,
+                                                                SecondOperationTab.SignalData.SamplesY)
+                    };
+
+                    SelectedTab.SignalData = signalData;
+                    SelectedTab.IsScattered = true;
+                    SelectedTab.CalculateSignalInfo(signalData.StartTime,
+                                                    signalData.StartTime + (signalData.SamplesY.Count / signalData.Sampling));
+                    SelectedTab.DrawCharts(false);
+                }
             }
         }
 
@@ -269,8 +299,7 @@ namespace ViewModel
             try
             {
                 SelectedTab.LoadDataFromFile(LoadPath(true));
-                SelectedTab.DrawCharts(); 
-                SelectedTab.CalculateSignalInfo(isDiscrete: true, fromSamples: true);
+                SelectedTab.DrawCharts(false); 
             }
             catch
             {

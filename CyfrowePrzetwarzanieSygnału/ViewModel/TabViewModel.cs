@@ -79,28 +79,16 @@ namespace ViewModel
             SliderValue = 10;
         }
 
-        public void DrawCharts()
+        public void DrawCharts(bool reconstruction)
         {
             var mapper = Mappers.Xy<Logic.Point>()
                 .X(value => value.X)
                 .Y(value => value.Y);
 
             ChartValues<Logic.Point> values = new ChartValues<Logic.Point>();
-            ChartValues<Logic.Point> samplingValues = new ChartValues<Logic.Point>();
-            ChartValues<Logic.Point> quantizationValues = new ChartValues<Logic.Point>();
-            ChartValues<Logic.Point> reconstructionValues = new ChartValues<Logic.Point>();
 
             for (int i = 0; i < SignalData.SamplesX.Count; i++)
                 values.Add(new Logic.Point(SignalData.SamplesX[i], SignalData.SamplesY[i]));
-
-            for (int i = 0; i < SignalData.ConversionSamplesX.Count; i++)
-                samplingValues.Add(new Logic.Point(SignalData.ConversionSamplesX[i], SignalData.ConversionSamplesY[i]));
-
-            for (int i = 0; i < SignalData.ConversionSamplesX.Count; i++)
-                quantizationValues.Add(new Logic.Point(SignalData.ConversionSamplesX[i], SignalData.QuantizationSamplesY[i]));
-
-            for (int i = 0; i < SignalData.ReconstructionSamplesX.Count; i++)
-                reconstructionValues.Add(new Logic.Point(SignalData.ReconstructionSamplesX[i], SignalData.ReconstructionSamplesY[i]));
 
             if (IsScattered)
             {
@@ -130,86 +118,6 @@ namespace ViewModel
                 };
             }
 
-            SamplingChart = new SeriesCollection(mapper)
-            {
-                new LineSeries()
-                {
-                    PointGeometry = null,
-                    StrokeThickness = 3,
-                    Values = values,
-                    Fill = Brushes.Transparent,
-                    Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#34414F"))
-                },
-                new ScatterSeries()
-                {
-                    PointGeometry = new EllipseGeometry(),
-                    StrokeThickness = 5,
-                    Values = samplingValues,
-                    Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#26A0DA"))
-                }
-            };
-
-            QuantizationChart = new SeriesCollection(mapper)
-            {
-                new LineSeries()
-                {
-                    PointGeometry = null,
-                    StrokeThickness = 3,
-                    Values = values,
-                    Fill = Brushes.Transparent,
-                    Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#34414F"))
-                },
-                new StepLineSeries()
-                {
-                    PointGeometry = null,
-                    StrokeThickness = 3,
-                    Values = quantizationValues,
-                    Fill = Brushes.Transparent,
-                    Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#26A0DA"))
-                }
-            };
-
-            InterpolationChart = new SeriesCollection(mapper)
-            {
-                new LineSeries()
-                {
-                    PointGeometry = null,
-                    StrokeThickness = 3,
-                    Values = values,
-                    Fill = Brushes.Transparent,
-                    Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#34414F"))
-                },
-                new LineSeries()
-                {
-                    PointGeometry = null,
-                    StrokeThickness = 3,
-                    LineSmoothness = 0,
-                    Values = quantizationValues,
-                    Fill = Brushes.Transparent,
-                    Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#26A0DA"))
-                }
-            };
-
-            ReconstructionChart = new SeriesCollection(mapper)
-            {
-                new LineSeries()
-                {
-                    PointGeometry = null,
-                    StrokeThickness = 3,
-                    Values = values,
-                    Fill = Brushes.Transparent,
-                    Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#34414F"))
-                },
-                new LineSeries()
-                {
-                    PointGeometry = null,
-                    StrokeThickness = 3,
-                    Values = reconstructionValues,
-                    Fill = Brushes.Transparent,
-                    Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#26A0DA"))
-                }
-            };
-
             var histogramResults = SignalData.GetDataForHistogram(SliderValue);
             HistogramStep = 1;
             Histogram = new SeriesCollection
@@ -225,11 +133,108 @@ namespace ViewModel
             Labels = histogramResults.Select(n => n.Item1 + " do " + n.Item2).ToArray();
 
             OnPropertyChanged(nameof(Chart));
-            OnPropertyChanged(nameof(SamplingChart));
-            OnPropertyChanged(nameof(QuantizationChart));
-            OnPropertyChanged(nameof(InterpolationChart));
-            OnPropertyChanged(nameof(ReconstructionChart));
             OnPropertyChanged(nameof(Histogram));
+
+            if (reconstruction)
+            {
+                ChartValues<Logic.Point> samplingValues = new ChartValues<Logic.Point>();
+                ChartValues<Logic.Point> quantizationValues = new ChartValues<Logic.Point>();
+                ChartValues<Logic.Point> reconstructionValues = new ChartValues<Logic.Point>();
+
+                for (int i = 0; i < SignalData.ConversionSamplesX.Count; i++)
+                    samplingValues.Add(new Logic.Point(SignalData.ConversionSamplesX[i], SignalData.ConversionSamplesY[i]));
+
+                for (int i = 0; i < SignalData.ConversionSamplesX.Count; i++)
+                    quantizationValues.Add(new Logic.Point(SignalData.ConversionSamplesX[i], SignalData.QuantizationSamplesY[i]));
+
+                for (int i = 0; i < SignalData.ReconstructionSamplesX.Count; i++)
+                    reconstructionValues.Add(new Logic.Point(SignalData.ReconstructionSamplesX[i], SignalData.ReconstructionSamplesY[i]));
+
+                SamplingChart = new SeriesCollection(mapper)
+                {
+                    new LineSeries()
+                    {
+                        PointGeometry = null,
+                        StrokeThickness = 3,
+                        Values = values,
+                        Fill = Brushes.Transparent,
+                        Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#34414F"))
+                    },
+                    new ScatterSeries()
+                    {
+                        PointGeometry = new EllipseGeometry(),
+                        StrokeThickness = 5,
+                        Values = samplingValues,
+                        Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#26A0DA"))
+                    }
+                };
+
+                QuantizationChart = new SeriesCollection(mapper)
+                {
+                    new LineSeries()
+                    {
+                        PointGeometry = null,
+                        StrokeThickness = 3,
+                        Values = values,
+                        Fill = Brushes.Transparent,
+                        Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#34414F"))
+                    },
+                    new StepLineSeries()
+                    {
+                        PointGeometry = null,
+                        StrokeThickness = 3,
+                        Values = quantizationValues,
+                        Fill = Brushes.Transparent,
+                        Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#26A0DA"))
+                    }
+                };
+
+                InterpolationChart = new SeriesCollection(mapper)
+                {
+                    new LineSeries()
+                    {
+                        PointGeometry = null,
+                        StrokeThickness = 3,
+                        Values = values,
+                        Fill = Brushes.Transparent,
+                        Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#34414F"))
+                    },
+                    new LineSeries()
+                    {
+                        PointGeometry = null,
+                        StrokeThickness = 3,
+                        LineSmoothness = 0,
+                        Values = quantizationValues,
+                        Fill = Brushes.Transparent,
+                        Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#26A0DA"))
+                    }
+                };
+
+                ReconstructionChart = new SeriesCollection(mapper)
+                {
+                    new LineSeries()
+                    {
+                        PointGeometry = null,
+                        StrokeThickness = 3,
+                        Values = values,
+                        Fill = Brushes.Transparent,
+                        Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#34414F"))
+                    },
+                    new LineSeries()
+                    {
+                        PointGeometry = null,
+                        StrokeThickness = 3,
+                        Values = reconstructionValues,
+                        Fill = Brushes.Transparent,
+                        Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#26A0DA"))
+                    }
+                };
+
+                OnPropertyChanged(nameof(SamplingChart));
+                OnPropertyChanged(nameof(QuantizationChart));
+                OnPropertyChanged(nameof(InterpolationChart));
+                OnPropertyChanged(nameof(ReconstructionChart));
+            }
         }
 
 
@@ -238,30 +243,34 @@ namespace ViewModel
             return TabName;
         }
 
-        public void CalculateSignalInfo(double t1 = 0, double t2 = 0, bool isDiscrete = false, bool fromSamples = false)
+        public void CalculateSignalInfo(double t1 = 0, double t2 = 0, bool isDiscrete = false)
         {
-            List<double> points;
-            List<double> reconstructionPoints;
-
-            points = SignalData.SamplesY;
-            reconstructionPoints = SignalData.ReconstructionSamplesY;
+            List<double> points = SignalData.SamplesY;
 
             AverageValue = Operations.Average(points, t1, t2, isDiscrete);
             AverageAbsValue = Operations.AbsAverage(points, t1, t2, isDiscrete);
             RootMeanSquare = Operations.RootMeanSquare(points, t1, t2, isDiscrete);
             Variance = Operations.Variance(points, t1, t2, isDiscrete);
             AveragePower = Operations.AveragePower(points, t1, t2, isDiscrete);
-            MeanSquaredErrorValue = Operations.MeanSquaredError(points, reconstructionPoints);
-            SignalToNoiseRatioValue = Operations.SignalToNoiseRatio(points, reconstructionPoints);
-            PeakSignalToNoiseRatioValue = Operations.PeakSignalToNoiseRatio(points, reconstructionPoints);
-            MaximumDifferenceValue = Operations.MaximumDifference(points, reconstructionPoints);
-            EffectiveNumberOfBitsValue = Operations.EffectiveNumberOfBits(points, reconstructionPoints);
 
             OnPropertyChanged(nameof(AverageValue));
             OnPropertyChanged(nameof(AverageAbsValue));
             OnPropertyChanged(nameof(RootMeanSquare));
             OnPropertyChanged(nameof(Variance));
             OnPropertyChanged(nameof(AveragePower));
+        }
+
+        public void CalculateReconstructionInfo()
+        {
+            List<double> points = SignalData.SamplesY;
+            List<double> reconstructionPoints = SignalData.ReconstructionSamplesY;
+
+            MeanSquaredErrorValue = Operations.MeanSquaredError(points, reconstructionPoints);
+            SignalToNoiseRatioValue = Operations.SignalToNoiseRatio(points, reconstructionPoints);
+            PeakSignalToNoiseRatioValue = Operations.PeakSignalToNoiseRatio(points, reconstructionPoints);
+            MaximumDifferenceValue = Operations.MaximumDifference(points, reconstructionPoints);
+            EffectiveNumberOfBitsValue = Operations.EffectiveNumberOfBits(points, reconstructionPoints);
+
             OnPropertyChanged(nameof(MeanSquaredErrorValue));
             OnPropertyChanged(nameof(SignalToNoiseRatioValue));
             OnPropertyChanged(nameof(PeakSignalToNoiseRatioValue));

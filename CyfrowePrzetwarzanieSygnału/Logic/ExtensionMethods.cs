@@ -55,6 +55,10 @@ namespace Logic
                     return Operations.MultiplySignals(firstSamples, secondSamples);
                 case "4":
                     return Operations.DivideSignals(firstSamples, secondSamples);
+                case "5":
+                    return Operations.ConvoluteSignals(firstSamples, secondSamples);
+                case "6":
+                    return Operations.DivideSignals(firstSamples, secondSamples);
                 default:
                     return null;
             }

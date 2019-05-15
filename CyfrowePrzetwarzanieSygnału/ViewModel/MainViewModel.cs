@@ -212,7 +212,7 @@ namespace ViewModel
             if (FirstOperationTab.SignalData.IsEmpty() && SecondOperationTab.SignalData.IsEmpty())
             {
 
-                if (SelectedOperation == "5) Splot")
+                if (SelectedOperation == "5) Splot" || SelectedOperation == "6) Korelacja")
                 {
                     List<double> ConvolutionXSamples = new List<double>();
 
@@ -225,8 +225,8 @@ namespace ViewModel
                     SignalData signalData = new SignalData(0, 0, 0)
                     {
                         SamplesX = ConvolutionXSamples,
-                        SamplesY = SelectedOperation.SignalOperation(FirstOperationTab.SignalData.SamplesY,
-                                                                SecondOperationTab.SignalData.SamplesY)
+                        SamplesY = SelectedOperation.SignalOperation(FirstOperationTab.SignalData.ConversionSamplesY,
+                                                                SecondOperationTab.SignalData.ConversionSamplesY)
                     };
 
                     SelectedTab.SignalData = signalData;

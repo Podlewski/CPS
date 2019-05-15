@@ -279,6 +279,14 @@ namespace Logic
             return result;
         }
 
+        public static List<double> CorelateSignals(List<double> signal1, List<double> signal2)
+        {
+            List<double> reversedSignal = signal1.ToList();
+            reversedSignal.Reverse();
+
+            return ConvoluteSignals(reversedSignal, signal2);
+        }
+
         #region Filtry
 
         public static List<double> LowPassFilter(int M, double K)
@@ -376,37 +384,6 @@ namespace Logic
 
         #endregion
 
-        #region Korelacja
 
-        public static List<double> ComputeSignal(List<double> signal1, List<double> signal2)
-        {
-            var result = new List<double>();
-
-            for (int i = 0; i < signal1.Count + signal2.Count - 1; i++)
-            {
-                double sum = 0;
-
-                for (int j = 0; j < signal1.Count; j++)
-                {
-                    if (i - j < 0 || i - j >= signal2.Count)
-                        continue;
-                    sum += signal1[j] * signal2[i - j];
-                }
-
-                result.Add(sum);
-            }
-
-            return result;
-        }
-
-        public static List<double> Corelate(List<double> signal1, List<double> signal2)
-        {
-            List<double> signal = signal1.ToList();
-            signal.Reverse();
-
-            return ComputeSignal(signal, signal2);
-        }
-
-        #endregion
     }
 }

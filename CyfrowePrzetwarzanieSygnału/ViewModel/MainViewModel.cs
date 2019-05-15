@@ -109,33 +109,6 @@ namespace ViewModel
 
         public void Generate()
         {
-            //if (Frequency < SamplingFrequency)
-            //{
-            //    MessageBox.Show("Częstość jest mniejsza od częstotliwości próbkowania. Zamieniam", "Ostrzeżenie", MessageBoxButton.OK, MessageBoxImage.Warning);
-
-            //    int tmpFrequency = Frequency;
-            //    Frequency = SamplingFrequency;
-            //    SamplingFrequency = tmpFrequency;
-            //    OnPropertyChanged(nameof(Frequency));
-            //    OnPropertyChanged(nameof(SamplingFrequency));
-            //}
-            //if (Frequency < ReconstructionFrequency)
-            //{
-            //    MessageBox.Show("Częstość jest mniejsza od częstotliwości rekonstrukcji. Zwiększam", "Ostrzeżenie", MessageBoxButton.OK, MessageBoxImage.Warning);
-
-            //    Frequency = ReconstructionFrequency;
-            //    OnPropertyChanged(nameof(Frequency));
-            //}
-            //if (Frequency < 100)
-            //{
-            //    MessageBox.Show("Częstość próbkowania zwiększona do 100.", "Ostrzeżenie", MessageBoxButton.OK, MessageBoxImage.Warning);
-            //    Frequency = 100;
-            //    OnPropertyChanged(nameof(Frequency));
-            //}
-            //if (Frequency % SamplingFrequency != 0)
-            //{
-            //    MessageBox.Show("Częstotliwości próbkowania nie są dzielnikiem oraz dzielną. Osobne generowanie", "Ostrzeżenie", MessageBoxButton.OK, MessageBoxImage.Warning);
-            //}
 
             Generator generator = new Generator()
             {
@@ -239,12 +212,12 @@ namespace ViewModel
             if (FirstOperationTab.SignalData.IsEmpty() && SecondOperationTab.SignalData.IsEmpty())
             {
 
-                if (SelectedOperation == "5) Splot")
+                if (SelectedOperation == "5) Splot" || SelectedOperation == "6) Korelacja")
                 {
                     List<double> ConvolutionXSamples = new List<double>();
 
-                    int FirstTabSamplesCounter = FirstOperationTab.SignalData.SamplesX.Count;
-                    int SecondTabSamplesCounter = SecondOperationTab.SignalData.SamplesX.Count;
+                    int FirstTabSamplesCounter = FirstOperationTab.SignalData.ConversionSamplesX.Count;
+                    int SecondTabSamplesCounter = SecondOperationTab.SignalData.ConversionSamplesX.Count;
 
                     for (int i = 0; i < FirstTabSamplesCounter + SecondTabSamplesCounter - 1; i++)
                         ConvolutionXSamples.Add(i);
@@ -252,8 +225,8 @@ namespace ViewModel
                     SignalData signalData = new SignalData(0, 0, 0)
                     {
                         SamplesX = ConvolutionXSamples,
-                        SamplesY = SelectedOperation.SignalOperation(FirstOperationTab.SignalData.SamplesY,
-                                                                SecondOperationTab.SignalData.SamplesY)
+                        SamplesY = SelectedOperation.SignalOperation(FirstOperationTab.SignalData.ConversionSamplesY,
+                                                                SecondOperationTab.SignalData.ConversionSamplesY)
                     };
 
                     SelectedTab.SignalData = signalData;
@@ -275,15 +248,15 @@ namespace ViewModel
                                                            FirstOperationTab.SignalData.Sampling,
                                                            FirstOperationTab.SignalData.ConversionSampling)
                     {
-                        SamplesX = FirstOperationTab.SignalData.SamplesX,
-                        SamplesY = SelectedOperation.SignalOperation(FirstOperationTab.SignalData.SamplesY,
-                                                                SecondOperationTab.SignalData.SamplesY)
+                        SamplesX = FirstOperationTab.SignalData.ConversionSamplesX,
+                        SamplesY = SelectedOperation.SignalOperation(FirstOperationTab.SignalData.ConversionSamplesY,
+                                                                SecondOperationTab.SignalData.ConversionSamplesY)
                     };
 
                     SelectedTab.SignalData = signalData;
                     SelectedTab.IsScattered = true;
                     SelectedTab.CalculateSignalInfo(signalData.StartTime,
-                                                    signalData.StartTime + (signalData.SamplesY.Count / signalData.Sampling));
+                                                    signalData.StartTime + (signalData.ConversionSamplesY.Count / signalData.ConversionSampling));
                     SelectedTab.DrawCharts(false);
                 }
             }

@@ -25,23 +25,15 @@
                 <MenuItem Header="Wczytaj kartę" Foreground="Black" Command="{Binding LoadCommand}" />
                 <MenuItem Header="Zamknij" Foreground="Black" Command="{Binding QuitCommand}" />
             </MenuItem>
-            <!--<MenuItem Header="Analiza" Margin="5 0 0 0" Height="25" Foreground="White">
-                <MenuItem Header="Wczytaj artykuły" Foreground="Black" />
-                <MenuItem Header="Stwórz macierz" Foreground="Black" />
-            </MenuItem>
-            <MenuItem Header="Pomoc" Margin="5 0 0 0" Height="25" Foreground="White">
-                <MenuItem Header="O programie" Foreground="Black" />
-            </MenuItem>-->
         </Menu>
-
 
         <TabControl Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Background="#454545" Margin="20 40 10 20" ItemContainerStyle="{DynamicResource TabItemStyle}" >
             <TabItem Header="Generacja">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="0.6*"/>
-                        <RowDefinition Height="1.0*"/>
-                        <RowDefinition Height="0.2*"/>
+                        <RowDefinition Height="0.8*"/>
+                        <RowDefinition Height="1.05*"/>
+                        <RowDefinition Height="0.15*"/>
                     </Grid.RowDefinitions>
 
                     <!-- Rodzaj sygnału -->
@@ -53,7 +45,6 @@
                     <GroupBox Grid.Row="1" Margin="10 5 10 5" Foreground="White" Style="{DynamicResource GroupBoxStyle}" Header=" Parametry " >
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition/>
                                 <RowDefinition/>
                                 <RowDefinition/>
                                 <RowDefinition/>
@@ -81,10 +72,9 @@
                             <Label Margin="5 0 0 0" Grid.Row="5" Grid.Column="0" FontSize="12px" Foreground="White" Content="Czas skoku (ts):"/>
                             <Label Margin="5 0 0 0" Grid.Row="6" Grid.Column="0" FontSize="12px" Foreground="White" Content="Prawdopodobieństwo (p):"/>
                             <Label Margin="5 0 0 0" Grid.Row="8" Grid.Column="0" FontSize="12px" Foreground="White" Content="Częstotliwość próbkowania:"/>
-                            <Label Margin="5 0 0 0" Grid.Row="9" Grid.Column="0" FontSize="12px" Foreground="White" Content="Częst. próbkowania (próbkowanie):"/>
-                            <Label Margin="5 0 0 0" Grid.Row="10" Grid.Column="0" FontSize="12px" Foreground="White" Content="Progi kwantyzacji:"/>
-                            <Label Margin="5 0 0 0" Grid.Row="11" Grid.Column="0" FontSize="12px" Foreground="White" Content="Częst. próbkowania (rekonsutrkcja):"/>
-                            <Label Margin="5 0 0 0" Grid.Row="12" Grid.Column="0" FontSize="12px" Foreground="White" Content="Liczba próbek (rekonsutrkcja):"/>
+                            <Label Margin="5 0 0 0" Grid.Row="9" Grid.Column="0" FontSize="12px" Foreground="White" Content="Progi kwantyzacji:"/>
+                            <Label Margin="5 0 0 0" Grid.Row="10" Grid.Column="0" FontSize="12px" Foreground="White" Content="Częst. próbkowania (rekonsutrkcja):"/>
+                            <Label Margin="5 0 0 0" Grid.Row="11" Grid.Column="0" FontSize="12px" Foreground="White" Content="Liczba próbek (rekonsutrkcja):"/>
 
                             <TextBox Grid.Row="0" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding A_Amplitude}"/>
                             <TextBox Grid.Row="1" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding T1_StartTime}"/>
@@ -93,11 +83,10 @@
                             <TextBox Grid.Row="4" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding Kw_DutyCycle}"/>
                             <TextBox Grid.Row="5" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding Ts_TimeStep}"/>
                             <TextBox Grid.Row="6" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding P_Probability}"/>
-                            <TextBox Grid.Row="8" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding Frequency}" />
-                            <TextBox Grid.Row="9" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding SamplingFrequency}"/>
-                            <TextBox Grid.Row="10" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding QuantizationThresholds}"/>
-                            <TextBox Grid.Row="11" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding ReconstructionFrequency}"/>
-                            <TextBox Grid.Row="12" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding ReconstructionSamples}"/>
+                            <TextBox Grid.Row="8" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding SamplingFrequency}"/>
+                            <TextBox Grid.Row="9" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding QuantizationThresholds}"/>
+                            <TextBox Grid.Row="10" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding ReconstructionFrequency}"/>
+                            <TextBox Grid.Row="11" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding ReconstructionSamples}"/>
 
                             <Label Grid.Row="0" Grid.Column="2" FontSize="12px" Foreground="White" Content=""/>
                             <Label Grid.Row="1" Grid.Column="2" FontSize="12px" Foreground="White" Content="s"/>
@@ -107,18 +96,17 @@
                             <Label Grid.Row="5" Grid.Column="2" FontSize="12px" Foreground="White" Content="s"/>
                             <Label Grid.Row="6" Grid.Column="2" FontSize="12px" Foreground="White" Content=""/>
                             <Label Grid.Row="8" Grid.Column="2" FontSize="12px" Foreground="White" Content="Hz"/>
-                            <Label Grid.Row="9" Grid.Column="2" FontSize="12px" Foreground="White" Content="Hz"/>
-                            <Label Grid.Row="10" Grid.Column="2" FontSize="12px" Foreground="White" Content=""/>
-                            <Label Grid.Row="11" Grid.Column="2" FontSize="12px" Foreground="White" Content="Hz"/>
+                            <Label Grid.Row="9" Grid.Column="2" FontSize="12px" Foreground="White" Content=""/>
+                            <Label Grid.Row="10" Grid.Column="2" FontSize="12px" Foreground="White" Content="Hz"/>
 
-                            <Button Grid.Row="12" Grid.Column="2" Height="21px" Width="21px" FontSize="12px" 
+                            <Button Grid.Row="11" Grid.Column="2" Height="21px" Width="21px" FontSize="12px" 
                             Command="{Binding ReconstructionInfoCommand}" Style="{DynamicResource ButtonStyle}" Content="?" />
 
                         </Grid>
                     </GroupBox>
 
                     <!-- Rysuj -->
-                    <Button Grid.Row="2" Margin="0 0 0 0" Height="50" Width="340" FontSize="18px" 
+                    <Button Grid.Row="2" Margin="0 0 0 0" Height="30" Width="340" FontSize="13px" 
                             Command="{Binding GenerateCommand}" Style="{DynamicResource ButtonStyle}" Content="Rysuj wykres" />
                     
                 </Grid>
@@ -127,9 +115,9 @@
             <TabItem Header="Operacje">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="0.5*"/>
-                        <RowDefinition Height="1.2*"/>
-                        <RowDefinition Height="0.2*"/>
+                        <RowDefinition Height="0.6*"/>
+                        <RowDefinition Height="1.25*"/>
+                        <RowDefinition Height="0.15*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -152,7 +140,7 @@
                     </GroupBox>
 
                     <!-- Rysuj -->
-                    <Button Grid.Row="2" Grid.ColumnSpan="2" Height="50" Width="340" FontSize="18px" 
+                    <Button Grid.Row="2" Grid.ColumnSpan="2" Margin="0 0 0 0" Height="30" Width="340" FontSize="13px" 
                             Command="{Binding ComputeCommand}" Style="{DynamicResource ButtonStyle}" Content="Rysuj wykres" />
                 </Grid>
             </TabItem>
@@ -160,9 +148,9 @@
             <TabItem Header="Filtracja">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="0.4*"/>
-                        <RowDefinition Height="1.3*"/>
-                        <RowDefinition Height="0.2*"/>
+                        <RowDefinition Height="0.6*"/>
+                        <RowDefinition Height="1.25*"/>
+                        <RowDefinition Height="0.15*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -185,7 +173,7 @@
                     </GroupBox>
 
                     <!-- Rysuj -->
-                    <Button Grid.Row="2" Grid.ColumnSpan="2" Height="50" Width="340" FontSize="18px" 
+                    <Button Grid.Row="2" Grid.ColumnSpan="2" Margin="0 0 0 0" Height="30" Width="340" FontSize="13px" 
                             Command="{Binding ComputeCommand}" Style="{DynamicResource ButtonStyle}" Content="Rysuj wykres" />
                 </Grid>
             </TabItem>

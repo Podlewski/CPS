@@ -151,7 +151,8 @@
                         <RowDefinition Height="0.35*"/>
                         <RowDefinition Height="0.40*"/>
                         <RowDefinition Height="0.35*"/>
-                        <RowDefinition Height="0.75*"/>
+                        <RowDefinition Height="0.15*"/>
+                        <RowDefinition Height="0.60*"/>
                         <RowDefinition Height="0.15*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
@@ -187,9 +188,9 @@
                             <Label Margin="5 0 0 0" Grid.Row="1" Grid.Column="0" FontSize="12px" Foreground="White" Content="Częstotliwość odcięcia filtru (F_0):"/>
                             <Label Margin="5 0 0 0" Grid.Row="2" Grid.Column="0" FontSize="12px" Foreground="White" Content="Częst. próbkowania sygnału (F_d):"/>
 
-                            <TextBox Grid.Row="0" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding A_Amplitude}"/>
-                            <TextBox Grid.Row="1" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding T1_StartTime}"/>
-                            <TextBox Grid.Row="2" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding D_DurationOfTheSignal}"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding M_FilterRow}"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding F0_CutOffFrequency}"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding Fp_SamplingFrequency}"/>
 
                             <Label Grid.Row="0" Grid.Column="2" FontSize="12px" Foreground="White" Content=""/>
                             <Label Grid.Row="1" Grid.Column="2" FontSize="12px" Foreground="White" Content="Hz"/>
@@ -198,19 +199,23 @@
                         </Grid>
                     </GroupBox>
 
-                    <!--Pierwszt sygnał -->
-                    <GroupBox Grid.Row="3" Grid.Column="0" Margin="10 5 5 5" Foreground="White" Style="{DynamicResource GroupBoxStyle}" Header=" Pierwszy sygnał " >
-                        <ListBox FontSize="12px" Background="#232323" Foreground="White"  ItemsSource="{Binding TabList}" SelectedItem="{Binding FirstOperationTab}" />
+                    <!-- Rysuj -->
+                    <Button Grid.Row="3" Grid.ColumnSpan="2" Margin="0 0 0 0" Height="30" Width="340" FontSize="13px" 
+                            Command="{Binding CreateFilterCommand}" Style="{DynamicResource ButtonStyle}" Content="Stwórz filtr" />
+
+                    <!-- Sygnał -->
+                    <GroupBox Grid.Row="4" Grid.Column="0" Margin="10 5 5 5" Foreground="White" Style="{DynamicResource GroupBoxStyle}" Header=" Sygnał " >
+                        <ListBox FontSize="12px" Background="#232323" Foreground="White"  ItemsSource="{Binding TabList}" SelectedItem="{Binding SignalTab}" />
                     </GroupBox>
 
-                    <!--Drugi sygnał -->
-                    <GroupBox Grid.Row="3" Grid.Column="1" Margin="5 5 10 5" Foreground="White" Style="{DynamicResource GroupBoxStyle}" Header=" Drugi sygnał " >
-                        <ListBox FontSize="12px" Background="#232323" Foreground="White"  ItemsSource="{Binding TabList}" SelectedItem="{Binding SecondOperationTab}" />
+                    <!-- Filtr -->
+                    <GroupBox Grid.Row="4" Grid.Column="1" Margin="5 5 10 5" Foreground="White" Style="{DynamicResource GroupBoxStyle}" Header=" Filtr " >
+                        <ListBox FontSize="12px" Background="#232323" Foreground="White"  ItemsSource="{Binding TabList}" SelectedItem="{Binding FilterTab}" />
                     </GroupBox>
 
                     <!-- Rysuj -->
-                    <Button Grid.Row="4" Grid.ColumnSpan="2" Margin="0 0 0 0" Height="30" Width="340" FontSize="13px" 
-                            Command="{Binding ComputeCommand}" Style="{DynamicResource ButtonStyle}" Content="Rysuj wykres" />
+                    <Button Grid.Row="5" Grid.ColumnSpan="2" Margin="0 0 0 0" Height="30" Width="340" FontSize="13px" 
+                            Command="{Binding FilterSignalCommand}" Style="{DynamicResource ButtonStyle}" Content="Filtruj sygnał" />
                 </Grid>
             </TabItem>
 

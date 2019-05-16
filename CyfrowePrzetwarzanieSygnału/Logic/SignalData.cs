@@ -26,6 +26,12 @@ namespace Logic
             Initialize();
         }
 
+        public SignalData(double startTime)
+        {
+            Initialize();
+            StartTime = startTime;
+        }
+
         public SignalData(double startTime, int frequency, int quantizationFrequency)
         {
             Initialize();
@@ -46,18 +52,12 @@ namespace Logic
             ReconstructionSamplesY = new List<double>();
         }
 
-        public bool IsEmpty()
+        public bool IsNotEmpty()
         {
             if (SamplesX == null || SamplesX.Count == 0)
                 return false;
 
             if (SamplesY == null || SamplesY.Count == 0)
-                return false;
-
-            if (ConversionSamplesX == null || ConversionSamplesX.Count == 0)
-                return false;
-
-            if (ConversionSamplesY == null || ConversionSamplesY.Count == 0)
                 return false;
 
             return true;

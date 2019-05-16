@@ -17,8 +17,9 @@ namespace ViewModel
         public ICommand AddTabCommand { get; set; }
         public ICommand GenerateCommand { get; set; }
         public ICommand ComputeCommand { get; set; }
-        public ICommand CreateFilterCommand { get; set; }
         public ICommand SamplingReconstructionInfoCommand { get; set; }
+        public ICommand CreateFilterCommand { get; set; }
+        public ICommand FilterSignalCommand { get; set; }
         public ICommand LoadCommand { get; set; }
         public ICommand SaveCommand { get; set; }
         public ICommand QuitCommand { get; set; }
@@ -44,6 +45,10 @@ namespace ViewModel
         public List<string> WindowList { get; set; }
         public string SelectedWindow { get; set; }
 
+        public TabViewModel SignalTab { get; set; }
+        public TabViewModel FilterTab { get; set; }
+
+
         #region Factors
 
         public double A_Amplitude { get; set; } = 1;
@@ -58,8 +63,9 @@ namespace ViewModel
         public int QuantizationThresholds { get; set; } = 8;
         public int ReconstructionFrequency { get; set; } = 1000;
         public int ReconstructionSamples { get; set; } = 0;
-        public int M { get; set; } = 0;
-        public int K { get; set; } = 0;
+        public int M_FilterRow { get; set; } = 25;
+        public double F0_CutOffFrequency { get; set; } = 10;
+        public double Fp_SamplingFrequency { get; set; } = 80;
 
         #endregion
 
@@ -72,6 +78,8 @@ namespace ViewModel
             SelectedTab = TabList[0];
             FirstOperationTab = TabList[0];
             SecondOperationTab = TabList[0];
+            SignalTab = TabList[0];
+            FilterTab = TabList[0];
 
             SignalList = new List<string>()
             {
@@ -105,7 +113,7 @@ namespace ViewModel
             FilterList = new List<string>()
             {
                 "1) Filtr dolnoprzepustowy",
-                "2) Filtr środkowoprzepustowy",
+                "2) Filtr pasmowy",
                 "3) Filtr górnoprzepustowy"
 
             };
@@ -123,8 +131,9 @@ namespace ViewModel
             AddTabCommand = new RelayCommand(AddTab);
             GenerateCommand = new RelayCommand(Generate);
             ComputeCommand = new RelayCommand(Compute);
-            CreateFilterCommand = new RelayCommand(CreateFilter);
             SamplingReconstructionInfoCommand = new RelayCommand(SamplingReconstructionInfo);
+            CreateFilterCommand = new RelayCommand(CreateFilter);
+            FilterSignalCommand = new RelayCommand(FilterSignal);
             LoadCommand = new RelayCommand(Load);
             SaveCommand = new RelayCommand(Save);
             QuitCommand = new RelayCommand(Quit);
@@ -237,22 +246,22 @@ namespace ViewModel
 
         public void Compute()
         {
-            if (FirstOperationTab.SignalData.IsEmpty() && SecondOperationTab.SignalData.IsEmpty())
+            if (FirstOperationTab.SignalData.IsNotEmpty() && SecondOperationTab.SignalData.IsNotEmpty())
             {
                 if (SelectedOperation == "5) Splot" || SelectedOperation == "6) Korelacja (bezpośrednia)" ||
                     SelectedOperation == "7) Korelacja (przez Splot)")
                 {
-                    List<double> ConvolutionXSamples = new List<double>();
+                    List<double> XSamples = new List<double>();
 
                     int FirstTabSamplesCounter = FirstOperationTab.SignalData.ConversionSamplesX.Count;
                     int SecondTabSamplesCounter = SecondOperationTab.SignalData.ConversionSamplesX.Count;
 
                     for (int i = 0; i < FirstTabSamplesCounter + SecondTabSamplesCounter - 1; i++)
-                        ConvolutionXSamples.Add(i);
+                        XSamples.Add(i);
 
-                    SignalData signalData = new SignalData(0, 0, 0)
+                    SignalData signalData = new SignalData(0)
                     {
-                        SamplesX = ConvolutionXSamples,
+                        SamplesX = XSamples,
                         SamplesY = SelectedOperation.SignalOperation(FirstOperationTab.SignalData.ConversionSamplesY,
                                                                 SecondOperationTab.SignalData.ConversionSamplesY)
                     };
@@ -292,46 +301,68 @@ namespace ViewModel
 
         public void CreateFilter()
         {
-            Func<int, double, List<double>> filterFunction = null;
-            Func<List<double>, int, List<double>> windowFunction = null;
+            List<double> XSamples = new List<double>();
+            List<double> YSamples = SelectedFilter.FilterOperation(M_FilterRow, F0_CutOffFrequency, Fp_SamplingFrequency);
+            YSamples = SelectedWindow.WindowOperation(YSamples, M_FilterRow);
 
-            switch (SelectedFilter.Substring(1, 1))
-            {
-                case "1":
-                    filterFunction = Operations.LowPassFilter;
-                    break;
-                case "2":
-                    filterFunction = Operations.MidPassFilter;
-                    break;
-                case "3:":
-                    filterFunction = Operations.HighPassFilter;
-                    break;
-            }
+            for (int i = 0; i < YSamples.Count; i++)
+                XSamples.Add(i);
 
-            switch (SelectedWindow.Substring(1, 1))
+            SignalData signalData = new SignalData(0)
             {
-                case "1":
-                    windowFunction = Operations.RectangularWindow;
-                    break;
-                case "2":
-                    windowFunction = Operations.HammingWindow;
-                    break;
-                case "3":
-                    windowFunction = Operations.HanningWindow;
-                    break;
-                case "4":
-                    windowFunction = Operations.BlackmanWindow;
-                    break;
-            }
-
-            SignalData signalData = new SignalData
-            {
-                SamplesY = Logic.Operations.CreateFilterSignal(M, K, filterFunction, windowFunction)
+                SamplesX = XSamples,
+                SamplesY = YSamples
             };
 
             SelectedTab.SignalData = signalData;
             SelectedTab.IsScattered = true;
             SelectedTab.DrawCharts(false);
+        }
+
+        public void FilterSignal()
+        {
+            if (SignalTab.SignalData.IsNotEmpty() && FilterTab.SignalData.IsNotEmpty())
+            {
+                List<double> XSamples = new List<double>();
+                List<double> YSamples = new List<double>();
+
+                if (SignalTab.SignalData.QuantizationSamplesY.Count != 0 && FilterTab.SignalData.QuantizationSamplesY.Count != 0)
+                    YSamples = Operations.ConvoluteSignals(SignalTab.SignalData.QuantizationSamplesY,
+                                                           FilterTab.SignalData.QuantizationSamplesY)
+                                         .Skip((FilterTab.SignalData.QuantizationSamplesY.Count - 1) / 2)
+                                         .Take(SignalTab.SignalData.QuantizationSamplesY.Count).ToList();
+
+                else if (SignalTab.SignalData.QuantizationSamplesY.Count != 0 && FilterTab.SignalData.QuantizationSamplesY.Count == 0)
+                    YSamples = Operations.ConvoluteSignals(SignalTab.SignalData.QuantizationSamplesY,
+                                                           FilterTab.SignalData.SamplesY)
+                                         .Skip((FilterTab.SignalData.SamplesY.Count - 1) / 2)
+                                         .Take(SignalTab.SignalData.QuantizationSamplesY.Count).ToList();
+
+                else if (SignalTab.SignalData.QuantizationSamplesY.Count == 0 && FilterTab.SignalData.QuantizationSamplesY.Count != 0)
+                    YSamples = Operations.ConvoluteSignals(SignalTab.SignalData.SamplesY,
+                                                           FilterTab.SignalData.QuantizationSamplesY)
+                                         .Skip((FilterTab.SignalData.QuantizationSamplesY.Count - 1) / 2)
+                                         .Take(SignalTab.SignalData.SamplesY.Count).ToList();
+
+                else
+                    YSamples = Operations.ConvoluteSignals(SignalTab.SignalData.SamplesY,
+                                                           FilterTab.SignalData.SamplesY)
+                                         .Skip((FilterTab.SignalData.SamplesY.Count - 1) / 2)
+                                         .Take(SignalTab.SignalData.SamplesY.Count).ToList();
+
+                for (int i = 0; i < YSamples.Count; i++)
+                    XSamples.Add(i);
+
+                SignalData signalData = new SignalData(0)
+                {
+                    SamplesX = XSamples,
+                    SamplesY = YSamples
+                };
+
+                SelectedTab.SignalData = signalData;
+                SelectedTab.IsScattered = true;
+                SelectedTab.DrawCharts(false);
+            }
         }
 
         public void SamplingReconstructionInfo()

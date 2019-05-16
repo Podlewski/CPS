@@ -66,5 +66,37 @@ namespace Logic
             }
         }
 
+        public static List<double> FilterOperation(this string operation, int M, double F0, double Fp)
+        {
+            switch (operation.Substring(0, 1))
+            {
+                case "1":
+                    return Operations.LowPassFilter(M, F0, Fp);
+                case "2":
+                    return Operations.BandPassFilter(M, F0, Fp);
+                case "3":
+                    return Operations.HighPassFilter(M, F0, Fp);
+                default:
+                    return null;
+            }
+        }
+
+        public static List<double> WindowOperation(this string operation, List<double> filterFactors, int M)
+        {
+            switch (operation.Substring(0, 1))
+            {
+                case "1":
+                    return Operations.RectangularWindow(filterFactors, M);
+                case "2":
+                    return Operations.HanningWindow(filterFactors, M);
+                case "3":
+                    return Operations.HammingWindow(filterFactors, M);
+                case "4":
+                    return Operations.BlackmanWindow(filterFactors, M);
+                default:
+                    return null;
+            }
+        }
+
     }
 }

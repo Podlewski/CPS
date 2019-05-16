@@ -285,7 +285,7 @@ namespace ViewModel
 
         public void LoadHistogram(int c)
         {
-            if (SignalData.IsEmpty())
+            if (SignalData.IsNotEmpty())
             {
                 var histogramResults = SignalData.GetDataForHistogram(c);
                 HistogramStep = (int)Math.Ceiling(c / 20.0);

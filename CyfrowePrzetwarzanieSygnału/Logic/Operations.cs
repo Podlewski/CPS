@@ -334,7 +334,7 @@ namespace Logic
 
         public static List<double> BandPassFilter(int M, double F0, double Fp)
         {
-            List<double> lowPassFactors = LowPassFilter(M, Fd, Fg);
+            List<double> lowPassFactors = LowPassFilter(M, F0, Fp);
             List<double> result = new List<double>();
 
             for (int i = 0; i < lowPassFactors.Count; i++)
@@ -365,46 +365,41 @@ namespace Logic
 
         public static List<double> HammingWindow(List<double> filterFactors, int M)
         {
-            List<double> factors = new List<double>();
+            List<double> result = new List<double>();
 
             for (int i = 0; i < filterFactors.Count; i++)
             {
-                double windowFactor = 0.53836 - (0.46164 * Math.Cos(2 * Math.PI * i / M));
-                factors.Add(windowFactor * filterFactors[i]);
+                double factor = 0.53836 - (0.46164 * Math.Cos(2 * Math.PI * i / M));
+                result.Add(factor * filterFactors[i]);
             }
 
-            return factors;
+            return result;
         }
 
         public static List<double> HanningWindow(List<double> filterFactors, int M)
         {
-            List<double> factors = new List<double>();
+            List<double> result = new List<double>();
 
             for (int i = 0; i < filterFactors.Count; i++)
             {
-                double windowFactor = 0.5 - (0.5 * Math.Cos(2 * Math.PI * i / M));
-                factors.Add(windowFactor * filterFactors[i]);
+                double factor = 0.5 - (0.5 * Math.Cos(2 * Math.PI * i / M));
+                result.Add(factor * filterFactors[i]);
             }
 
-            return factors;
+            return result;
         }
 
         public static List<double> BlackmanWindow(List<double> filterFactors, int M)
         {
-            List<double> factors = new List<double>();
+            List<double> result = new List<double>();
 
             for (int i = 0; i < filterFactors.Count; i++)
             {
-                double windowFactor = 0.42 - (0.5 * Math.Cos(2 * Math.PI * i / M)) + (0.08 * Math.Cos(4 * Math.PI * i / M));
-                factors.Add(windowFactor * filterFactors[i]);
+                double factor = 0.42 - (0.5 * Math.Cos(2 * Math.PI * i / M)) + (0.08 * Math.Cos(4 * Math.PI * i / M));
+                result.Add(factor * filterFactors[i]);
             }
 
-            return factors;
-        }
-
-        public static List<double> CreateFilterSignal(int M, double K, Func<int, double, List<double>> filterFunction, Func<List<double>, int, List<double>> windowFunction)
-        {
-            return windowFunction(filterFunction(M, K), M);
+            return result;
         }
 
         #endregion

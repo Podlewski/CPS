@@ -148,8 +148,10 @@
             <TabItem Header="Filtracja">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="0.6*"/>
-                        <RowDefinition Height="1.25*"/>
+                        <RowDefinition Height="0.35*"/>
+                        <RowDefinition Height="0.40*"/>
+                        <RowDefinition Height="0.35*"/>
+                        <RowDefinition Height="0.75*"/>
                         <RowDefinition Height="0.15*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
@@ -157,23 +159,57 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
 
-                    <!--Operacja -->
-                    <GroupBox Grid.Row="0" Grid.ColumnSpan="2" Margin="10 5 10 5" Foreground="White" Style="{DynamicResource GroupBoxStyle}" Header=" Operacja " >
-                        <ListBox FontSize="12px" Background="#232323" Foreground="White"  ItemsSource="{Binding OperationList}" SelectedItem="{Binding SelectedOperation}" />
+                    <!--Rodzaj filtru -->
+                    <GroupBox Grid.Row="0" Grid.ColumnSpan="2" Margin="10 5 10 5" Foreground="White" Style="{DynamicResource GroupBoxStyle}" Header=" Rodzaj filtru " >
+                        <ListBox FontSize="12px" Background="#232323" Foreground="White"  ItemsSource="{Binding FilterList}" SelectedItem="{Binding SelectedFilter}" />
+                    </GroupBox>
+
+                    <!--Rodzaj okna -->
+                    <GroupBox Grid.Row="1" Grid.ColumnSpan="2" Margin="10 5 10 5" Foreground="White" Style="{DynamicResource GroupBoxStyle}" Header=" Rodzaj okna " >
+                        <ListBox FontSize="12px" Background="#232323" Foreground="White"  ItemsSource="{Binding WindowList}" SelectedItem="{Binding SelectedWindow}" />
+                    </GroupBox>
+
+                    <!-- Parametry -->
+                    <GroupBox Grid.Row="2" Grid.ColumnSpan="2" Margin="10 5 10 5" Foreground="White" Style="{DynamicResource GroupBoxStyle}" Header=" Parametry " >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.6*"/>
+                                <ColumnDefinition Width="0.3*"/>
+                                <ColumnDefinition Width="0.08*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Label Margin="5 0 0 0" Grid.Row="0" Grid.Column="0" FontSize="12px" Foreground="White" Content="Rząd filtru (M):"/>
+                            <Label Margin="5 0 0 0" Grid.Row="1" Grid.Column="0" FontSize="12px" Foreground="White" Content="Częstotliwość odcięcia filtru (F_0):"/>
+                            <Label Margin="5 0 0 0" Grid.Row="2" Grid.Column="0" FontSize="12px" Foreground="White" Content="Częst. próbkowania sygnału (F_d):"/>
+
+                            <TextBox Grid.Row="0" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding A_Amplitude}"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding T1_StartTime}"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding D_DurationOfTheSignal}"/>
+
+                            <Label Grid.Row="0" Grid.Column="2" FontSize="12px" Foreground="White" Content=""/>
+                            <Label Grid.Row="1" Grid.Column="2" FontSize="12px" Foreground="White" Content="Hz"/>
+                            <Label Grid.Row="2" Grid.Column="2" FontSize="12px" Foreground="White" Content="Hz"/>
+
+                        </Grid>
                     </GroupBox>
 
                     <!--Pierwszt sygnał -->
-                    <GroupBox Grid.Row="1" Grid.Column="0" Margin="10 5 5 5" Foreground="White" Style="{DynamicResource GroupBoxStyle}" Header=" Pierwszy sygnał " >
+                    <GroupBox Grid.Row="3" Grid.Column="0" Margin="10 5 5 5" Foreground="White" Style="{DynamicResource GroupBoxStyle}" Header=" Pierwszy sygnał " >
                         <ListBox FontSize="12px" Background="#232323" Foreground="White"  ItemsSource="{Binding TabList}" SelectedItem="{Binding FirstOperationTab}" />
                     </GroupBox>
 
                     <!--Drugi sygnał -->
-                    <GroupBox Grid.Row="1" Grid.Column="1" Margin="5 5 10 5" Foreground="White" Style="{DynamicResource GroupBoxStyle}" Header=" Drugi sygnał " >
+                    <GroupBox Grid.Row="3" Grid.Column="1" Margin="5 5 10 5" Foreground="White" Style="{DynamicResource GroupBoxStyle}" Header=" Drugi sygnał " >
                         <ListBox FontSize="12px" Background="#232323" Foreground="White"  ItemsSource="{Binding TabList}" SelectedItem="{Binding SecondOperationTab}" />
                     </GroupBox>
 
                     <!-- Rysuj -->
-                    <Button Grid.Row="2" Grid.ColumnSpan="2" Margin="0 0 0 0" Height="30" Width="340" FontSize="13px" 
+                    <Button Grid.Row="4" Grid.ColumnSpan="2" Margin="0 0 0 0" Height="30" Width="340" FontSize="13px" 
                             Command="{Binding ComputeCommand}" Style="{DynamicResource ButtonStyle}" Content="Rysuj wykres" />
                 </Grid>
             </TabItem>

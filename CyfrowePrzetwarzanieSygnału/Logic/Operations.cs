@@ -261,7 +261,7 @@ namespace Logic
 
         public static List<double> ConvoluteSignals(List<double> signal1, List<double> signal2)
         {
-            var result = new List<double>();
+            List<double> result = new List<double>();
 
             for (int i = 0; i < signal1.Count + signal2.Count - 1; i++)
             {
@@ -287,14 +287,13 @@ namespace Logic
 
         public static List<double> DirectlyCorelateSignals(List<double> signal1, List<double> signal2)
         {
-            var result = new List<double>();
+            List<double> result = new List<double>();
 
             for (int i = signal2.Count - 1; i >= (-1) * signal1.Count; i--)
             {
                 double sum = 0;
                 for (int j = 0; j < signal1.Count; j++)
                 {
-                    int k = i + j;
                     if (i + j < 0 || i + j >= signal2.Count)
                         continue;
 
@@ -308,9 +307,10 @@ namespace Logic
 
         #region Filtry
 
+
         public static List<double> LowPassFilter(int M, double K)
         {
-            List<double> factors = new List<double>();
+            List<double> result = new List<double>();
             int center = (M - 1) / 2;
 
             for (int i = 1; i <= M; i++)
@@ -325,36 +325,46 @@ namespace Logic
                     factor = Math.Sin(2 * Math.PI * (i - center) / K) / (Math.PI * (i - center));
                 }
 
-                factors.Add(factor);
+                result.Add(factor);
             }
 
-            return factors;
+            return result;
         }
 
-        public static List<double> MidPassFilter(int M, double K)
+
+        public static List<double> LowPassFilter(int M, double F0, double Fp)
         {
-            List<double> lowPassFactors = LowPassFilter(M, K);
-            List<double> factors = new List<double>();
+            double K = Fp / F0;
+            return LowPassFilter(M, K);
+        }
+
+        public static List<double> BandPassFilter(int M, double F0, double Fp)
+        {
+            double Fd = Fp / 4 - F0;
+            double Fg = Fp / 4 + F0;
+            List<double> lowPassFactors = LowPassFilter(M, Fd, Fg);
+            List<double> result = new List<double>();
 
             for (int i = 0; i < lowPassFactors.Count; i++)
             {
-                factors.Add(lowPassFactors[i] * 2 * Math.Sin(Math.PI * i / 2.0));
+                result.Add(lowPassFactors[i] * 2 * Math.Sin(Math.PI * i / 2.0));
             }
 
-            return factors;
+            return result;
         }
 
-        public static List<double> HighPassFilter(int M, double K)
+        public static List<double> HighPassFilter(int M, double F0, double Fp)
         {
-            List<double> lowPassFactors = LowPassFilter(M, K);
-            List<double> factors = new List<double>();
+            F0 = Fp / 2 - F0;
+            List<double> lowPassFactors = LowPassFilter(M, F0, Fp);
+            List<double> result = new List<double>();
 
             for (int i = 0; i < lowPassFactors.Count; i++)
             {
-                factors.Add(lowPassFactors[i] * Math.Pow(-1.0, i));
+                result.Add(lowPassFactors[i] * (i % 2 == 0 ? 1 : -1));
             }
 
-            return factors;
+            return result;
         }
 
         public static List<double> RectangularWindow(List<double> filterFactors, int M)

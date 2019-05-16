@@ -117,7 +117,6 @@ namespace ViewModel
                 "2) Okno Hamminga",
                 "3) Okno Hanninga",
                 "4) Okno Blackmana"
-
             };
             SelectedWindow = WindowList[0];
 

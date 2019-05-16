@@ -25,6 +25,7 @@
                 <MenuItem Header="Wczytaj kartę" Foreground="Black" Command="{Binding LoadCommand}" />
                 <MenuItem Header="Zamknij" Foreground="Black" Command="{Binding QuitCommand}" />
             </MenuItem>
+            <MenuItem Header="Pomiar odległości" Margin="5 0 0 0" Height="25" Foreground="White" Command="{Binding QuitCommand}" />
         </Menu>
 
         <TabControl Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Background="#454545" Margin="20 40 10 20" ItemContainerStyle="{DynamicResource TabItemStyle}" >

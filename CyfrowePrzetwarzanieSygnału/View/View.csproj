@@ -80,9 +80,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AntennaWindow.xaml.cs">
+      <DependentUpon>AntennaWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TabUserControl.xaml.cs">
       <DependentUpon>TabUserControl.xaml</DependentUpon>
     </Compile>
+    <Page Include="AntennaWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

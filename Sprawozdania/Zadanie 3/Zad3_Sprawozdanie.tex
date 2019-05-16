@@ -12,7 +12,7 @@
 \title{{\bf Zadanie nr 2 - Próbkowanie i kwantyzacja}\linebreak
 Cyfrowe Przetwarzanie Sygnalów}
 \author{Justyna Hubert, 210200 \and Karol Podlewski, 210294}
-\date{17.04.2019}
+\date{16.05.2019}
 
 \begin{document}
 \clearpage\maketitle
@@ -60,23 +60,112 @@ Celem czesci zadania zwiazanej z zastosowaniem analizy korelacyjnej (pomiaru dlu
 %% SEKCJA EKSPERYMENTÓW
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Eksperymenty i wyniki}
-Eksperymenty postanowilismy przeprowadzic na trzech rodzajach sygnalów: sinusoidalnym, sinusoidalnym wyprostowanym jednopolówkowo oraz trójkatnym. Zaprezentujemy proces konwersji analogowo-cyfrowej i cyfrowo-analogowej.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%% EKSPERYMENT #1  
-\subsection{Sygnal sinusoidalny}
+Eksperymenty postanowilismy podzielic na 4 czesci, gdzie zademonstrujemy operacje splotu, korelacji, filtracji i dzialania anteny. Poni¿ej przedstawiamy parametry, jakie beda przyjmowac nasze funkcje (sinusoidalne oraz trójkatne) w operacjach.
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{Rysunki/SinParametry.png}}
-	\caption{Parametry, które przyjmuje funkcja sinusoidalna.}
+		\includegraphics[width=0.7\textwidth]{{Rysunki/SplotSinParametry.png}}
+	\caption{Parametry, które przyjmowac beda wykorzystane przez nas funkcje w eksperymentach.}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%% EKSPERYMENT #1  
+\subsection{Splot}
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=0.7\textwidth]{{Rysunki/SplotSinWykres.png}}
+	\caption{Operacja splotu funkcji sinusoidalnej.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=0.7\textwidth]{{Rysunki/SplotTrojWykres.png}}
+	\caption{Operacja splotu funkcji trójkatnej.}
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%% EKSPERYMENT #2  
+\subsection{Korelacja}
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=0.7\textwidth]{{Rysunki/KorelacjaBezpSinWykres.png}}
+	\caption{Operacja korelacji bezposredniej funkcji sinusoidalnej.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=0.7\textwidth]{{Rysunki/KorelacjaBezpTrojWykres.png}}
+	\caption{Operacja korelacji bezposredniej funkcji trójkatnej.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=0.7\textwidth]{{Rysunki/KorelacjaSplSinWykres.png}}
+	\caption{Operacja korelacji przez splot funkcji sinusoidalnej.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=0.7\textwidth]{{Rysunki/KorelacjaSplTrojWykres.png}}
+	\caption{Operacja korelacji przez splot funkcji trójkatnej.}
 \end{figure}
 
 \pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%% EKSPERYMENT #2  
-\subsection{Sygnal sinusoidalny}
+%%%%%%%%%%%% EKSPERYMENT #3  
+\subsection{Filtracja} 
+
+Eksperymenty filtracji zostaly przeprowadzane na funkcji sinusoidalnej.
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=0.7\textwidth]{{Rysunki/FiltracjaParametry.png}}
+	\caption{Parametry przyjmowane podczas tworzenia filtracji.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=0.7\textwidth]{{Rysunki/FiltrDolnHamm.png}}
+	\caption{Filtr dolnoprzepustowy z oknem Hamminga.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=0.7\textwidth]{{Rysunki/Filtracja1.png}}
+	\caption{Funkcja sinusoidalna poddana filtracji przedstawionej na rysunku X.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=0.7\textwidth]{{Rysunki/FiltrPasHann.png}}
+	\caption{Filtracja pasmowy z oknem Hanninga.}
+\end{figure} 
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=0.7\textwidth]{{Rysunki/Filtracja2.png}}
+	\caption{Funkcja sinusoidalna poddana filtracji przedstawionej na rysunku X.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=0.7\textwidth]{{Rysunki/FiltrGornBlack.png}}
+	\caption{Filtr górnopasmow z oknem Blackmana.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=0.7\textwidth]{{Rysunki/Filtracja3.png}}
+	\caption{Funkcja sinusoidalna poddana filtracji przedstawionej na rysunku X.}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%% EKSPERYMENT #4  
+\subsection{Antena}
 
 \pagebreak
 
@@ -91,6 +180,6 @@ Aplikacja zostala napisana zgodnie z instrukcj¹ do zadania ~\cite{instrukcja}. P
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \renewcommand\refname{Bibliografia}
 \bibliographystyle{plain}
-\bibliography{Zad2_Bibliografia}
+\bibliography{Zad3_Bibliografia}
 
 \end{document}

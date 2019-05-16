@@ -308,9 +308,10 @@ namespace Logic
         #region Filtry
 
 
-        public static List<double> LowPassFilter(int M, double K)
+        public static List<double> LowPassFilter(int M, double F0, double Fp)
         {
             List<double> result = new List<double>();
+            double K = Fp / F0;
             int center = (M - 1) / 2;
 
             for (int i = 1; i <= M; i++)
@@ -331,17 +332,8 @@ namespace Logic
             return result;
         }
 
-
-        public static List<double> LowPassFilter(int M, double F0, double Fp)
-        {
-            double K = Fp / F0;
-            return LowPassFilter(M, K);
-        }
-
         public static List<double> BandPassFilter(int M, double F0, double Fp)
         {
-            double Fd = Fp / 4 - F0;
-            double Fg = Fp / 4 + F0;
             List<double> lowPassFactors = LowPassFilter(M, Fd, Fg);
             List<double> result = new List<double>();
 
@@ -355,7 +347,6 @@ namespace Logic
 
         public static List<double> HighPassFilter(int M, double F0, double Fp)
         {
-            F0 = Fp / 2 - F0;
             List<double> lowPassFactors = LowPassFilter(M, F0, Fp);
             List<double> result = new List<double>();
 

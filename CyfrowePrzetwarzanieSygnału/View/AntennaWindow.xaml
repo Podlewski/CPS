@@ -7,20 +7,21 @@
         x:Class="View.AntennaWindow"
         mc:Ignorable="d"
         ResizeMode="NoResize"
-        Title="Cyfrowe Przetwarzanie Sygnału - Pomiar odległości" Height="375" Width="900">
+        Title="Cyfrowe Przetwarzanie Sygnału - Pomiar odległości" Height="400" Width="900">
     <Grid Background="#454545" >
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.85*"/>
-            <RowDefinition Height="0.15*"/>
+            <RowDefinition Height="0.82*"/>
+            <RowDefinition Height="0.18*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1.5*"/>
-            <ColumnDefinition Width="2.0*"/>
+            <ColumnDefinition Width="94*"/>
+            <ColumnDefinition Width="289*"/>
+            <ColumnDefinition Width="510*"/>
         </Grid.ColumnDefinitions>
 
         <!-- Parametry -->
-        <GroupBox Grid.Row="0" Margin="10 10 5 0" Foreground="White" Style="{DynamicResource GroupBoxStyle}" Header=" Parametry " >
+        <GroupBox Grid.Row="0" Margin="10 10 5 0" Foreground="White" Style="{DynamicResource GroupBoxStyle}" Header=" Parametry " Grid.ColumnSpan="2" >
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -39,8 +40,8 @@
                     <ColumnDefinition Width="0.08*"/>
                 </Grid.ColumnDefinitions>
 
-                <Label Margin="5 0 0 0" Grid.Row="0" Grid.Column="0" FontSize="12px" Foreground="White" Content=""/>
-                <Label Margin="5 0 0 0" Grid.Row="1" Grid.Column="0" FontSize="12px" Foreground="White" Content=""/>
+                <Label Margin="5 0 0 0" Grid.Row="0" Grid.Column="0" FontSize="12px" Foreground="White" Content="Liczba sygnałów:"/>
+                <Label Margin="5 0 0 0" Grid.Row="1" Grid.Column="0" FontSize="12px" Foreground="White" Content="Początkowa odległość:"/>
                 <Label Margin="5 0 0 0" Grid.Row="2" Grid.Column="0" FontSize="12px" Foreground="White" Content="Jednostka czasowa:"/>
                 <Label Margin="5 0 0 0" Grid.Row="3" Grid.Column="0" FontSize="12px" Foreground="White" Content="Prędkość rzeczywista:"/>
                 <Label Margin="5 0 0 0" Grid.Row="4" Grid.Column="0" FontSize="12px" Foreground="White" Content="Prędkość w abstrakcyjnym ośrodku:"/>
@@ -50,15 +51,15 @@
                 <Label Margin="5 0 0 0" Grid.Row="8" Grid.Column="0" FontSize="12px" Foreground="White" Content="Okres raportowania:"/>
 
 
-                <TextBox Grid.Row="0" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding A}"/>
-                <TextBox Grid.Row="1" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding B}"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding Signals}"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding BeginningDistance}"/>
                 <TextBox Grid.Row="2" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding TimeUnit}"/>
                 <TextBox Grid.Row="3" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding RealSpeed}"/>
                 <TextBox Grid.Row="4" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding AbstractSpeed}"/>
-                <TextBox Grid.Row="5" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding SignalPeroid}"/>
+                <TextBox Grid.Row="5" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding SignalPeriod}"/>
                 <TextBox Grid.Row="6" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding SamplingFrequency}"/>
                 <TextBox Grid.Row="7" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding BuffersLength}"/>
-                <TextBox Grid.Row="8" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding ReportingPeroid}"/>
+                <TextBox Grid.Row="8" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding ReportingPeriod}"/>
 
                 <Label Grid.Row="0" Grid.Column="2" FontSize="12px" Foreground="White" Content=""/>
                 <Label Grid.Row="1" Grid.Column="2" FontSize="12px" Foreground="White" Content=""/>
@@ -74,11 +75,11 @@
         </GroupBox>
 
         <!-- Oblicz -->
-        <Button Grid.Row="2" Margin="0 0 0 0" Height="30" Width="340" FontSize="13px" 
-                            Command="{Binding CountCommand}" Style="{DynamicResource ButtonStyle}" Content="Oblicz" />
+        <Button Grid.Row="1" Margin="22,11.4,21.2,10.6" Height="30" Width="330" FontSize="13px" 
+                            Command="{Binding CountCommand}" Style="{DynamicResource ButtonStyle}" Content="Oblicz" Grid.ColumnSpan="2" />
 
         <!-- Wyniki -->
-        <GroupBox Grid.Column="1" Grid.RowSpan="2" Margin="5 10 10 10" Foreground="White" Style="{DynamicResource GroupBoxStyle}" Header=" Wyniki " >
+        <GroupBox Grid.Column="2" Grid.RowSpan="2" Margin="4.8,10,9.6,9.6" Foreground="White" Style="{DynamicResource GroupBoxStyle}" Header=" Wyniki " >
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="0.1*"/>
@@ -94,6 +95,9 @@
                 <Label Margin="0 0 0 0" Height="26px" Width="107px" Grid.Column="1" FontSize="12px" Foreground="White" Content="Obliczony dystans:"/>
                 <Label Margin="0 0 0 0" Height="26px" Width="53px"  Grid.Column="2" FontSize="12px" Foreground="White" Content="Różnica:"/>
 
+                <ListBox Margin="5 0 5 5" FontSize="12px" Grid.Row="1" Grid.Column="0" Background="#232323" Foreground="White" ItemsSource="{Binding OriginalList}" />
+                <ListBox Margin="5 0 5 5" FontSize="12px" Grid.Row="1" Grid.Column="1" Background="#232323" Foreground="White" ItemsSource="{Binding CountedList}" />
+                <ListBox Margin="5 0 5 5" FontSize="12px" Grid.Row="1" Grid.Column="2" Background="#232323" Foreground="White" ItemsSource="{Binding DiffrenceList}" />
             </Grid>
         </GroupBox>
 

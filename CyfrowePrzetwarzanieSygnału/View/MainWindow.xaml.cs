@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 using ViewModel;
 
 namespace View
@@ -12,6 +13,12 @@ namespace View
         {
             DataContext = new MainViewModel();
             InitializeComponent();
+        }
+
+        private void OpenAntennaWindow(object sender, RoutedEventArgs e)
+        {
+            AntennaWindow aw = new AntennaWindow();
+            aw.Show();
         }
     }
 }

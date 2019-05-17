@@ -12,7 +12,7 @@ namespace Logic
         
         public double A { get; set; }     // Amplitude
         public double T1 { get; set; }    // Start Time
-        public double T { get; set; }     // Basic Peroid
+        public double T { get; set; }     // Basic Period
         public double Kw { get; set; }    // Duty Cycle
         public double Ts { get; set; }    // Time Step
         public double P { get; set; }     // Probability

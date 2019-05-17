@@ -5,8 +5,9 @@ using System.Windows;
 using System.Windows.Input;
 using System.Linq;
 
-using Logic;
 using Microsoft.Win32;
+
+using Logic;
 
 namespace ViewModel
 {
@@ -54,7 +55,7 @@ namespace ViewModel
         public double A_Amplitude { get; set; } = 1;
         public double T1_StartTime { get; set; }
         public double D_DurationOfTheSignal { get; set; } = 4;
-        public double T_BasicPeroid { get; set; } = 1;
+        public double T_BasicPeriod { get; set; } = 1;
         public double Kw_DutyCycle { get; set; } = 0.5;
         public double Ts_TimeStep { get; set; } = 2;
         public double P_Probability { get; set; } = 0.5;
@@ -151,7 +152,7 @@ namespace ViewModel
             {
                 A = A_Amplitude,
                 T1 = T1_StartTime,
-                T = T_BasicPeroid,
+                T = T_BasicPeriod,
                 Kw = Kw_DutyCycle,
                 Ts = Ts_TimeStep,
                 P = P_Probability

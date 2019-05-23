@@ -17,8 +17,8 @@ namespace ViewModel
 
         private Antenna antenna;
 
-        public int Signals { get; set; }
-        public double BeginningDistance { get; set; }
+        public int NumberOfMeasurement { get; set; }
+        public int BasicSignals { get; set; }
         public double TimeUnit { get; set; }
         public double RealSpeed { get; set; }
         public double AbstractSpeed { get; set; }
@@ -39,12 +39,12 @@ namespace ViewModel
             CountedList = new List<double>();
             DiffrenceList = new List<double>();
 
-            Signals = 5;
-            BeginningDistance = 5;
+            NumberOfMeasurement = 10;
             TimeUnit = 10;
             RealSpeed = 10;
             AbstractSpeed = 3000;
             SignalPeriod = 1;
+            BasicSignals = 2;
             SamplingFrequency = 100;
             BuffersLength = 500;
             ReportingPeriod = 2;
@@ -54,12 +54,12 @@ namespace ViewModel
         {
             antenna = new Antenna()
             {
-                Signals = Signals,
-                BeginningDistance = BeginningDistance,
+                NumberOfMeasurement = NumberOfMeasurement,
                 TimeUnit = TimeUnit,
                 RealSpeed = RealSpeed,
                 AbstractSpeed = AbstractSpeed,
                 SignalPeriod = SignalPeriod,
+                BasicSignals = BasicSignals,
                 SamplingFrequency = SamplingFrequency,
                 BuffersLength = BuffersLength,
                 ReportingPeriod = ReportingPeriod

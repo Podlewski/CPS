@@ -1,36 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Logic
 {
     public class Antenna
     {
-        private Random Random { get; set; }
+        private static readonly Random Random = new Random();
 
-        public int Signals { get; set; }
-        public double BeginningDistance { get; set; }
+        public int NumberOfMeasurement { get; set; }
         public double TimeUnit { get; set; }
         public double RealSpeed { get; set; }
         public double AbstractSpeed { get; set; }
         public double SignalPeriod { get; set; }
+        public int BasicSignals { get; set; }
         public double SamplingFrequency { get; set; }
         public double BuffersLength { get; set; }
         public double ReportingPeriod { get; set; }
 
         public Antenna()
-        {
-            Random = new Random();
-        }
+        {}
 
         public List<double> GetOriginalDistance()
         {
             List<double> result = new List<double>();
 
-            for (double i = 0.0; i < 10.0 * ReportingPeriod; i += ReportingPeriod)
-                result.Add(BeginningDistance + i * RealSpeed);
+            for (double i = 0.0; i < (double)(NumberOfMeasurement) * ReportingPeriod; i += ReportingPeriod)
+                result.Add(i * RealSpeed);
 
             return result;
         }
@@ -48,24 +44,22 @@ namespace Logic
         public List<double> CountDistances()
         {
             List<double> result = new List<double>();
-            List<double> amplitues = new List<double>();
-            List<double> periods = new List<double>();
+            List<double> amplitudes = new List<double>();
 
-            for (int i = 0; i < Signals; i++)
+            for (int i = 0; i < BasicSignals; i++)
             {
-                amplitues.Add(Random.NextDouble() * 50.0 + 1.0);
-                periods.Add(Random.NextDouble() * (SignalPeriod - 1e-10) + 1e-10);
+                amplitudes.Add(Random.NextDouble() * 5.0 + 1.0);
             }
 
             double duration = BuffersLength / SamplingFrequency;
 
-            for (double i = 0.0; i < 10.0 * ReportingPeriod; i += ReportingPeriod)
+            for (double i = 0.0; i < (double)(NumberOfMeasurement) * ReportingPeriod; i += ReportingPeriod)
             {
-                double currentDistance = BeginningDistance + i * RealSpeed;
+                double currentDistance = i * RealSpeed;
                 double propagationTime = 2 * currentDistance / AbstractSpeed;
 
-                List<double> probingSignal = CreateSignal(amplitues, periods, i - duration, duration, SamplingFrequency);
-                List<double> feedbackSignal = CreateSignal(amplitues, periods, i - propagationTime, duration, SamplingFrequency);
+                List<double> probingSignal = CreateSignal(amplitudes, SignalPeriod, i - duration, duration, SamplingFrequency);
+                List<double> feedbackSignal = CreateSignal(amplitudes, SignalPeriod, i - propagationTime, duration, SamplingFrequency);
 
                 List<double> correlationSamples = Operations.IndirectlyCorelateSignals(probingSignal, feedbackSignal);
 
@@ -85,17 +79,17 @@ namespace Logic
         }
 
 
-        private List<double> CreateSignal(List<double> amplitudes, List<double> periods, double startTime, double duration, double frequency)
+        private List<double> CreateSignal(List<double> amplitudes, double period, double startTime, double duration, double frequency)
         {
             List<double> samples = new List<double>();
 
-            for (int i = 1; i < amplitudes.Count; i++ )
+            for (int i = 0; i < 1; i++ )
             {
                 List<double> newSamples = new List<double>();
 
                 for (decimal j = (decimal)startTime; j < (decimal)(startTime + duration); j += 1 / (decimal)frequency)
                 {
-                    newSamples.Add(AntenaSinusoidalSignal(amplitudes[i], periods[i], (double)j));
+                    newSamples.Add(AntenaSinusoidalSignal(amplitudes[i], period, (double)j));
                 }
 
                 if (samples.Count != 0)
@@ -106,6 +100,7 @@ namespace Logic
 
             return samples;
         }
+
 
         private double AntenaSinusoidalSignal(double A, double T, double t)
         {

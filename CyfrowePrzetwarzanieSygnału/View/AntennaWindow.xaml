@@ -40,23 +40,23 @@
                     <ColumnDefinition Width="0.08*"/>
                 </Grid.ColumnDefinitions>
 
-                <Label Margin="5 0 0 0" Grid.Row="0" Grid.Column="0" FontSize="12px" Foreground="White" Content="Liczba sygnałów:"/>
-                <Label Margin="5 0 0 0" Grid.Row="1" Grid.Column="0" FontSize="12px" Foreground="White" Content="Początkowa odległość:"/>
-                <Label Margin="5 0 0 0" Grid.Row="2" Grid.Column="0" FontSize="12px" Foreground="White" Content="Jednostka czasowa:"/>
-                <Label Margin="5 0 0 0" Grid.Row="3" Grid.Column="0" FontSize="12px" Foreground="White" Content="Prędkość rzeczywista:"/>
-                <Label Margin="5 0 0 0" Grid.Row="4" Grid.Column="0" FontSize="12px" Foreground="White" Content="Prędkość w abstrakcyjnym ośrodku:"/>
-                <Label Margin="5 0 0 0" Grid.Row="5" Grid.Column="0" FontSize="12px" Foreground="White" Content="Okres sygnału:"/>
+                <Label Margin="5 0 0 0" Grid.Row="0" Grid.Column="0" FontSize="12px" Foreground="White" Content="Liczba pomiarów:"/>
+                <Label Margin="5 0 0 0" Grid.Row="1" Grid.Column="0" FontSize="12px" Foreground="White" Content="Jednostka czasowa:"/>
+                <Label Margin="5 0 0 0" Grid.Row="2" Grid.Column="0" FontSize="12px" Foreground="White" Content="Prędkość rzeczywista:"/>
+                <Label Margin="5 0 0 0" Grid.Row="3" Grid.Column="0" FontSize="12px" Foreground="White" Content="Prędkość w abstrakcyjnym ośrodku:"/>
+                <Label Margin="5 0 0 0" Grid.Row="4" Grid.Column="0" FontSize="12px" Foreground="White" Content="Okres sygnału:"/>
+                <Label Margin="5 0 0 0" Grid.Row="5" Grid.Column="0" FontSize="12px" Foreground="White" Content="Liczba podstawowych sygnałów:"/>
                 <Label Margin="5 0 0 0" Grid.Row="6" Grid.Column="0" FontSize="12px" Foreground="White" Content="Częstotliwość próbkowania:"/>
                 <Label Margin="5 0 0 0" Grid.Row="7" Grid.Column="0" FontSize="12px" Foreground="White" Content="Długość buforów:"/>
                 <Label Margin="5 0 0 0" Grid.Row="8" Grid.Column="0" FontSize="12px" Foreground="White" Content="Okres raportowania:"/>
 
 
-                <TextBox Grid.Row="0" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding Signals}"/>
-                <TextBox Grid.Row="1" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding BeginningDistance}"/>
-                <TextBox Grid.Row="2" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding TimeUnit}"/>
-                <TextBox Grid.Row="3" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding RealSpeed}"/>
-                <TextBox Grid.Row="4" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding AbstractSpeed}"/>
-                <TextBox Grid.Row="5" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding SignalPeriod}"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding NumberOfMeasurement}"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding TimeUnit}"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding RealSpeed}"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding AbstractSpeed}"/>
+                <TextBox Grid.Row="4" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding SignalPeriod}"/>
+                <TextBox Grid.Row="5" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding BasicSignals}"/>
                 <TextBox Grid.Row="6" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding SamplingFrequency}"/>
                 <TextBox Grid.Row="7" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding BuffersLength}"/>
                 <TextBox Grid.Row="8" Grid.Column="1" Height="21px" Background="#34414F" Foreground="White" Text="{Binding ReportingPeriod}"/>

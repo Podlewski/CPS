@@ -9,10 +9,10 @@
 
 \setlength{\textheight}{21cm}
 
-\title{{\bf Zadanie nr 2 - Próbkowanie i kwantyzacja}\linebreak
-Cyfrowe Przetwarzanie Sygnalów}
+\title{{\bf Zadanie nr 3 - Splot, filtracja i korelacja sygna³ów}\linebreak
+Cyfrowe Przetwarzanie Sygna³u}
 \author{Justyna Hubert, 210200 \and Karol Podlewski, 210294}
-\date{16.05.2019}
+\date{19.05.2019}
 
 \begin{document}
 \clearpage\maketitle
@@ -25,33 +25,33 @@ Cyfrowe Przetwarzanie Sygnalów}
 %% CEL ZADANIA
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Cel zadania}
-Celem æwiczenia jest zapoznanie sie z praktycznymi aspektami filtracji, korelacji oraz operacji splotu.
+Celem æwiczenia jest zapoznanie siê z praktycznymi aspektami filtracji, korelacji oraz operacji splotu.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% WSTEP TEORETYCZNY
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Wstep teoretyczny}
 Jest to usprawniony program z zadania 1 oraz 2, dostosowany do instrukcji z zadania trzeciego ~\cite{instrukcja}. \\
 
-Zadanie polegalo na zaimplementowaniu algorytmu, który umo¿liwi projektowanie filtrów dolnoprzepustowycho zadanej liczbie wspólczynnikówi zadanej czestotliwosci obciecia z wykorzystaniem okna prostokatnego, zastosowaniu dodatkowych okien:
+Zadanie polega³o na zaimplementowaniu algorytmu, który umo¿liwi projektowanie filtrów dolnoprzepustowych zadanej liczbie wspó³czynnikowi zadanej czêstotliwoœci obciêcia z wykorzystaniem okna prostok¹tnego, zastosowaniu dodatkowych okien:
 \begin{itemize}
 	\item (O1) okno Hamminga,
 	\item (O2) okno Hanninga,
 	\item (O3) okno Blackmana,
 \end{itemize}
 
-Ponadto, w ramach realizacji æwiczenia nale¿alo zaprojektowac filtr z mo¿liwoscia wyboru funkcji okna i parametrów filtru jak wy¿ej:
+Ponadto, w ramach realizacji æwiczenia nale¿a³o zaprojektowaæ filtr z mo¿liwoœci¹ wyboru funkcji okna i parametrów filtru jak wy¿ej:
 \begin{itemize}
-	\item (F1) srodkowoprzepustowy,
+	\item (F1) pasmowoprzepustowy,
 	\item (F2) górnoprzepustowy,
 \end{itemize} 
 
-Nale¿alo tak¿e zaimplementowac operacje filtracji podstawiajac odpowiedz impulsowa filtru do wzoru na splot, zademonstrowac efekt filtracji na arbitralnie wybranych sygnalach testowych. Ponadto, wymagana jest implementacja operacji korelacji dla dowolnych dwóch sygnalów dyskretnych o arbitralnie podanych ilosciach próbek wzbogacone o dwa obligatoryjne warianty:
+Nale¿a³o tak¿e zaimplementowaæ operacje filtracji podstawiaj¹c odpowiedz impulsowa filtru do wzoru na splot, zademonstrowaæ efekt filtracji na arbitralnie wybranych sygna³ach testowych. Ponadto, wymagana jest implementacja operacji korelacji dla dowolnych dwóch sygna³ów dyskretnych o arbitralnie podanych iloœciach próbek wzbogacone o dwa obligatoryjne warianty:
 \begin{itemize}
-	\item implementacje bezposrednia,
+	\item implementacje bezpoœrednia,
 	\item implementacje z u¿yciem splotu,
 \end{itemize}
 
-Celem czesci zadania zwiazanej z zastosowaniem analizy korelacyjnej (pomiaru dlugosci) byla symulacja dzialania korelacyjnego czujnika odleglosci. 
+Celem czêœci zadania zwi¹zanej z zastosowaniem analizy korelacyjnej (pomiaru d³ugoœci) by³a symulacja dzia³ania korelacyjnego czujnika odleg³oœci. 
 
 
 \pagebreak
@@ -60,12 +60,12 @@ Celem czesci zadania zwiazanej z zastosowaniem analizy korelacyjnej (pomiaru dlu
 %% SEKCJA EKSPERYMENTÓW
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Eksperymenty i wyniki}
-Eksperymenty postanowilismy podzielic na 4 czesci, gdzie zademonstrujemy operacje splotu, korelacji, filtracji i dzialania anteny. Poni¿ej przedstawiamy parametry, jakie beda przyjmowac nasze funkcje (sinusoidalne oraz trójkatne) w operacjach.
+Eksperymenty postanowiliœmy podzieliæ na 4 czêœci, gdzie zademonstrujemy operacje splotu, korelacji, filtracji i dzia³ania anteny. Poni¿ej przedstawiamy parametry, jakie bêd¹ przyjmowaæ nasze funkcje (sinusoidalne oraz trójk¹tne) w operacjach.
 
 \begin{figure}[H]
 	\centering
 		\includegraphics[width=0.7\textwidth]{{Rysunki/SplotSinParametry.png}}
-	\caption{Parametry, które przyjmowac beda wykorzystane przez nas funkcje w eksperymentach.}
+	\caption{Parametry, które przyjmowaæ bêd¹ wykorzystane przez nas funkcje w eksperymentach.}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -80,8 +80,8 @@ Eksperymenty postanowilismy podzielic na 4 czesci, gdzie zademonstrujemy operacj
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{Rysunki/SplotTrojWykres.png}}
-	\caption{Operacja splotu funkcji trójkatnej.}
+		\includegraphics[width=0.7\textwidth]{{Rysunki/SplotTrojkWykres.png}}
+	\caption{Operacja splotu funkcji trójk¹tnej.}
 \end{figure}
 
 
@@ -92,13 +92,13 @@ Eksperymenty postanowilismy podzielic na 4 czesci, gdzie zademonstrujemy operacj
 \begin{figure}[H]
 	\centering
 		\includegraphics[width=0.7\textwidth]{{Rysunki/KorelacjaBezpSinWykres.png}}
-	\caption{Operacja korelacji bezposredniej funkcji sinusoidalnej.}
+	\caption{Operacja korelacji bezpoœredniej funkcji sinusoidalnej.}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 		\includegraphics[width=0.7\textwidth]{{Rysunki/KorelacjaBezpTrojWykres.png}}
-	\caption{Operacja korelacji bezposredniej funkcji trójkatnej.}
+	\caption{Operacja korelacji bezpoœredniej funkcji trójk¹tnej.}
 \end{figure}
 
 \begin{figure}[H]
@@ -110,7 +110,7 @@ Eksperymenty postanowilismy podzielic na 4 czesci, gdzie zademonstrujemy operacj
 \begin{figure}[H]
 	\centering
 		\includegraphics[width=0.7\textwidth]{{Rysunki/KorelacjaSplTrojWykres.png}}
-	\caption{Operacja korelacji przez splot funkcji trójkatnej.}
+	\caption{Operacja korelacji przez splot funkcji trójk¹tnej.}
 \end{figure}
 
 \pagebreak
@@ -136,7 +136,7 @@ Eksperymenty filtracji zostaly przeprowadzane na funkcji sinusoidalnej.
 \begin{figure}[H]
 	\centering
 		\includegraphics[width=0.7\textwidth]{{Rysunki/Filtracja1.png}}
-	\caption{Funkcja sinusoidalna poddana filtracji przedstawionej na rysunku X.}
+	\caption{Funkcja sinusoidalna poddana filtracji przedstawionej na rysunku 9.}
 \end{figure}
 
 \begin{figure}[H]
@@ -148,24 +148,36 @@ Eksperymenty filtracji zostaly przeprowadzane na funkcji sinusoidalnej.
 \begin{figure}[H]
 	\centering
 		\includegraphics[width=0.7\textwidth]{{Rysunki/Filtracja2.png}}
-	\caption{Funkcja sinusoidalna poddana filtracji przedstawionej na rysunku X.}
+	\caption{Funkcja sinusoidalna poddana filtracji przedstawionej na rysunku 11.}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 		\includegraphics[width=0.7\textwidth]{{Rysunki/FiltrGornBlack.png}}
-	\caption{Filtr górnopasmow z oknem Blackmana.}
+	\caption{Filtr górnopasmowy z oknem Blackmana.}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 		\includegraphics[width=0.7\textwidth]{{Rysunki/Filtracja3.png}}
-	\caption{Funkcja sinusoidalna poddana filtracji przedstawionej na rysunku X.}
+	\caption{Funkcja sinusoidalna poddana filtracji przedstawionej na rysunku 13.}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%% EKSPERYMENT #4  
 \subsection{Antena}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{{Rysunki/Antena1.png}}
+	\caption{Przyk³ad pomiaru odleg³oœci.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{{Rysunki/Antena2.png}}
+	\caption{Przyk³ad pomiaru odleg³oœci.}
+\end{figure}
 
 \pagebreak
 
@@ -173,7 +185,7 @@ Eksperymenty filtracji zostaly przeprowadzane na funkcji sinusoidalnej.
 %% WNIOSKI
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Wnioski}
-Aplikacja zostala napisana zgodnie z instrukcj¹ do zadania ~\cite{instrukcja}. Program poprawnie implementuje operacje splotu, filtracji oraz korelacji. Aplikacja zostala napisana w sposób, aby umo¿liwiaj¹cy nam rozszerzenie jej o kolejne funkcjonalnosci
+Aplikacja zosta³a napisana zgodnie z instrukcj¹ do zadania ~\cite{instrukcja}. Program poprawnie implementuje operacje splotu, filtracji oraz korelacji. Aplikacja zosta³a napisana w sposób, aby umo¿liwiaj¹cy nam rozszerzenie jej o kolejne funkcjonalnoœci.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% BIBLIOGRAFIA

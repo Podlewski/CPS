@@ -314,16 +314,16 @@ namespace Logic
             double K = Fp / F0;
             int center = (M - 1) / 2;
 
-            for (int i = 1; i <= M; i++)
+            for (int n = 0; n < M; n++)
             {
                 double factor;
-                if (i == center)
+                if (n == center)
                 {
                     factor = 2.0 / K;
                 }
                 else
                 {
-                    factor = Math.Sin(2 * Math.PI * (i - center) / K) / (Math.PI * (i - center));
+                    factor = Math.Sin(2 * Math.PI * (n - center) / K) / (Math.PI * (n - center));
                 }
 
                 result.Add(factor);

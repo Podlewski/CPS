@@ -4,24 +4,28 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:View"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         x:Class="View.AntennaWindow"
         mc:Ignorable="d"
         ResizeMode="NoResize"
-        Title="Cyfrowe Przetwarzanie Sygnału - Pomiar odległości" Height="400" Width="900">
+        Title="Cyfrowe Przetwarzanie Sygnału - Pomiar odległości" Height="700" Width="1200">
     <Grid Background="#454545" >
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.82*"/>
-            <RowDefinition Height="0.18*"/>
+            <RowDefinition Height="1.0*"/>
+            <RowDefinition Height="0.25*"/>
+            <RowDefinition Height="0.25*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="1.0*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="94*"/>
-            <ColumnDefinition Width="289*"/>
-            <ColumnDefinition Width="510*"/>
+            <ColumnDefinition Width="1.8*"/>
+            <ColumnDefinition Width="0.2*"/>
+            <ColumnDefinition Width="3.0*"/>
         </Grid.ColumnDefinitions>
 
         <!-- Parametry -->
-        <GroupBox Grid.Row="0" Margin="10 10 5 0" Foreground="White" Style="{DynamicResource GroupBoxStyle}" Header=" Parametry " Grid.ColumnSpan="2" >
+        <GroupBox Grid.Row="0" Grid.RowSpan="2" Margin="20 10 5 0" Foreground="White" Style="{DynamicResource GroupBoxStyle}" Header=" Parametry " >
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -75,11 +79,11 @@
         </GroupBox>
 
         <!-- Oblicz -->
-        <Button Grid.Row="1" Margin="22,11.4,21.2,10.6" Height="30" Width="330" FontSize="13px" 
-                            Command="{Binding CountCommand}" Style="{DynamicResource ButtonStyle}" Content="Oblicz" Grid.ColumnSpan="2" />
+        <Button Grid.Row="2" Height="30" Width="330" FontSize="13px" 
+                            Command="{Binding CountCommand}" Style="{DynamicResource ButtonStyle}" Content="Oblicz" />
 
         <!-- Wyniki -->
-        <GroupBox Grid.Column="2" Grid.RowSpan="2" Margin="4.8,10,9.6,9.6" Foreground="White" Style="{DynamicResource GroupBoxStyle}" Header=" Wyniki " >
+        <GroupBox Grid.Row="3" Grid.RowSpan="2" Margin="20 0 5 20" Foreground="White" Style="{DynamicResource GroupBoxStyle}" Header=" Wyniki " >
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="0.1*"/>
@@ -91,15 +95,38 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
-                <Label Margin="0 0 0 0" Height="26px" Width="112px" Grid.Column="0" FontSize="12px" Foreground="White" Content="Oryginalny dystans:"/>
-                <Label Margin="0 0 0 0" Height="26px" Width="107px" Grid.Column="1" FontSize="12px" Foreground="White" Content="Obliczony dystans:"/>
-                <Label Margin="0 0 0 0" Height="26px" Width="53px"  Grid.Column="2" FontSize="12px" Foreground="White" Content="Różnica:"/>
+                <Label Margin="0 0 0 0" Height="26px" Width="115px" Grid.Column="0" FontSize="12px" Foreground="White" Content="Oryginalny dystans:"/>
+                <Label Margin="0 0 0 0" Height="26px" Width="110px" Grid.Column="1" FontSize="12px" Foreground="White" Content="Obliczony dystans:"/>
+                <Label Margin="0 0 0 0" Height="26px" Width="55px"  Grid.Column="2" FontSize="12px" Foreground="White" Content="Różnica:"/>
 
                 <ListBox Margin="5 0 5 5" FontSize="12px" Grid.Row="1" Grid.Column="0" Background="#232323" Foreground="White" ItemsSource="{Binding OriginalList}" />
                 <ListBox Margin="5 0 5 5" FontSize="12px" Grid.Row="1" Grid.Column="1" Background="#232323" Foreground="White" ItemsSource="{Binding CountedList}" />
                 <ListBox Margin="5 0 5 5" FontSize="12px" Grid.Row="1" Grid.Column="2" Background="#232323" Foreground="White" ItemsSource="{Binding DiffrenceList}" />
             </Grid>
         </GroupBox>
+
+        <!-- Wykresy -->
+        <Label HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0" FontSize="14px" Foreground="White" Content="Sygnał oryginalny" >
+            <Label.LayoutTransform>
+                <RotateTransform Angle="270" />
+            </Label.LayoutTransform>
+        </Label>
+        <lvc:CartesianChart Grid.Column="2" Hoverable="False" Margin="5 20 20 0" DataTooltip="{x:Null}" ChartLegend="{x:Null}" Series="{Binding Chart1}" DisableAnimations="True" />
+
+        <Label HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" FontSize="14px" Foreground="White" Content="Odpowiedź" >
+            <Label.LayoutTransform>
+                <RotateTransform Angle="270" />
+            </Label.LayoutTransform>
+        </Label>
+        <lvc:CartesianChart Grid.Column="2" Grid.Row="1" Grid.RowSpan="3" Hoverable="False" Margin="5 10 20 10" DataTooltip="{x:Null}" ChartLegend="{x:Null}" Series="{Binding Chart2}" DisableAnimations="True" />
+
+        <Label HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Grid.Row="4" FontSize="14px" Foreground="White" Content="Korelacja" RenderTransformOrigin="0.161,1.556" >
+            <Label.LayoutTransform>
+                <RotateTransform Angle="270" />
+            </Label.LayoutTransform>
+        </Label>
+        <lvc:CartesianChart Grid.Column="2" Grid.Row="4" Hoverable="False" Margin="5 0 20 20" DataTooltip="{x:Null}" ChartLegend="{x:Null}" Series="{Binding Chart3}" DisableAnimations="True" />
+
 
     </Grid>
 </Window>

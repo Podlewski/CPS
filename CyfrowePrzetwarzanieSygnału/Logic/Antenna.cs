@@ -18,6 +18,11 @@ namespace Logic
         public double BuffersLength { get; set; }
         public double ReportingPeriod { get; set; }
 
+        public List<double> ProbingSignal { get; set; }
+        public List<double> FeedbackSignal { get; set; }
+        public List<double> CorrelationSamples { get; set; }
+
+
         public Antenna()
         {}
 
@@ -58,12 +63,12 @@ namespace Logic
                 double currentDistance = i * RealSpeed;
                 double propagationTime = 2 * currentDistance / AbstractSpeed;
 
-                List<double> probingSignal = CreateSignal(amplitudes, SignalPeriod, i - duration, duration, SamplingFrequency);
-                List<double> feedbackSignal = CreateSignal(amplitudes, SignalPeriod, i - propagationTime, duration, SamplingFrequency);
+                ProbingSignal = CreateSignal(amplitudes, SignalPeriod, i - duration, duration, SamplingFrequency);
+                FeedbackSignal = CreateSignal(amplitudes, SignalPeriod, i - propagationTime, duration, SamplingFrequency);
 
-                List<double> correlationSamples = Operations.IndirectlyCorelateSignals(probingSignal, feedbackSignal);
+                CorrelationSamples = Operations.IndirectlyCorelateSignals(ProbingSignal, FeedbackSignal);
 
-                result.Add(CalculateDistance(correlationSamples, SamplingFrequency, AbstractSpeed));    
+                result.Add(CalculateDistance(CorrelationSamples, SamplingFrequency, AbstractSpeed));    
             }
 
             return result;
@@ -101,10 +106,11 @@ namespace Logic
             return samples;
         }
 
-
+        // no start time, so no T1
         private double AntenaSinusoidalSignal(double A, double T, double t)
         {
             return A * Math.Sin((2 * Math.PI / T) * t);
         }
+
     }
 }

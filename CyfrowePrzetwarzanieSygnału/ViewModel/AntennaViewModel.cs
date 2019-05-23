@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows;
+﻿using System.Collections.Generic;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Linq;
 
+using LiveCharts;
+using LiveCharts.Wpf;
+using LiveCharts.Configurations;
+
 using Logic;
-using Microsoft.Win32;
 
 namespace ViewModel
 {
@@ -16,6 +17,10 @@ namespace ViewModel
         public ICommand CountCommand { get; set; }
 
         private Antenna antenna;
+
+        public SeriesCollection Chart1 { get; set; }
+        public SeriesCollection Chart2 { get; set; }
+        public SeriesCollection Chart3 { get; set; }
 
         public int NumberOfMeasurement { get; set; }
         public int BasicSignals { get; set; }
@@ -69,9 +74,71 @@ namespace ViewModel
             CountedList = antenna.CountDistances();
             DiffrenceList = antenna.CountDiffrence(OriginalList, CountedList);
 
+            DrawCharts(antenna);
+
             OnPropertyChanged(nameof(OriginalList));
             OnPropertyChanged(nameof(CountedList));
             OnPropertyChanged(nameof(DiffrenceList));
+        }
+
+        private void DrawCharts(Antenna antenna)
+        {
+            var mapper = Mappers.Xy<Point>()
+                .X(value => value.X)
+                .Y(value => value.Y);
+
+            ChartValues<Point> values1 = new ChartValues<Point>();
+            ChartValues<Point> values2 = new ChartValues<Point>();
+            ChartValues<Point> values3 = new ChartValues<Point>();
+
+            for (int i = 0; i < antenna.ProbingSignal.Count; i++)
+                values1.Add(new Point(i, antenna.ProbingSignal[i]));
+
+            for (int i = 0; i < antenna.FeedbackSignal.Count; i++)
+                values2.Add(new Point(i, antenna.FeedbackSignal[i]));
+
+            for (int i = 0; i < antenna.CorrelationSamples.Count; i++)
+                values3.Add(new Point(i, antenna.CorrelationSamples[i]));
+
+            Chart1 = new SeriesCollection(mapper)
+            {
+                new LineSeries()
+                {
+                    PointGeometry = null,
+                    StrokeThickness = 2,
+                    Values = values1,
+                    Fill = Brushes.Transparent,
+                    Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#26A0DA"))
+                }
+            };
+
+            Chart2 = new SeriesCollection(mapper)
+            {
+                new LineSeries()
+                {
+                    PointGeometry = null,
+                    StrokeThickness = 2,
+                    Values = values2,
+                    Fill = Brushes.Transparent,
+                    Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#26A0DA"))
+                }
+            };
+
+            Chart3 = new SeriesCollection(mapper)
+            {
+                new LineSeries()
+                {
+                    PointGeometry = null,
+                    StrokeThickness = 2,
+                    Values = values3,
+                    Fill = Brushes.Transparent,
+                    Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#26A0DA"))
+                }
+            };
+
+            OnPropertyChanged(nameof(Chart1));
+            OnPropertyChanged(nameof(Chart2));
+            OnPropertyChanged(nameof(Chart3));
         }
     }
 }

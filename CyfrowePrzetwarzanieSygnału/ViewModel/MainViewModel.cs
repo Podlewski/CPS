@@ -21,6 +21,8 @@ namespace ViewModel
         public ICommand SamplingReconstructionInfoCommand { get; set; }
         public ICommand CreateFilterCommand { get; set; }
         public ICommand FilterSignalCommand { get; set; }
+        public ICommand TransformationCommand { get; set; }
+        public ICommand BackwardTransformationCommand { get; set; }
         public ICommand LoadCommand { get; set; }
         public ICommand SaveCommand { get; set; }
         public ICommand QuitCommand { get; set; }
@@ -42,6 +44,9 @@ namespace ViewModel
 
         public List<string> FilterList { get; set; }
         public string SelectedFilter { get; set; }
+
+        public List<string> TransformationList { get; set; }
+        public string SelectedTransformation { get; set; }
 
         public List<string> WindowList { get; set; }
         public string SelectedWindow { get; set; }
@@ -129,12 +134,23 @@ namespace ViewModel
             };
             SelectedWindow = WindowList[0];
 
+            TransformationList = new List<string>()
+            {
+                "1) Dyskretna transformacja Fouriera",
+                "2) Szybka transformacja Fouriera z decymacją w dziedzinie czasu",
+                "3) Trasnfromacja falkowa (DB8)"
+
+            };
+            SelectedTransformation = TransformationList[0];
+
             AddTabCommand = new RelayCommand(AddTab);
             GenerateCommand = new RelayCommand(Generate);
             ComputeCommand = new RelayCommand(Compute);
             SamplingReconstructionInfoCommand = new RelayCommand(SamplingReconstructionInfo);
             CreateFilterCommand = new RelayCommand(CreateFilter);
             FilterSignalCommand = new RelayCommand(FilterSignal);
+            TransformationCommand = new RelayCommand(Transformation);
+            BackwardTransformationCommand = new RelayCommand(BackwardTransformation);
             LoadCommand = new RelayCommand(Load);
             SaveCommand = new RelayCommand(Save);
             QuitCommand = new RelayCommand(Quit);
@@ -371,6 +387,16 @@ namespace ViewModel
         public void SamplingReconstructionInfo()
         {
             MessageBox.Show("Wpisz 0 aby skorzystać ze wszystkich próbek", "Informacja", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        public void Transformation()
+        {
+            MessageBox.Show("B", "Informacja", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        public void BackwardTransformation()
+        {
+            MessageBox.Show("C", "Informacja", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         public void Load()

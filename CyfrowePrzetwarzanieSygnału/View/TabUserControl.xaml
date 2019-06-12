@@ -24,7 +24,41 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Header="Konwersja A/C" >
+            <TabItem Header="Histogram" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.9*"/>
+                        <RowDefinition Height="0.1*"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.95*"/>
+                        <ColumnDefinition Width="0.05*"/>
+
+                    </Grid.ColumnDefinitions>
+
+                    <lvc:CartesianChart Grid.RowSpan="2" Hoverable="False" DataTooltip="{x:Null}" ChartLegend="{x:Null}" Series="{Binding Histogram}" DisableAnimations="True" >
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis Labels="{Binding Labels}">
+                                <lvc:Axis.Separator>
+                                    <lvc:Separator IsEnabled="True" Step="{Binding HistogramStep}"/>
+                                </lvc:Axis.Separator>
+                            </lvc:Axis>
+                        </lvc:CartesianChart.AxisX>
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis MinValue="0"/>
+                        </lvc:CartesianChart.AxisY>
+                    </lvc:CartesianChart>
+
+                    <Slider Grid.Column="1" Value="{Binding SliderValue}" Margin="0 10 0 10" Orientation="Vertical" HorizontalAlignment="Center"
+                            Maximum="20" Minimum="1" IsSnapToTickEnabled="True" TickFrequency="1" Name="Slider" Style="{DynamicResource SliderStyle}"  />
+
+                    <TextBox Grid.Row="1" Grid.Column="1" Height="20px" Width="26px" VerticalAlignment="Top" Background="#34414F" Foreground="White" 
+                             TextAlignment="Center" Text="{Binding ElementName=Slider, Path=Value, UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="A/C" >
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.05*"/>
@@ -51,7 +85,7 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Header="Konwersja C/A" >
+            <TabItem Header="C/A" >
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.05*"/>
@@ -78,37 +112,58 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Header="Histogram" >
+            <TabItem Header="W1" >
                 <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.05*"/>
+                        <ColumnDefinition Width="0.95*"/>
+                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="0.9*"/>
-                        <RowDefinition Height="0.1*"/>
+                        <RowDefinition/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
+
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" FontSize="14px" Foreground="White" Content="Część rzeczywista" >
+                        <Label.LayoutTransform>
+                            <RotateTransform Angle="270" />
+                        </Label.LayoutTransform>
+                    </Label>
+                    <lvc:CartesianChart Grid.Row="0" Grid.Column="1" Hoverable="False" DataTooltip="{x:Null}" ChartLegend="{x:Null}"  DisableAnimations="True" Series="{Binding RealChart}"/>
+
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" FontSize="14px" Foreground="White" Content="Część urojona" >
+                        <Label.LayoutTransform>
+                            <RotateTransform Angle="270" />
+                        </Label.LayoutTransform>
+                    </Label>
+                    <lvc:CartesianChart Grid.Row="1" Grid.Column="1" Hoverable="False" DataTooltip="{x:Null}" ChartLegend="{x:Null}" DisableAnimations="True" Series="{Binding ImaginaryChart}" />
+                </Grid>
+            </TabItem>
+
+
+            <TabItem Header="W2" >
+                <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.95*"/>
                         <ColumnDefinition Width="0.05*"/>
-
+                        <ColumnDefinition Width="0.95*"/>
                     </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
 
-                    <lvc:CartesianChart Grid.RowSpan="2" Hoverable="False" DataTooltip="{x:Null}" ChartLegend="{x:Null}" Series="{Binding Histogram}" DisableAnimations="True" >
-                        <lvc:CartesianChart.AxisX>
-                            <lvc:Axis Labels="{Binding Labels}">
-                                <lvc:Axis.Separator>
-                                    <lvc:Separator IsEnabled="True" Step="{Binding HistogramStep}"/>
-                                </lvc:Axis.Separator>
-                            </lvc:Axis>
-                        </lvc:CartesianChart.AxisX>
-                        <lvc:CartesianChart.AxisY>
-                            <lvc:Axis MinValue="0"/>
-                        </lvc:CartesianChart.AxisY>
-                    </lvc:CartesianChart>   
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" FontSize="14px" Foreground="White" Content="Moduł liczby zespolonej" >
+                        <Label.LayoutTransform>
+                            <RotateTransform Angle="270" />
+                        </Label.LayoutTransform>
+                    </Label>
+                    <lvc:CartesianChart Grid.Row="0" Grid.Column="1" Hoverable="False" DataTooltip="{x:Null}" ChartLegend="{x:Null}"  DisableAnimations="True" Series="{Binding ModuleChart}"/>
 
-                        <Slider Grid.Column="1" Value="{Binding SliderValue}" Margin="0 10 0 10" Orientation="Vertical" HorizontalAlignment="Center"
-                            Maximum="20" Minimum="1" IsSnapToTickEnabled="True" TickFrequency="1" Name="Slider" Style="{DynamicResource SliderStyle}"  />
-
-                    <TextBox Grid.Row="1" Grid.Column="1" Height="20px" Width="26px" VerticalAlignment="Top" Background="#34414F" Foreground="White" 
-                             TextAlignment="Center" Text="{Binding ElementName=Slider, Path=Value, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" FontSize="14px" Foreground="White" Content="Argument liczby w funkcji częstotliwości" >
+                        <Label.LayoutTransform>
+                            <RotateTransform Angle="270" />
+                        </Label.LayoutTransform>
+                    </Label>
+                    <lvc:CartesianChart Grid.Row="1" Grid.Column="1" Hoverable="False" DataTooltip="{x:Null}" ChartLegend="{x:Null}" DisableAnimations="True" Series="{Binding ArgumentChart}" />
                 </Grid>
             </TabItem>
 
@@ -127,7 +182,9 @@
                         <RowDefinition/>
                         <RowDefinition/>
                         <RowDefinition/>
-                        <RowDefinition Height="7.0*"/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition Height="5.0*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.65*"/>
@@ -148,6 +205,8 @@
                     <Label Margin="20 0 0 0" Grid.Row="10" Grid.Column="0" FontSize="12px" Foreground="White" VerticalContentAlignment="Center" Content="Maksymalna różnica:"/>
                     <Label Margin="20 0 0 0" Grid.Row="11" Grid.Column="0" FontSize="12px" Foreground="White" VerticalContentAlignment="Center" Content="Efektywna liczba bitów:"/>
 
+                    <Label Margin="20 0 0 0" Grid.Row="13" Grid.Column="0" FontSize="12px" Foreground="White" VerticalContentAlignment="Center" Content="Czas transformacji:"/>
+                    
                     <TextBox Grid.Row="1" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding AverageValue}"/>
                     <TextBox Grid.Row="2" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding AverageAbsValue}"/>
                     <TextBox Grid.Row="3" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding RootMeanSquare}"/>
@@ -159,7 +218,9 @@
                     <TextBox Grid.Row="9" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding PeakSignalToNoiseRatioValue}"/>
                     <TextBox Grid.Row="10" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding MaximumDifferenceValue}"/>
                     <TextBox Grid.Row="11" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding EffectiveNumberOfBitsValue}"/>
-                    
+
+                    <TextBox Grid.Row="13" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding TransformationTime}"/>
+
                 </Grid>
             </TabItem>
         </TabControl>

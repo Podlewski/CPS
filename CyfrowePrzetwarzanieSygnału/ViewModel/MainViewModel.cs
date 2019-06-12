@@ -143,6 +143,8 @@ namespace ViewModel
         public void AddTab()
         {
             TabList.Add(new TabViewModel(TabList.Count));
+            SelectedTab = TabList[TabList.Count - 1];
+            OnPropertyChanged(nameof(SelectedTab));
         }
 
         public void Generate()

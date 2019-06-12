@@ -347,7 +347,7 @@ namespace Logic
 
         public static List<double> HighPassFilter(int M, double F0, double Fp)
         {
-            List<double> lowPassFactors = LowPassFilter(M, F0, Fp);
+            List<double> lowPassFactors = LowPassFilter(M, 1000 - F0, Fp);
             List<double> result = new List<double>();
 
             for (int i = 0; i < lowPassFactors.Count; i++)

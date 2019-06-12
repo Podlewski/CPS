@@ -15,8 +15,8 @@
             <RowDefinition Height="2.0*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1.2*"/>
-            <ColumnDefinition Width="2.8*"/>
+            <ColumnDefinition Width="1.4*"/>
+            <ColumnDefinition Width="2.6*"/>
         </Grid.ColumnDefinitions>
 
         <Menu Grid.ColumnSpan="2" VerticalAlignment="Top" Background="#282828" Height="25" >
@@ -217,6 +217,28 @@
                     <!-- Rysuj -->
                     <Button Grid.Row="5" Grid.ColumnSpan="2" Margin="0 0 0 0" Height="30" Width="340" FontSize="13px" 
                             Command="{Binding FilterSignalCommand}" Style="{DynamicResource ButtonStyle}" Content="Filtruj sygnał" />
+                </Grid>
+            </TabItem>
+
+
+            <TabItem Header="Transformacja">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.35*"/>
+                        <RowDefinition Height="0.40*"/>
+                        <RowDefinition Height="0.35*"/>
+                        <RowDefinition Height="0.15*"/>
+                        <RowDefinition Height="0.60*"/>
+                        <RowDefinition Height="0.15*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Rysuj -->
+                    <Button Grid.Row="5" Grid.ColumnSpan="2" Margin="0 0 0 0" Height="30" Width="340" FontSize="13px" 
+                            Command="{Binding SomeCommand}" Style="{DynamicResource ButtonStyle}" Content="Przycisk" />
                 </Grid>
             </TabItem>
 

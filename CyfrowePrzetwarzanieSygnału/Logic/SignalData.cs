@@ -54,10 +54,10 @@ namespace Logic
 
         public bool IsNotEmpty()
         {
-            if (SamplesX == null || SamplesX.Count == 0)
+            if (ConversionSamplesX == null || ConversionSamplesX.Count == 0)
                 return false;
 
-            if (SamplesY == null || SamplesY.Count == 0)
+            if (ConversionSamplesY == null || ConversionSamplesY.Count == 0)
                 return false;
 
             return true;
@@ -73,7 +73,7 @@ namespace Logic
                 return true;
             }
 
-            if (data.SamplesX.Count != SamplesX.Count)
+            if (data.ConversionSamplesX.Count != ConversionSamplesX.Count)
             {
                 message += "niezgodna liczba próbek.";
                 return true;
@@ -91,8 +91,9 @@ namespace Logic
         public List<(double, double, int)> GetDataForHistogram(int count)
         {
             List<(double, double, int)> result = new List<(double, double, int)>(count);
-            double max = SamplesY.Max();
-            double min = SamplesY.Min();
+
+            double max = ConversionSamplesY.Max();
+            double min = ConversionSamplesY.Min();
 
             double range = max - min;
             double interval = range / count;

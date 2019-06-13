@@ -79,7 +79,7 @@ namespace ViewModel
             SliderValue = 10;
         }
 
-        public void DrawCharts(bool reconstruction)
+        public void DrawCharts()
         {
             var mapper = Mappers.Xy<Logic.Point>()
                 .X(value => value.X)
@@ -87,11 +87,11 @@ namespace ViewModel
 
             ChartValues<Logic.Point> values = new ChartValues<Logic.Point>();
 
-            for (int i = 0; i < SignalData.SamplesX.Count; i++)
-                values.Add(new Logic.Point(SignalData.SamplesX[i], SignalData.SamplesY[i]));
-
             if (IsScattered)
             {
+                for (int i = 0; i < SignalData.ConversionSamplesX.Count; i++)
+                    values.Add(new Logic.Point(SignalData.ConversionSamplesX[i], SignalData.ConversionSamplesY[i]));
+
                 Chart = new SeriesCollection(mapper)
                 {
                     new ScatterSeries()
@@ -105,6 +105,9 @@ namespace ViewModel
             }
             else
             {
+                for (int i = 0; i < SignalData.SamplesX.Count; i++)
+                    values.Add(new Logic.Point(SignalData.SamplesX[i], SignalData.SamplesY[i]));
+
                 Chart = new SeriesCollection(mapper)
                 {
                     new LineSeries()
@@ -134,23 +137,32 @@ namespace ViewModel
 
             OnPropertyChanged(nameof(Chart));
             OnPropertyChanged(nameof(Histogram));
+        }
 
-            if (reconstruction)
-            {
-                ChartValues<Logic.Point> samplingValues = new ChartValues<Logic.Point>();
-                ChartValues<Logic.Point> quantizationValues = new ChartValues<Logic.Point>();
-                ChartValues<Logic.Point> reconstructionValues = new ChartValues<Logic.Point>();
+        public void ReconstructCharts()
+        {
+            var mapper = Mappers.Xy<Logic.Point>()
+                .X(value => value.X)
+                .Y(value => value.Y);
 
-                for (int i = 0; i < SignalData.ConversionSamplesX.Count; i++)
-                    samplingValues.Add(new Logic.Point(SignalData.ConversionSamplesX[i], SignalData.ConversionSamplesY[i]));
+            ChartValues<Logic.Point> values = new ChartValues<Logic.Point>();
+            ChartValues<Logic.Point> samplingValues = new ChartValues<Logic.Point>();
+            ChartValues<Logic.Point> quantizationValues = new ChartValues<Logic.Point>();
+            ChartValues<Logic.Point> reconstructionValues = new ChartValues<Logic.Point>();
 
-                for (int i = 0; i < SignalData.ConversionSamplesX.Count; i++)
-                    quantizationValues.Add(new Logic.Point(SignalData.ConversionSamplesX[i], SignalData.QuantizationSamplesY[i]));
+            for (int i = 0; i < SignalData.SamplesX.Count; i++)
+                values.Add(new Logic.Point(SignalData.SamplesX[i], SignalData.SamplesY[i]));
 
-                for (int i = 0; i < SignalData.ReconstructionSamplesX.Count; i++)
-                    reconstructionValues.Add(new Logic.Point(SignalData.ReconstructionSamplesX[i], SignalData.ReconstructionSamplesY[i]));
+            for (int i = 0; i < SignalData.ConversionSamplesX.Count; i++)
+                samplingValues.Add(new Logic.Point(SignalData.ConversionSamplesX[i], SignalData.ConversionSamplesY[i]));
 
-                SamplingChart = new SeriesCollection(mapper)
+            for (int i = 0; i < SignalData.ConversionSamplesX.Count; i++)
+                quantizationValues.Add(new Logic.Point(SignalData.ConversionSamplesX[i], SignalData.QuantizationSamplesY[i]));
+
+            for (int i = 0; i < SignalData.ReconstructionSamplesX.Count; i++)
+                reconstructionValues.Add(new Logic.Point(SignalData.ReconstructionSamplesX[i], SignalData.ReconstructionSamplesY[i]));
+
+            SamplingChart = new SeriesCollection(mapper)
                 {
                     new LineSeries()
                     {
@@ -169,7 +181,7 @@ namespace ViewModel
                     }
                 };
 
-                QuantizationChart = new SeriesCollection(mapper)
+            QuantizationChart = new SeriesCollection(mapper)
                 {
                     new LineSeries()
                     {
@@ -189,7 +201,7 @@ namespace ViewModel
                     }
                 };
 
-                InterpolationChart = new SeriesCollection(mapper)
+            InterpolationChart = new SeriesCollection(mapper)
                 {
                     new LineSeries()
                     {
@@ -210,7 +222,7 @@ namespace ViewModel
                     }
                 };
 
-                ReconstructionChart = new SeriesCollection(mapper)
+            ReconstructionChart = new SeriesCollection(mapper)
                 {
                     new LineSeries()
                     {
@@ -230,13 +242,11 @@ namespace ViewModel
                     }
                 };
 
-                OnPropertyChanged(nameof(SamplingChart));
-                OnPropertyChanged(nameof(QuantizationChart));
-                OnPropertyChanged(nameof(InterpolationChart));
-                OnPropertyChanged(nameof(ReconstructionChart));
-            }
+            OnPropertyChanged(nameof(SamplingChart));
+            OnPropertyChanged(nameof(QuantizationChart));
+            OnPropertyChanged(nameof(InterpolationChart));
+            OnPropertyChanged(nameof(ReconstructionChart));
         }
-
 
         public override string ToString()
         {

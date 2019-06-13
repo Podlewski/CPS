@@ -19,6 +19,7 @@ namespace ViewModel
         public ICommand GenerateCommand { get; set; }
         public ICommand ComputeCommand { get; set; }
         public ICommand SamplingReconstructionInfoCommand { get; set; }
+        public ICommand ReconstructCommand { get; set; }
         public ICommand CreateFilterCommand { get; set; }
         public ICommand FilterSignalCommand { get; set; }
         public ICommand TransformationCommand { get; set; }
@@ -147,6 +148,7 @@ namespace ViewModel
             GenerateCommand = new RelayCommand(Generate);
             ComputeCommand = new RelayCommand(Compute);
             SamplingReconstructionInfoCommand = new RelayCommand(SamplingReconstructionInfo);
+            ReconstructCommand = new RelayCommand(Reconstruct);
             CreateFilterCommand = new RelayCommand(CreateFilter);
             FilterSignalCommand = new RelayCommand(FilterSignal);
             TransformationCommand = new RelayCommand(Transformation);
@@ -165,7 +167,6 @@ namespace ViewModel
 
         public void Generate()
         {
-
             Generator generator = new Generator()
             {
                 A = A_Amplitude,
@@ -182,17 +183,6 @@ namespace ViewModel
             {
                 SignalData signalData = new SignalData(T1_StartTime, Frequency, SamplingFrequency);
 
-                double step = 2 * A_Amplitude / (Math.Pow(2, QuantizationThresholds) - 1);
-                List<double> steps = new List<double>
-                {
-                    -A_Amplitude
-                };
-
-                for (int i = 1; i < Math.Pow(2, QuantizationThresholds); i++)
-                {
-                    steps.Add(steps[i - 1] + step);
-                }
-
                 for (decimal i = (decimal)T1_StartTime; i < (decimal)(T1_StartTime + D_DurationOfTheSignal); i += 1 / (decimal)Frequency)
                 {
                     signalData.SamplesX.Add((double)i);
@@ -206,20 +196,6 @@ namespace ViewModel
                     {
                         signalData.ConversionSamplesX.Add(signalData.SamplesX[i]);
                         signalData.ConversionSamplesY.Add(signalData.SamplesY[i]);
-
-                        double diff = Math.Abs(signalData.SamplesY[i] - steps[0]);
-                        int iterator = 0;
-
-                        for(int j = 0; j < Math.Pow(2, QuantizationThresholds); j++)
-                        {
-                            if (Math.Abs(signalData.SamplesY[i] - steps[j]) <= diff)
-                            {
-                                diff = Math.Abs(signalData.SamplesY[i] - steps[j]);
-                                iterator = j;
-                            }
-                        }
-
-                        signalData.QuantizationSamplesY.Add(steps[iterator]);
                     }
                 }
                 else
@@ -229,37 +205,12 @@ namespace ViewModel
                         signalData.ConversionSamplesX.Add((double)i);
                         signalData.ConversionSamplesY.Add(selectedGeneration((double)i));
                     }
-
-                    for (int i = 0; i < signalData.ConversionSamplesX.Count; i++)
-                    {
-                        double diff = signalData.SamplesX.LastOrDefault();
-                        int iterator = 0;
-
-                        for (int j = 0; j < Math.Pow(2, QuantizationThresholds); j++)
-                        {
-                            if (Math.Abs(signalData.ConversionSamplesY[i] - steps[j]) <= diff)
-                            {
-                                diff = Math.Abs(signalData.ConversionSamplesY[i] - steps[j]);
-                                iterator = j;
-                            }
-                        }
-
-                        signalData.QuantizationSamplesY.Add(steps[iterator]);
-                    }
-                }
-
-                for(decimal i = (decimal)T1_StartTime; i < (decimal)(T1_StartTime + D_DurationOfTheSignal); i += 1 /(decimal)ReconstructionFrequency)
-                {
-                    signalData.ReconstructionSamplesX.Add((double)i);
-                    signalData.ReconstructionSamplesY.Add(generator.SincReconstruction(signalData.ConversionSamplesX, signalData.QuantizationSamplesY,
-                                                                                       (double)i, SamplingFrequency, ReconstructionSamples));
                 }
 
                 SelectedTab.SignalData = signalData;
                 SelectedTab.IsScattered = SelectedSignal.IsGenerationScattered();
                 SelectedTab.CalculateSignalInfo(T1_StartTime, T1_StartTime + D_DurationOfTheSignal);
-                SelectedTab.CalculateReconstructionInfo();
-                SelectedTab.DrawCharts(true);
+                SelectedTab.DrawCharts();
             }
         }
 
@@ -280,14 +231,14 @@ namespace ViewModel
 
                     SignalData signalData = new SignalData(0)
                     {
-                        SamplesX = XSamples,
-                        SamplesY = SelectedOperation.SignalOperation(FirstOperationTab.SignalData.ConversionSamplesY,
+                        ConversionSamplesX = XSamples,
+                        ConversionSamplesY = SelectedOperation.SignalOperation(FirstOperationTab.SignalData.ConversionSamplesY,
                                                                 SecondOperationTab.SignalData.ConversionSamplesY)
                     };
 
                     SelectedTab.SignalData = signalData;
                     SelectedTab.IsScattered = true;
-                    SelectedTab.DrawCharts(false);
+                    SelectedTab.DrawCharts();
                 }
 
                 else
@@ -304,8 +255,8 @@ namespace ViewModel
                                                            FirstOperationTab.SignalData.Sampling,
                                                            FirstOperationTab.SignalData.ConversionSampling)
                     {
-                        SamplesX = FirstOperationTab.SignalData.ConversionSamplesX,
-                        SamplesY = SelectedOperation.SignalOperation(FirstOperationTab.SignalData.ConversionSamplesY,
+                        ConversionSamplesX = FirstOperationTab.SignalData.ConversionSamplesX,
+                        ConversionSamplesY = SelectedOperation.SignalOperation(FirstOperationTab.SignalData.ConversionSamplesY,
                                                                 SecondOperationTab.SignalData.ConversionSamplesY)
                     };
 
@@ -313,9 +264,81 @@ namespace ViewModel
                     SelectedTab.IsScattered = true;
                     SelectedTab.CalculateSignalInfo(signalData.StartTime,
                                                     signalData.StartTime + (signalData.ConversionSamplesY.Count / signalData.ConversionSampling));
-                    SelectedTab.DrawCharts(false);
+                    SelectedTab.DrawCharts();
                 }
             }
+        }
+
+        public void Reconstruct()
+        {
+            SignalData signalData = SelectedTab.SignalData;
+
+            Generator generator = new Generator()
+            {   T1 = signalData.StartTime };
+
+            double step = 2 * A_Amplitude / (Math.Pow(2, QuantizationThresholds) - 1);
+            List<double> steps = new List<double>
+                {
+                    -A_Amplitude
+                };
+
+            for (int i = 1; i < Math.Pow(2, QuantizationThresholds); i++)
+            {
+                steps.Add(steps[i - 1] + step);
+            }
+
+            if (Frequency % SamplingFrequency == 0)
+            {
+                // dla sygnałów generowanych losowo -> dzięki temu próbki są identyczne 
+                for (int i = 0; i < signalData.SamplesX.Count; i += Frequency / SamplingFrequency)
+                {
+                    double diff = Math.Abs(signalData.SamplesY[i] - steps[0]);
+                    int iterator = 0;
+
+                    for (int j = 0; j < Math.Pow(2, QuantizationThresholds); j++)
+                    {
+                        if (Math.Abs(signalData.SamplesY[i] - steps[j]) <= diff)
+                        {
+                            diff = Math.Abs(signalData.SamplesY[i] - steps[j]);
+                            iterator = j;
+                        }
+                    }
+
+                    signalData.QuantizationSamplesY.Add(steps[iterator]);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < signalData.ConversionSamplesX.Count; i++)
+                {
+                    double diff = signalData.SamplesX.LastOrDefault();
+                    int iterator = 0;
+
+                    for (int j = 0; j < Math.Pow(2, QuantizationThresholds); j++)
+                    {
+                        if (Math.Abs(signalData.ConversionSamplesY[i] - steps[j]) <= diff)
+                        {
+                            diff = Math.Abs(signalData.ConversionSamplesY[i] - steps[j]);
+                            iterator = j;
+                        }
+                    }
+
+                    signalData.QuantizationSamplesY.Add(steps[iterator]);
+                }
+            }
+
+            for (decimal i = (decimal)T1_StartTime; i < (decimal)(T1_StartTime + D_DurationOfTheSignal); i += 1 / (decimal)ReconstructionFrequency)
+            {
+                signalData.ReconstructionSamplesX.Add((double)i);
+                signalData.ReconstructionSamplesY.Add(generator.SincReconstruction(signalData.ConversionSamplesX, signalData.QuantizationSamplesY,
+                                                                                   (double)i, SamplingFrequency, ReconstructionSamples));
+            }
+
+            SelectedTab.SignalData = signalData;
+            SelectedTab.IsScattered = SelectedSignal.IsGenerationScattered();
+            SelectedTab.CalculateSignalInfo(T1_StartTime, T1_StartTime + D_DurationOfTheSignal);
+            SelectedTab.CalculateReconstructionInfo();
+            SelectedTab.ReconstructCharts();
         }
 
         public void CreateFilter()
@@ -329,13 +352,13 @@ namespace ViewModel
 
             SignalData signalData = new SignalData(0)
             {
-                SamplesX = XSamples,
-                SamplesY = YSamples
+                ConversionSamplesX = XSamples,
+                ConversionSamplesY = YSamples
             };
 
             SelectedTab.SignalData = signalData;
             SelectedTab.IsScattered = true;
-            SelectedTab.DrawCharts(false);
+            SelectedTab.DrawCharts();
         }
 
         public void FilterSignal()
@@ -374,13 +397,13 @@ namespace ViewModel
 
                 SignalData signalData = new SignalData(0)
                 {
-                    SamplesX = XSamples,
-                    SamplesY = YSamples
+                    ConversionSamplesX = XSamples,
+                    ConversionSamplesY = YSamples
                 };
 
                 SelectedTab.SignalData = signalData;
                 SelectedTab.IsScattered = true;
-                SelectedTab.DrawCharts(false);
+                SelectedTab.DrawCharts();
             }
         }
 
@@ -404,7 +427,7 @@ namespace ViewModel
             try
             {
                 SelectedTab.LoadDataFromFile(LoadPath(true));
-                SelectedTab.DrawCharts(false); 
+                SelectedTab.DrawCharts(); 
             }
             catch
             {

@@ -10,8 +10,9 @@ namespace Logic
         {
             List<double> result = new List<double>();
 
-            for (int i = 0; i < signal1.Count; i++)
+            for (int i = 0; i < Math.Max(signal1.Count, signal2.Count); i++)
             {
+
                 result.Add(signal1[i] + signal2[i]);
             }
 

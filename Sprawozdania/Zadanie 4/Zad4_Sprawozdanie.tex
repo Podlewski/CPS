@@ -9,10 +9,10 @@
 
 \setlength{\textheight}{21cm}
 
-\title{{\bf Zadanie nr 4 - Przeksztalcenie Fouriera, Walsha-Hadamarda, kosinusowe i falkowe,szybkie algorytmy}\linebreak
-Cyfrowe Przetwarzanie Sygna³u}
+\title{{\bf Zadanie nr 4 - Przekszta³cenie Fouriera i falkowe, szybkie algorytmy}\linebreak
+	Cyfrowe Przetwarzanie Sygna³u}
 \author{Justyna Hubert, 210200 \and Karol Podlewski, 210294}
-\date{19.05.2019}
+\date{13.06.2019}
 
 \begin{document}
 \clearpage\maketitle
@@ -25,23 +25,23 @@ Cyfrowe Przetwarzanie Sygna³u}
 %% CEL ZADANIA
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Cel zadania}
-Celem cwiczenia jest zapoznanie sie z operacjami transformacji sygnalów dyskretnychprzy u¿yciu wybranych metod.
+Celem æwiczenia jest zapoznanie siê z operacjami transformacji sygna³ów dyskretnych przy u¿yciu wybranych metod.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% WSTEP TEORETYCZNY
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Wstep teoretyczny}
 Jest to usprawniony program z zadania 1, 2 oraz 3, dostosowany do instrukcji z zadania czwartego ~\cite{instrukcja}. \\
 
-W ramach cwiczenia nale¿alo dodac mo¿liwosc odczytu i zapisu sygnalów o wartosciach zespolonych, umo¿liwic rysowanie wykresów sygnalów dyskretnych o wartosciach zespolonych w postaci dwóch wykresów o wspólnej dziedzinie ulo¿onych jeden nad drugim. Przyjeto, ¿e sygnaly zespolone beda tylko wynikiem transformacji Fouriera, a co za tym idzie beda prezentowac funkcje w dziedzinie czestotliwosci. Dostepne mialy byc tak¿e dwa atrybuty prezentacji wykresu:
+W ramach æwiczenia nale¿a³o dodaæ mo¿liwoœæ odczytu i zapisu sygna³ów o wartoœciach zespolonych, umo¿liwiæ rysowanie wykresów sygna³ów dyskretnych o wartoœciach zespolonych w postaci dwóch wykresów o wspólnej dziedzinie u³o¿onych jeden nad drugim. Przyjêto, ¿e sygna³y zespolone bêd¹ tylko wynikiem transformacji Fouriera, a co za tym idzie bêd¹ prezentowaæ funkcje w dziedzinie czêstotliwoœci. Dostêpne mia³y byæ tak¿e dwa atrybuty prezentacji wykresu:
 
 \begin{itemize}
-	\item (W1) - górny   wykres   prezentuje   czesc   rzeczywista   amplitudy   w   funkcji czestotliwosci, a wykres dolny czesc urojona,
-	\item (W2) - górny wykres prezentuje modul liczby zespolonej, a dolny argument liczbywfunkcji czestotliwosci
+	\item (W1) - górny   wykres   prezentuje   czêœæ   rzeczywista   amplitudy   w   funkcji czêstotliwoœci, a wykres dolny czêœæ urojon¹,
+	\item (W2) - górny wykres prezentuje modu³ liczby zespolonej, a dolny argument liczby w funkcji czêstotliwoœci
 \end{itemize}
 
-Ponadto, zaimplementowalismy nastepujace transormacje sygnalów:
+Ponadto, zaimplementowaliœmy nastêpuj¹ce transformacje sygna³ów:
 \begin{itemize}
-	\item (F1) - dyskretna   transformacja   Fouriera   -   algorytm   z   definicji   oraz   szybkatransformacja Fouriera z decymacja w dziedzinie czasu (DIT FFT),
+	\item (F1) - dyskretna   transformacja   Fouriera   -   algorytm   z   definicji   oraz   szybk¹ transformacja Fouriera z decymacj¹ w dziedzinie czasu (DIT FFT),
 	\item (T3) - transformacja falkowa (jeden poziom), wariant DB8
 \end{itemize} 
 
@@ -56,53 +56,53 @@ Ponadto, zaimplementowalismy nastepujace transormacje sygnalów:
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{Rysunki/SinParam.png}}
-	\caption{Parametry, które przyjmowac bedzie wykorzystana przez nas funkcja w eksperymentach.}
+	\includegraphics[width=0.7\textwidth]{{Rysunki/SinParam.png}}
+	\caption{Parametry, które przyjmowaæ bêdzie wykorzystana przez nas funkcja w eksperymentach.}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%% EKSPERYMENT #1  
-\subsection{Dyskretna transormacja Fouriera - algorytm z definicji}
+\subsection{Dyskretna transformacja Fouriera - algorytm z definicji}
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{Rysunki/FourW1.png}}
+	\includegraphics[width=0.7\textwidth]{{Rysunki/FourW1.png}}
 	\caption{Dyskretna transformacja Fouriera W1.}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{Rysunki/FourW2.png}}
+	\includegraphics[width=0.7\textwidth]{{Rysunki/FourW2.png}}
 	\caption{Dyskretna transformacja Fouriera W2.}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{Rysunki/FourOdwr.png}}
+	\includegraphics[width=0.7\textwidth]{{Rysunki/FourOdwr.png}}
 	\caption{Odwrócona tranformacja Fouriera.}
 \end{figure}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%% EKSPERYMENT #2  
-\subsection{Szybka transformacja Fouriera z decymacja w dziedzinie czasu}
+\subsection{szybk¹ transformacja Fouriera z decymacj¹ w dziedzinie czasu}
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{Rysunki/SzybFourW1.png}}
-	\caption{Szybka transformacja Fouriera W1.}
+	\includegraphics[width=0.7\textwidth]{{Rysunki/SzybFourW1.png}}
+	\caption{szybk¹ transformacja Fouriera W1.}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{Rysunki/SzybFourW2.png}}
-	\caption{Szybka transformacja Fouriera W2.}
+	\includegraphics[width=0.7\textwidth]{{Rysunki/SzybFourW2.png}}
+	\caption{szybk¹ transformacja Fouriera W2.}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{Rysunki/SzybFourOdwr.png}}
-	\caption{Odwrócona szybka tranformacja Fouriera.}
+	\includegraphics[width=0.7\textwidth]{{Rysunki/SzybFourOdwr.png}}
+	\caption{Odwrócona szybk¹ transformacja Fouriera.}
 \end{figure}
 
 \pagebreak
@@ -113,19 +113,19 @@ Ponadto, zaimplementowalismy nastepujace transormacje sygnalów:
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{Rysunki/FalkW1.png}}
-	\caption{Tranformacja falkowa W1.}
+	\includegraphics[width=0.7\textwidth]{{Rysunki/FalkW1.png}}
+	\caption{Transformacja falkowa W1.}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{Rysunki/FalkW2.png}}
-	\caption{Tranformacja falkowa W2.}
+	\includegraphics[width=0.7\textwidth]{{Rysunki/FalkW2.png}}
+	\caption{Transformacja falkowa W2.}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{Rysunki/FalkOdwr.png}}
+	\includegraphics[width=0.7\textwidth]{{Rysunki/FalkOdwr.png}}
 	\caption{Transformacja falkowa odwrotna.}
 \end{figure}
 
@@ -137,49 +137,49 @@ Ponadto, zaimplementowalismy nastepujace transormacje sygnalów:
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{Rysunki/S1.png}}
-	\caption{Sygnal dany równaniem S1.}
+	\includegraphics[width=0.7\textwidth]{{Rysunki/S1.png}}
+	\caption{Sygna³ dany równaniem S1.}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{Rysunki/S1Param.png}}
+	\includegraphics[width=0.7\textwidth]{{Rysunki/S1Param.png}}
 	\caption{Parametry równania S1.}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{Rysunki/S1FourW1.png}}
+	\includegraphics[width=0.7\textwidth]{{Rysunki/S1FourW1.png}}
 	\caption{Transformacja dyskretna Fouriera W1.}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{Rysunki/S1FourW2.png}}
+	\includegraphics[width=0.7\textwidth]{{Rysunki/S1FourW2.png}}
 	\caption{Transformacja dyskretna Fouriera W2.}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{Rysunki/S1FourCzas.png}}
+	\includegraphics[width=0.7\textwidth]{{Rysunki/S1FourCzas.png}}
 	\caption{Czas dyskretnej transformacji Fouriera.}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{Rysunki/S1SzybW1.png}}
-	\caption{Szybka transformacja Fouriera W1.}
+	\includegraphics[width=0.7\textwidth]{{Rysunki/S1SzybW1.png}}
+	\caption{szybk¹ transformacja Fouriera W1.}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{Rysunki/S1SzybW2.png}}
-	\caption{Szybka transformacja Fouriera W2.}
+	\includegraphics[width=0.7\textwidth]{{Rysunki/S1SzybW2.png}}
+	\caption{szybk¹ transformacja Fouriera W2.}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=0.7\textwidth]{{Rysunki/S1SzybCzas.png}}
+	\includegraphics[width=0.7\textwidth]{{Rysunki/S1SzybCzas.png}}
 	\caption{Czas szybkiej transformacji Fouriera.}
 \end{figure}
 
@@ -189,7 +189,7 @@ Ponadto, zaimplementowalismy nastepujace transormacje sygnalów:
 %% WNIOSKI
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Wnioski}
-Aplikacja zostala napisana zgodnie z instrukcj¹ do zadania ~\cite{instrukcja}. Program poprawnie implementuje dyskretna transformacje Fouriera, szybka transformacje Fouriera z decymacja w dziedzinie czasu oraz transformacje falkowe (wariant DB8). Nasz projekt spelnia wszelkie wymagania opisane w zalo¿eniach. 
+Aplikacja zosta³a napisana zgodnie z instrukcj¹ do zadania ~\cite{instrukcja}. Program poprawnie implementuje dyskretna transformacje Fouriera, szybk¹ transformacje Fouriera z decymacj¹ w dziedzinie czasu oraz transformacje falkowe (wariant DB8). Nasz projekt spe³nia wszelkie wymagania opisane w za³o¿eniach. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% BIBLIOGRAFIA
@@ -197,5 +197,5 @@ Aplikacja zostala napisana zgodnie z instrukcj¹ do zadania ~\cite{instrukcja}. P
 \renewcommand\refname{Bibliografia}
 \bibliographystyle{plain}
 \bibliography{Zad4_Bibliografia}
-
+	
 \end{document}

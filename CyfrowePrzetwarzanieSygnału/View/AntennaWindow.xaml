@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         Title="Cyfrowe Przetwarzanie Sygnału - Pomiar odległości" Height="700" Width="1200">
-    <Grid Background="#454545" >
+    <Grid Background="#323232" >
 
         <Grid.RowDefinitions>
             <RowDefinition Height="1.0*"/>

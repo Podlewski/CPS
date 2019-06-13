@@ -23,6 +23,8 @@
             <MenuItem Header="Plik" Margin="5 0 0 0" Height="25" Foreground="White">
                 <MenuItem Header="Zapisz kartę" Foreground="Black" Command="{Binding SaveCommand}" />
                 <MenuItem Header="Wczytaj kartę" Foreground="Black" Command="{Binding LoadCommand}" />
+                <MenuItem Header="Zapisz kartę (zespolone)" Foreground="Black" Command="{Binding SaveComplexCommand}" />
+                <MenuItem Header="Wczytaj kartę (zespolone)" Foreground="Black" Command="{Binding LoadComplexCommand}" />
                 <MenuItem Header="Zamknij" Foreground="Black" Command="{Binding QuitCommand}" />
             </MenuItem>
             <MenuItem Header="Pomiar odległości" Margin="5 0 0 0" Height="25" Foreground="White" Click="OpenAntennaWindow" />

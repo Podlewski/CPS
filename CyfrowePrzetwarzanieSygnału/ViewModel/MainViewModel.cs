@@ -28,6 +28,8 @@ namespace ViewModel
         public ICommand BackwardTransformationCommand { get; set; }
         public ICommand LoadCommand { get; set; }
         public ICommand SaveCommand { get; set; }
+        public ICommand LoadComplexCommand { get; set; }
+        public ICommand SaveComplexCommand { get; set; }
         public ICommand QuitCommand { get; set; }
 
         #endregion
@@ -159,6 +161,8 @@ namespace ViewModel
             BackwardTransformationCommand = new RelayCommand(BackwardTransformation);
             LoadCommand = new RelayCommand(Load);
             SaveCommand = new RelayCommand(Save);
+            LoadComplexCommand = new RelayCommand(LoadComplex);
+            SaveComplexCommand = new RelayCommand(SaveComplex);
             QuitCommand = new RelayCommand(Quit);
         }
 
@@ -516,6 +520,31 @@ namespace ViewModel
             try
             {
                 SelectedTab.SaveDataToFile(LoadPath(false));
+            }
+            catch
+            {
+
+            }
+        }
+
+        public void LoadComplex()
+        {
+            try
+            {
+                SelectedTab.LoadComplexDataFromFile(LoadPath(true));
+                SelectedTab.DrawW();
+            }
+            catch
+            {
+
+            }
+        }
+
+        public void SaveComplex()
+        {
+            try
+            {
+                SelectedTab.SaveComplexDataToFile(LoadPath(false));
             }
             catch
             {

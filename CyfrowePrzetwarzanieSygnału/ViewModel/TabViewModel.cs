@@ -527,6 +527,16 @@ namespace ViewModel
             SignalData.LoadFromFile(path);
         }
 
+        public void SaveComplexDataToFile(string path)
+        {
+            SignalData.SaveComplexToFile(path);
+        }
+
+        public void LoadComplexDataFromFile(string path)
+        {
+            SignalData.LoadComplexFromFile(path);
+        }
+
         #endregion
     }
 }

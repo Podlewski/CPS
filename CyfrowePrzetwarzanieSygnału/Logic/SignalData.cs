@@ -52,6 +52,7 @@ namespace Logic
             QuantizationSamplesY = new List<double>();
             ReconstructionSamplesX = new List<double>();
             ReconstructionSamplesY = new List<double>();
+            ComplexSamples = new List<Complex>();
         }
 
         public bool IsNotEmpty()
@@ -159,6 +160,37 @@ namespace Logic
                 for (int i = 0; i < ConversionSamplesX.Count; i++)
                 {
                     writer.WriteLine(i + 1 + ". " + ConversionSamplesY[i]);
+                }
+            }
+        }
+
+        public void LoadComplexFromFile(string filePath)
+        {
+            using (BinaryReader reader = new BinaryReader(File.OpenRead(filePath)))
+            {
+                double real;
+                double imaginary;
+
+                int length = reader.ReadInt32();
+                for (int i = 0; i < length; i++)
+                {
+                    real = reader.ReadDouble();
+                    imaginary = reader.ReadDouble();
+                    ComplexSamples.Add(new Complex(real, imaginary));
+                }
+            }
+        }
+
+        public void SaveComplexToFile(string filePath)
+        {
+            using (BinaryWriter writer = new BinaryWriter(File.Create(filePath)))
+            {
+                writer.Write(ComplexSamples.Count);
+
+                foreach (var sample in ComplexSamples)
+                {
+                    writer.Write(sample.Real);
+                    writer.Write(sample.Imaginary);
                 }
             }
         }

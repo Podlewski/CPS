@@ -8,6 +8,7 @@ using System.Linq;
 using Microsoft.Win32;
 
 using Logic;
+using System.Diagnostics;
 
 namespace ViewModel
 {
@@ -414,7 +415,14 @@ namespace ViewModel
 
         public void Transformation()
         {
+            Stopwatch timer = new Stopwatch();
+            timer.Start();
+
             MessageBox.Show("B", "Informacja", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            timer.Stop();
+
+            SelectedTab.SetTransformationTime(timer.Elapsed.TotalSeconds);
         }
 
         public void BackwardTransformation()

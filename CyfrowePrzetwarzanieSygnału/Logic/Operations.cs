@@ -308,7 +308,6 @@ namespace Logic
 
         #region Filtry
 
-
         public static List<double> LowPassFilter(int M, double F0, double Fp)
         {
             List<double> result = new List<double>();
@@ -405,6 +404,10 @@ namespace Logic
 
         #endregion
 
+        #region Transformacje
 
+
+
+        #endregion
     }
 }

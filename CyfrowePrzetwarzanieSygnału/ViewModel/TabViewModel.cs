@@ -51,6 +51,8 @@ namespace ViewModel
         public double MaximumDifferenceValue { get; set; }
         public double EffectiveNumberOfBitsValue { get; set; }
 
+        public double TransformationTime { get; set; }
+
         #endregion
 
         #region Slider
@@ -287,6 +289,14 @@ namespace ViewModel
             OnPropertyChanged(nameof(MaximumDifferenceValue));
             OnPropertyChanged(nameof(EffectiveNumberOfBitsValue));
         }
+
+        public void SetTransformationTime(double time)
+        {
+            TransformationTime = time;
+
+            OnPropertyChanged(nameof(TransformationTime));
+        }
+
 
         public void LoadData(SignalData data)
         {

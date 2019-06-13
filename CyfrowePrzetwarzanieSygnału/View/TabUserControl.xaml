@@ -221,6 +221,8 @@
 
                     <TextBox Grid.Row="13" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding TransformationTime}"/>
 
+                    <Label Grid.Row="13" Grid.Column="2" FontSize="12px" Foreground="White" VerticalContentAlignment="Center" Content="s"/>
+
                 </Grid>
             </TabItem>
         </TabControl>

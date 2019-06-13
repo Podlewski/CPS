@@ -98,5 +98,22 @@ namespace Logic
             }
         }
 
+        public static List<double> TransformOperation(this string operation, List<double> filterFactors, int M)
+        {
+            switch (operation.Substring(0, 1))
+            {
+                case "1":
+                    return Operations.RectangularWindow(filterFactors, M);
+                case "2":
+                    return Operations.HanningWindow(filterFactors, M);
+                case "3":
+                    return Operations.HammingWindow(filterFactors, M);
+                case "4":
+                    return Operations.BlackmanWindow(filterFactors, M);
+                default:
+                    return null;
+            }
+        }
+
     }
 }

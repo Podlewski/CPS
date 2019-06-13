@@ -115,8 +115,8 @@
             <TabItem Header="W1" >
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="750.4"/>
+                        <ColumnDefinition Width="0.05*"/>
+                        <ColumnDefinition Width="0.95*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition/>

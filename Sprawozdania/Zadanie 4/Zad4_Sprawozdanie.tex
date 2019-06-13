@@ -1,0 +1,147 @@
+\documentclass[12pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[T1]{polski}
+\usepackage[cp1250]{inputenc}
+\newcommand{\BibTeX}{{\sc Bib}\TeX} 
+\usepackage{graphicx}
+\usepackage{amsfonts}
+\usepackage{float}
+
+\setlength{\textheight}{21cm}
+
+\title{{\bf Zadanie nr 4 - Przeksztalcenie Fouriera, Walsha-Hadamarda, kosinusowe i falkowe,szybkie algorytmy}\linebreak
+Cyfrowe Przetwarzanie Sygna³u}
+\author{Justyna Hubert, 210200 \and Karol Podlewski, 210294}
+\date{19.05.2019}
+
+\begin{document}
+\clearpage\maketitle
+\thispagestyle{empty}
+\newpage
+\setcounter{page}{1}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% CEL ZADANIA
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Cel zadania}
+Celem cwiczenia jest zapoznanie sie z operacjami transformacji sygnalów dyskretnychprzy u¿yciu wybranych metod.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% WSTEP TEORETYCZNY
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Wstep teoretyczny}
+Jest to usprawniony program z zadania 1, 2 oraz 3, dostosowany do instrukcji z zadania czwartego ~\cite{instrukcja}. \\
+
+W ramach cwiczenia nale¿alo dodac mo¿liwosc odczytu i zapisu sygnalów o wartosciach zespolonych, umo¿liwic rysowanie wykresów sygnalów dyskretnych o wartosciach zespolonych w postaci dwóch wykresów o wspólnej dziedzinie ulo¿onych jeden nad drugim. Przyjeto, ¿e sygnaly zespolone beda tylko wynikiem transformacji Fouriera, a co za tym idzie beda prezentowac funkcje w dziedzinie czestotliwosci. Dostepne mialy byc tak¿e dwa atrybuty prezentacji wykresu:
+
+\begin{itemize}
+	\item (W1) - górny   wykres   prezentuje   czesc   rzeczywista   amplitudy   w   funkcji czestotliwosci, a wykres dolny czesc urojona,
+	\item (W2) - górny wykres prezentuje modul liczby zespolonej, a dolny argument liczbywfunkcji czestotliwosci
+\end{itemize}
+
+Ponadto, zaimplementowalismy nastepujace transormacje sygnalów:
+\begin{itemize}
+	\item (F1) - dyskretna   transformacja   Fouriera   -   algorytm   z   definicji   oraz   szybkatransformacja Fouriera z decymacja w dziedzinie czasu (DIT FFT),
+	\item (T3) - transformacja falkowa (jeden poziom), wariant DB8
+\end{itemize} 
+
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SEKCJA EKSPERYMENTÓW
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Eksperymenty i wyniki}
+
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=0.7\textwidth]{{Rysunki/SinParam.png}}
+	\caption{Parametry, które przyjmowac bedzie wykorzystana przez nas funkcja w eksperymentach.}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%% EKSPERYMENT #1  
+\subsection{Dyskretna transormacja Fouriera - algorytm z definicji}
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=0.7\textwidth]{{Rysunki/FourW1.png}}
+	\caption{Dyskretna transformacja Fouriera W1.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=0.7\textwidth]{{Rysunki/FourW2.png}}
+	\caption{Dyskretna transformacja Fouriera W2.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=0.7\textwidth]{{Rysunki/FourOdwr.png}}
+	\caption{Odwrócona tranformacja Fouriera.}
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%% EKSPERYMENT #2  
+\subsection{Szybka transformacja Fouriera z decymacja w dziedzinie czasu}
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=0.7\textwidth]{{Rysunki/SzybFourW1.png}}
+	\caption{Szybka transformacja Fouriera W1.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=0.7\textwidth]{{Rysunki/SzybFourW2.png}}
+	\caption{Szybka transformacja Fouriera W2.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=0.7\textwidth]{{Rysunki/SzybFourOdwr.png}}
+	\caption{Odwrócona szybka tranformacja Fouriera.}
+\end{figure}
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%% EKSPERYMENT #3  
+\subsection{Transformacja falkowa wariant DB8} 
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=0.7\textwidth]{{Rysunki/FalkW1.png}}
+	\caption{Tranformacja falkowa W1.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=0.7\textwidth]{{Rysunki/FalkW2.png}}
+	\caption{Tranformacja falkowa W2.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=0.7\textwidth]{{Rysunki/FalkOdwr.png}}
+	\caption{Transformacja falkowa odwrotna.}
+\end{figure}
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% WNIOSKI
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Wnioski}
+Aplikacja zostala napisana zgodnie z instrukcj¹ do zadania ~\cite{instrukcja}. Program poprawnie implementuje dyskretna transformacje Fouriera, szybka transformacje Fouriera z decymacja w dziedzinie czasu oraz transformacje falkowe (wariant DB8). Nasz projekt spelnia wszelkie wymagania opisane w zalo¿eniach. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% BIBLIOGRAFIA
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand\refname{Bibliografia}
+\bibliographystyle{plain}
+\bibliography{Zad4_Bibliografia}
+
+\end{document}

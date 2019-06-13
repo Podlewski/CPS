@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace Logic
 {
@@ -98,18 +99,16 @@ namespace Logic
             }
         }
 
-        public static List<double> TransformOperation(this string operation, List<double> filterFactors, int M)
+        public static List<Complex> TransformOperation(this string operation, List<double> samples)
         {
             switch (operation.Substring(0, 1))
             {
                 case "1":
-                    return Operations.RectangularWindow(filterFactors, M);
+                    return Transformation.DiscreteFourierTransformation(samples);
                 case "2":
-                    return Operations.HanningWindow(filterFactors, M);
+                    return Transformation.FastFourierTransformation(samples); 
                 case "3":
-                    return Operations.HammingWindow(filterFactors, M);
-                case "4":
-                    return Operations.BlackmanWindow(filterFactors, M);
+                    return Transformation.WaveletTransformation(samples);
                 default:
                     return null;
             }

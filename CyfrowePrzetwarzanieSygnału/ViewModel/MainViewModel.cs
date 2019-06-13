@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Linq;
+using System.Numerics;
 
 using Microsoft.Win32;
 
@@ -415,13 +416,15 @@ namespace ViewModel
 
         public void Transformation()
         {
+            List<Complex> result = new List<Complex>();
             Stopwatch timer = new Stopwatch();
+
             timer.Start();
-
-            MessageBox.Show("B", "Informacja", MessageBoxButton.OK, MessageBoxImage.Information);
-
+            result = SelectedTransformation.TransformOperation(SelectedTab.SignalData.ConversionSamplesY);
             timer.Stop();
 
+            SelectedTab.SignalData.ComplexSamples = result;
+            SelectedTab.DrawW();
             SelectedTab.SetTransformationTime(timer.Elapsed.TotalSeconds);
         }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 
 namespace Logic
 {
@@ -19,6 +20,7 @@ namespace Logic
         public List<double> QuantizationSamplesY { get; set; }
         public List<double> ReconstructionSamplesY { get; set; }
         public List<double> ReconstructionSamplesX { get; set; }
+        public List<Complex> ComplexSamples { get; set; }
         public bool IsDiscrete { get; set; }
 
         public SignalData()

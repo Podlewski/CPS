@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="650" d:DesignWidth="800">
     <Grid>
-        <TabControl Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="0" Grid.RowSpan="2" Background="#454545" Margin="5 5 0 0" ItemContainerStyle="{DynamicResource TabItemStyle}" >
+        <TabControl Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="0" Grid.RowSpan="2" Background="#323232" Margin="5 5 0 0" ItemContainerStyle="{DynamicResource TabItemStyle}" >
             <TabItem Header="Wykres" >
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -115,8 +115,8 @@
             <TabItem Header="W1" >
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.05*"/>
-                        <ColumnDefinition Width="0.95*"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="750.4"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -156,14 +156,14 @@
                             <RotateTransform Angle="270" />
                         </Label.LayoutTransform>
                     </Label>
-                    <lvc:CartesianChart Grid.Row="0" Grid.Column="1" Hoverable="False" DataTooltip="{x:Null}" ChartLegend="{x:Null}"  DisableAnimations="True" Series="{Binding ModuleChart}"/>
+                    <lvc:CartesianChart Grid.Row="0" Grid.Column="1" Hoverable="False" DataTooltip="{x:Null}" ChartLegend="{x:Null}"  DisableAnimations="True" Series="{Binding MagnitudeChart}"/>
 
                     <Label HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" FontSize="14px" Foreground="White" Content="Argument liczby w funkcji częstotliwości" >
                         <Label.LayoutTransform>
                             <RotateTransform Angle="270" />
                         </Label.LayoutTransform>
                     </Label>
-                    <lvc:CartesianChart Grid.Row="1" Grid.Column="1" Hoverable="False" DataTooltip="{x:Null}" ChartLegend="{x:Null}" DisableAnimations="True" Series="{Binding ArgumentChart}" />
+                    <lvc:CartesianChart Grid.Row="1" Grid.Column="1" Hoverable="False" DataTooltip="{x:Null}" ChartLegend="{x:Null}" DisableAnimations="True" Series="{Binding PhaseChart }" />
                 </Grid>
             </TabItem>
 
@@ -198,7 +198,7 @@
                     <Label Margin="20 0 0 0" Grid.Row="3" Grid.Column="0" FontSize="12px" Foreground="White" VerticalContentAlignment="Center" Content="Wartość skuteczna sygnału:"/>
                     <Label Margin="20 0 0 0" Grid.Row="4" Grid.Column="0" FontSize="12px" Foreground="White" VerticalContentAlignment="Center" Content="Wariancja sygnału:"/>
                     <Label Margin="20 0 0 0" Grid.Row="5" Grid.Column="0" FontSize="12px" Foreground="White" VerticalContentAlignment="Center" Content="Moc średnia sygnału:"/>
-                   
+
                     <Label Margin="20 0 0 0" Grid.Row="7" Grid.Column="0" FontSize="12px" Foreground="White" VerticalContentAlignment="Center" Content="Błąd średniokwadratowy:"/>
                     <Label Margin="20 0 0 0" Grid.Row="8" Grid.Column="0" FontSize="12px" Foreground="White" VerticalContentAlignment="Center" Content="Stosunek sygnał - szum:"/>
                     <Label Margin="20 0 0 0" Grid.Row="9" Grid.Column="0" FontSize="12px" Foreground="White" VerticalContentAlignment="Center" Content="Sczytowy stosunek sygnał - szum:"/>
@@ -206,13 +206,13 @@
                     <Label Margin="20 0 0 0" Grid.Row="11" Grid.Column="0" FontSize="12px" Foreground="White" VerticalContentAlignment="Center" Content="Efektywna liczba bitów:"/>
 
                     <Label Margin="20 0 0 0" Grid.Row="13" Grid.Column="0" FontSize="12px" Foreground="White" VerticalContentAlignment="Center" Content="Czas transformacji:"/>
-                    
+
                     <TextBox Grid.Row="1" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding AverageValue}"/>
                     <TextBox Grid.Row="2" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding AverageAbsValue}"/>
                     <TextBox Grid.Row="3" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding RootMeanSquare}"/>
                     <TextBox Grid.Row="4" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding Variance}"/>
                     <TextBox Grid.Row="5" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding AveragePower}"/>
-                    
+
                     <TextBox Grid.Row="7" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding MeanSquaredErrorValue}"/>
                     <TextBox Grid.Row="8" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding SignalToNoiseRatioValue}"/>
                     <TextBox Grid.Row="9" Grid.Column="1" IsReadOnly = "True" Height="21px" Background="#34414F" Foreground="White" Text="{Binding PeakSignalToNoiseRatioValue}"/>

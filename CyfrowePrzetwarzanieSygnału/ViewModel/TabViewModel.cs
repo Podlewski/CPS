@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows;
 using System.Windows.Controls;
-using System.Diagnostics;
+using System.Numerics;
 
 namespace ViewModel
 {
@@ -21,19 +21,24 @@ namespace ViewModel
 
         public string TabName { get; set; }
 
+        public SignalData SignalData { get; set; }
         public SeriesCollection Chart { get; set; }
         public bool IsScattered { get; set; }
+
+        public SeriesCollection Histogram { get; set; }
+        public int HistogramStep { get; set; }
+        public string[] Labels { get; set; }
 
         public SeriesCollection SamplingChart { get; set; }
         public SeriesCollection QuantizationChart { get; set; }
         public SeriesCollection InterpolationChart { get; set; }
         public SeriesCollection ReconstructionChart { get; set; }
 
-        public SeriesCollection Histogram { get; set; }
-        public SignalData SignalData { get; set; }
+        public SeriesCollection RealChart { get; set; }
+        public SeriesCollection ImaginaryChart { get; set; }
+        public SeriesCollection MagnitudeChart { get; set; }
+        public SeriesCollection PhaseChart { get; set; }
 
-        public int HistogramStep { get; set; }
-        public string[] Labels { get; set; }
 
         public ICommand SaveCharts { get; set; }
 
@@ -248,6 +253,96 @@ namespace ViewModel
             OnPropertyChanged(nameof(QuantizationChart));
             OnPropertyChanged(nameof(InterpolationChart));
             OnPropertyChanged(nameof(ReconstructionChart));
+        }
+
+        public void DrawW()
+        {
+            var real = SignalData.ComplexSamples.Select(c => c.Real).ToList();
+            var imaginary = SignalData.ComplexSamples.Select(c => c.Imaginary).ToList();
+            var magnitude = SignalData.ComplexSamples.Select(c => c.Magnitude).ToList();
+            var phase = SignalData.ComplexSamples.Select(c => c.Phase).ToList();
+
+            RealChart = new SeriesCollection()
+            {
+                new LineSeries()
+                {
+                    PointGeometry = null,
+                    StrokeThickness = 3,
+                    Values = new ChartValues<double>(real),
+                    Fill = Brushes.Transparent,
+                    Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#34414F"))
+                },
+                new ScatterSeries()
+                {
+                    PointGeometry = new EllipseGeometry(),
+                    StrokeThickness = 5,
+                    Values = new ChartValues<double>(real),
+                    Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#26A0DA"))
+                }
+            };
+
+            ImaginaryChart = new SeriesCollection()
+            {
+                new LineSeries()
+                {
+                    PointGeometry = null,
+                    StrokeThickness = 3,
+                    Values = new ChartValues<double>(imaginary),
+                    Fill = Brushes.Transparent,
+                    Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#34414F"))
+                },
+                new ScatterSeries()
+                {
+                    PointGeometry = new EllipseGeometry(),
+                    StrokeThickness = 5,
+                    Values = new ChartValues<double>(imaginary),
+                    Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#26A0DA"))
+                }
+            };
+
+
+            MagnitudeChart = new SeriesCollection()
+            {
+                new LineSeries()
+                {
+                    PointGeometry = null,
+                    StrokeThickness = 3,
+                    Values = new ChartValues<double>(magnitude),
+                    Fill = Brushes.Transparent,
+                    Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#34414F"))
+                },
+                new ScatterSeries()
+                {
+                    PointGeometry = new EllipseGeometry(),
+                    StrokeThickness = 5,
+                    Values = new ChartValues<double>(magnitude),
+                    Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#26A0DA"))
+                }
+            };
+
+            PhaseChart = new SeriesCollection()
+            {
+                new LineSeries()
+                {
+                    PointGeometry = null,
+                    StrokeThickness = 3,
+                    Values = new ChartValues<double>(phase),
+                    Fill = Brushes.Transparent,
+                    Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#34414F"))
+                },
+                new ScatterSeries()
+                {
+                    PointGeometry = new EllipseGeometry(),
+                    StrokeThickness = 5,
+                    Values = new ChartValues<double>(phase),
+                    Stroke = (SolidColorBrush)(new BrushConverter().ConvertFrom("#26A0DA"))
+                }
+            };
+
+            OnPropertyChanged(nameof(RealChart));
+            OnPropertyChanged(nameof(ImaginaryChart));
+            OnPropertyChanged(nameof(MagnitudeChart));
+            OnPropertyChanged(nameof(PhaseChart));
         }
 
         public override string ToString()

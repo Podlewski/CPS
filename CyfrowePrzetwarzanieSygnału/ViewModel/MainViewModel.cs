@@ -68,7 +68,7 @@ namespace ViewModel
         public double Ts_TimeStep { get; set; } = 2;
         public double P_Probability { get; set; } = 0.5;
         public int Frequency { get; set; } = 1000;
-        public int SamplingFrequency { get; set; } = 10;
+        public int SamplingFrequency { get; set; } = 16;
         public int QuantizationThresholds { get; set; } = 8;
         public int ReconstructionFrequency { get; set; } = 1000;
         public int ReconstructionSamples { get; set; } = 0;
@@ -470,10 +470,10 @@ namespace ViewModel
                 SelectedTab.SetTransformationTime(timer.Elapsed.TotalSeconds);
                 SelectedTab.DrawW();
             }
-            catch (ArgumentException)
+            catch (ArgumentException e)
             {
                 SelectedTab.SetTransformationTime(0);
-                MessageBox.Show("Liczba próbek musi być potęgą dwójki", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(e.Message, "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -491,9 +491,9 @@ namespace ViewModel
             {
                 MessageBox.Show("Wybrana karta nie została poddana wcześniej transformacie", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (ArgumentException)
+            catch (ArgumentException e)
             {
-                MessageBox.Show("Liczba próbek musi być potęgą dwójki", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(e.Message, "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

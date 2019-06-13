@@ -16,7 +16,7 @@ namespace Logic
             List<Complex> result = new List<Complex>();
 
             if ((points.Count != 0) && ((points.Count & (points.Count - 1)) != 0))
-                throw new ArgumentException();
+                throw new ArgumentException("Liczba próbek musi być potęgą dwójki");
 
             for (int i = 0; i < points.Count; i++)
             {
@@ -36,7 +36,7 @@ namespace Logic
             List<double> result = new List<double>();
 
             if ((points.Count != 0) && ((points.Count & (points.Count - 1)) != 0))
-                throw new ArgumentException();
+                throw new ArgumentException("Liczba próbek musi być potęgą dwójki");
 
             for (int i = 0; i < points.Count; i++)
             {
@@ -51,28 +51,67 @@ namespace Logic
             return result;
         }
 
-        private static Complex CoreFactor(int m, int n, int N)
-        {
-            return Complex.Exp(new Complex(0, -2 * Math.PI * m * n / N));
-        }
-
-        private static Complex ReverseCoreFactor(int m, int n, int N)
-        {
-            return Complex.Exp(new Complex(0, 2 * Math.PI * m * n / N));
-        }
-
         #endregion
 
         #region Szybka Transformacja Fouriera
 
         public static List<Complex> FastFourierTransformation(List<double> realPoints)
         {
-            return null;
+            List<Complex> points = RealToComplex(realPoints);
+
+            List<Complex> transformed = SwitchSamples(points);
+
+            return transformed.Select(c => c / points.Count).ToList();
         }
 
         public static List<double> FastFourierBackwardTransformation(List<Complex> points)
         {
-            return null;
+            List<Complex> transformed = SwitchSamples(points, true);
+
+            return transformed.Select(c => c.Real).ToList();
+        }
+
+        public static List<Complex> SwitchSamples(List<Complex> points, bool reverse = false)
+        {
+            if (points.Count < 2)
+                return points;
+
+            List<Complex> odd = new List<Complex>();
+            List<Complex> even = new List<Complex>();
+
+            for (int i = 0; i < points.Count / 2; i++)
+            {
+                even.Add(points[i * 2]);
+                odd.Add(points[i * 2 + 1]);
+            }
+
+            var result = Connect(SwitchSamples(even, reverse), SwitchSamples(odd, reverse), reverse);
+
+            return result;
+        }
+
+        private static List<Complex> Connect(List<Complex> evenPoints, List<Complex> oddPoints, bool reverse)
+        {
+            List<Complex> result = new List<Complex>();
+            List<Complex> resultRight = new List<Complex>();
+
+            for (int i = 0; i < oddPoints.Count; i++)
+            {
+                if (!reverse)
+                {
+                    result.Add(evenPoints[i] + CoreFactor(i, 1, oddPoints.Count * 2) * oddPoints[i]);
+                    resultRight.Add(evenPoints[i] - CoreFactor(i, 1, oddPoints.Count * 2) * oddPoints[i]);
+                }
+                else
+                {
+                    result.Add(evenPoints[i] + ReverseCoreFactor(i, 1, oddPoints.Count * 2) * oddPoints[i]);
+                    resultRight.Add(evenPoints[i] - ReverseCoreFactor(i, 1, oddPoints.Count * 2) * oddPoints[i]);
+                }
+            }
+
+            result.AddRange(resultRight);
+
+            return result;
         }
 
         #endregion
@@ -165,6 +204,16 @@ namespace Logic
                 result.Add(new Complex(number, 0));
 
             return result;
+        }
+
+        private static Complex CoreFactor(int m, int n, int N)
+        {
+            return Complex.Exp(new Complex(0, -2 * Math.PI * m * n / N));
+        }
+
+        private static Complex ReverseCoreFactor(int m, int n, int N)
+        {
+            return Complex.Exp(new Complex(0, 2 * Math.PI * m * n / N));
         }
     }
 }

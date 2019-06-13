@@ -102,7 +102,9 @@ namespace ViewModel
                 "08) Sygnał trójkątny",
                 "09) Skok jednostkowy",
                 "10) Impuls jednostkowy",
-                "11) Szum impulsowy"
+                "11) Szum impulsowy",
+                "12) Sygnał dany równaniem (S1)"
+
             };
             SelectedSignal = SignalList[2];
 
@@ -181,7 +183,49 @@ namespace ViewModel
 
             Func<double, double> selectedGeneration = generator.SelectGenerator(SelectedSignal);
 
-            if (selectedGeneration != null)
+            if (selectedGeneration == generator.CustomSinusoidalSignal)
+            {
+                List<double> x = new List<double>();
+                List<double> y1 = new List<double>();
+                List<double> y2 = new List<double>();
+
+                generator = new Generator()
+                {
+                    A = 2,
+                    T = 2
+                };
+                selectedGeneration = generator.SelectGenerator(SelectedSignal);
+
+                for (decimal i = (decimal)T1_StartTime; i < (decimal)(T1_StartTime + D_DurationOfTheSignal); i += 1 / (decimal)SamplingFrequency)
+                {
+                    x.Add((double)i);
+                    y1.Add(generator.CustomSinusoidalSignal((double)i));
+                }
+
+                generator = new Generator()
+                {
+                    A = 5,
+                    T = 0.5
+                };
+                selectedGeneration = generator.SelectGenerator(SelectedSignal);
+
+                for (decimal i = (decimal)T1_StartTime; i < (decimal)(T1_StartTime + D_DurationOfTheSignal); i += 1 / (decimal)SamplingFrequency)
+                {
+                    y2.Add(selectedGeneration((double)i));
+                }
+
+                SelectedTab.SignalData = new SignalData(T1_StartTime, Frequency, SamplingFrequency)
+                {
+                    ConversionSamplesX = x,
+                    ConversionSamplesY = Operations.AddSignals(y1, y2)
+                };
+
+                SelectedTab.IsScattered = true;
+                SelectedTab.CalculateSignalInfo(T1_StartTime, T1_StartTime + D_DurationOfTheSignal);
+                SelectedTab.DrawCharts();
+            }
+
+            else if (selectedGeneration != null)
             {
                 SignalData signalData = new SignalData(T1_StartTime, Frequency, SamplingFrequency);
 

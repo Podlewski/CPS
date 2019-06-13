@@ -200,5 +200,11 @@ namespace Logic
 
             return Math.Sin(Math.PI * t) / (Math.PI * t);
         }
+
+        // 12) sinus dany równaniem 
+        public double CustomSinusoidalSignal(double time)
+        {
+            return A * Math.Sin((2 * Math.PI / T) * (time - T1) + (Math.PI / 2));
+        }
     }
 }

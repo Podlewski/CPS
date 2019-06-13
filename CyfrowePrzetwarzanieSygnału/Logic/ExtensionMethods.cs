@@ -31,7 +31,9 @@ namespace Logic
                 case "10":
                     return generator.UnitImpulse; 
                 case "11":
-                    return generator.ImpulseNoise; 
+                    return generator.ImpulseNoise;
+                case "12":
+                    return generator.CustomSinusoidalSignal;
                 default:
                     return null;
             }

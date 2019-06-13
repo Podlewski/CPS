@@ -416,21 +416,41 @@ namespace ViewModel
 
         public void Transformation()
         {
-            List<Complex> result = new List<Complex>();
             Stopwatch timer = new Stopwatch();
 
-            timer.Start();
-            result = SelectedTransformation.TransformOperation(SelectedTab.SignalData.ConversionSamplesY);
-            timer.Stop();
-
-            SelectedTab.SignalData.ComplexSamples = result;
-            SelectedTab.DrawW();
-            SelectedTab.SetTransformationTime(timer.Elapsed.TotalSeconds);
+            try
+            {
+                timer.Start();
+                SelectedTab.SignalData.ComplexSamples = SelectedTransformation.TransformOperation(SelectedTab.SignalData.ConversionSamplesY);
+                timer.Stop();
+                SelectedTab.SetTransformationTime(timer.Elapsed.TotalSeconds);
+                SelectedTab.DrawW();
+            }
+            catch (ArgumentException)
+            {
+                SelectedTab.SetTransformationTime(0);
+                MessageBox.Show("Liczba próbek musi być potęgą dwójki", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         public void BackwardTransformation()
         {
-            MessageBox.Show("C", "Informacja", MessageBoxButton.OK, MessageBoxImage.Information);
+            SelectedTab.SignalData.ConversionSamplesX = FirstOperationTab.SignalData.ConversionSamplesX;
+
+            try
+            {
+                SelectedTab.SignalData.ConversionSamplesY = SelectedTransformation.TransformBackwardOperation(FirstOperationTab.SignalData.ComplexSamples);
+                SelectedTab.IsScattered = true;
+                SelectedTab.DrawCharts();
+            }
+            catch (NullReferenceException)
+            {
+                MessageBox.Show("Wybrana karta nie została poddana wcześniej transformacie", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (ArgumentException)
+            {
+                MessageBox.Show("Liczba próbek musi być potęgą dwójki", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         public void Load()

@@ -114,5 +114,20 @@ namespace Logic
             }
         }
 
+        public static List<double> TransformBackwardOperation(this string operation, List<Complex> samples)
+        {
+            switch (operation.Substring(0, 1))
+            {
+                case "1":
+                    return Transformation.DiscreteFourierBackwardTransformation(samples);
+                case "2":
+                    return Transformation.FastFourierBackwardTransformation(samples);
+                case "3":
+                    return Transformation.WaveletBackwardTransformation(samples);
+                default:
+                    return null;
+            }
+        }
+
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Numerics;
 using System.Linq;
 
@@ -6,6 +8,77 @@ namespace Logic
 {
     public static class Transformation
     {
+        #region Dyskretna Transformacja Fouriera
+
+        public static List<Complex> DiscreteFourierTransformation(List<double> realPoints)
+        {
+            List<Complex> points = RealToComplex(realPoints);
+            List<Complex> result = new List<Complex>();
+
+            if ((points.Count != 0) && ((points.Count & (points.Count - 1)) != 0))
+                throw new ArgumentException();
+
+            for (int i = 0; i < points.Count; i++)
+            {
+                Complex complex = 0;
+
+                for (int j = 0; j < points.Count; j++)
+                    complex += new Complex(points[j].Real, points[j].Imaginary) * CoreFactor(i, j, points.Count);
+
+                result.Add(complex / points.Count);
+            }
+
+            return result;
+        }
+
+        public static List<double> DiscreteFourierBackwardTransformation(List<Complex> points)
+        {
+            List<double> result = new List<double>();
+
+            if ((points.Count != 0) && ((points.Count & (points.Count - 1)) != 0))
+                throw new ArgumentException();
+
+            for (int i = 0; i < points.Count; i++)
+            {
+                double real = 0;
+
+                for (int j = 0; j < points.Count; j++)
+                    real += (points[j] * ReverseCoreFactor(i, j, points.Count)).Real;
+
+                result.Add(real);
+            }
+
+            return result;
+        }
+
+        private static Complex CoreFactor(int m, int n, int N)
+        {
+            return Complex.Exp(new Complex(0, -2 * Math.PI * m * n / N));
+        }
+
+        private static Complex ReverseCoreFactor(int m, int n, int N)
+        {
+            return Complex.Exp(new Complex(0, 2 * Math.PI * m * n / N));
+        }
+
+        #endregion
+
+        #region Szybka Transformacja Fouriera
+
+        public static List<Complex> FastFourierTransformation(List<double> realPoints)
+        {
+            return null;
+        }
+
+        public static List<double> FastFourierBackwardTransformation(List<Complex> points)
+        {
+            return null;
+        }
+
+        #endregion
+
+        #region Transformacja Falkowa
+
         private static List<double> H = new List<double>
         {
             0.32580343,
@@ -30,17 +103,6 @@ namespace Logic
             -H[0],
         };
 
-        public static List<Complex> DiscreteFourierTransformation(List<double> realPoints)
-        {
-            List<Complex> points = RealToComplex(realPoints);
-            return null;
-        }
-
-        public static List<Complex> FastFourierTransformation(List<double> realPoints)
-        {
-            List<Complex> points = RealToComplex(realPoints);
-            return null;
-        }
 
         public static List<Complex> WaveletTransformation(List<double> points)
         {
@@ -92,14 +154,14 @@ namespace Logic
             return Operations.AddSignals(xhC, xgC);
         }
 
+        #endregion
+
         public static List<Complex> RealToComplex(List<double> real)
         {
             List<Complex> result = new List<Complex>();
 
             foreach (double number in real)
-            {
                 result.Add(new Complex(number, 0));
-            }
 
             return result;
         }

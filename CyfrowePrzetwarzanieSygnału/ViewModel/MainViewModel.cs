@@ -502,6 +502,7 @@ namespace ViewModel
             try
             {
                 SelectedTab.LoadDataFromFile(LoadPath(true));
+                SelectedTab.IsScattered = true;
                 SelectedTab.DrawCharts(); 
             }
             catch

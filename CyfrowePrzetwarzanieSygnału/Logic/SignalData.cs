@@ -116,23 +116,22 @@ namespace Logic
             {
                 SamplesY = new List<double>();
                 StartTime = reader.ReadDouble();
-                Sampling = reader.ReadInt32();
+                ConversionSampling = reader.ReadInt32();
                 Type = reader.ReadByte();
 
                 int length = reader.ReadInt32();
                 for (int i = 0; i < length; i++)
                 {
-
-                    SamplesY.Add(reader.ReadDouble());
+                    ConversionSamplesY.Add(reader.ReadDouble());
                 }
 
                 List<double> points = new List<double>();
-                for (int i = 0; i < SamplesY.Count; i++)
+                for (double i = 0; i < ConversionSamplesY.Count; i++)
                 {
-                    points.Add(StartTime + (i / Sampling));
+                    points.Add(StartTime + (i / ConversionSampling));
                 }
 
-                SamplesX = points;
+                ConversionSamplesX = points;
             }
         }
 
@@ -141,10 +140,10 @@ namespace Logic
             using (BinaryWriter writer = new BinaryWriter(File.Create(filePath)))
             {
                 writer.Write(StartTime);
-                writer.Write(Sampling);
+                writer.Write(ConversionSampling);
                 writer.Write(Type);
-                writer.Write(SamplesX.Count);
-                foreach (double sample in SamplesY)
+                writer.Write(ConversionSamplesX.Count);
+                foreach (double sample in ConversionSamplesY)
                 {
                     writer.Write(sample);
                 }
@@ -154,12 +153,12 @@ namespace Logic
             using (StreamWriter writer = new StreamWriter(newPath))
             {
                 writer.WriteLine("Start Time: " + StartTime);
-                writer.WriteLine("Frequency: " + Sampling);
+                writer.WriteLine("Frequency: " + ConversionSampling);
                 writer.WriteLine("Type: " + Type);
-                writer.WriteLine("Number of samples: " + SamplesX.Count);
-                for (int i = 0; i < SamplesX.Count; i++)
+                writer.WriteLine("Number of samples: " + ConversionSamplesX.Count);
+                for (int i = 0; i < ConversionSamplesX.Count; i++)
                 {
-                    writer.WriteLine(i + 1 + ". " + SamplesY[i]);
+                    writer.WriteLine(i + 1 + ". " + ConversionSamplesY[i]);
                 }
             }
         }

@@ -108,50 +108,51 @@ namespace Logic
         {
             List<Complex> result = new List<Complex>();
 
-            List<double> xh = Operations.ConvoluteSignals(points, H).Take(points.Count).ToList();
-            List<double> xg = Operations.ConvoluteSignals(points, G).Take(points.Count).ToList();
+            List<double> hSamples = Operations.ConvoluteSignals(points, H).Take(points.Count).ToList();
+            List<double> gSamples = Operations.ConvoluteSignals(points, G).Take(points.Count).ToList();
 
-            List<double> xhHalf = new List<double>();
-            List<double> xgHalf = new List<double>();
+            List<double> hHalf = new List<double>();
+            List<double> gHalf = new List<double>();
 
-            for (int i = 0; i < xh.Count; i++)
+            for (int i = 0; i < hSamples.Count; i++)
             {
                 if (i % 2 == 0)
-                {
-                    xhHalf.Add(xh[i]);
-                }
+                    hHalf.Add(hSamples[i]);
+
                 else
-                {
-                    xgHalf.Add(xg[i]);
-                }
+                    gHalf.Add(gSamples[i]);
             }
-            for (int i = 0; i < xgHalf.Count; i++)
-            {
-                result.Add(new Complex(xhHalf[i], xgHalf[i]));
-            }
+
+            for (int i = 0; i < gHalf.Count; i++)
+                result.Add(new Complex(hHalf[i], gHalf[i]));
 
             return result;
         }
 
         public static List<double> WaveletBackwardTransformation(List<Complex> points)
         {
-            var HRevesed = new List<double>(H);
-            HRevesed.Reverse();
-            var GReversed = new List<double>(G);
-            GReversed.Reverse();
-            List<double> xh = new List<double>();
-            List<double> xg = new List<double>();
+            List<double> hRevesed = new List<double>(H);
+            List<double> gReversed = new List<double>(G);
+
+            hRevesed.Reverse();
+            gReversed.Reverse();
+
+            List<double> hSamples = new List<double>();
+            List<double> gSamples = new List<double>();
+
             for (int i = 0; i < points.Count; i++)
             {
-                xh.Add(points[i].Real);
-                xh.Add(0);
-                xg.Add(0);
+                hSamples.Add(points[i].Real);
+                hSamples.Add(0);
 
-                xg.Add(points[i].Imaginary);
+                gSamples.Add(0);
+                gSamples.Add(points[i].Imaginary);
             }
-            List<double> xhC = Operations.ConvoluteSignals(xh, HRevesed).Take(xh.Count).ToList();
-            List<double> xgC = Operations.ConvoluteSignals(xg, GReversed).Take(xg.Count).ToList();
-            return Operations.AddSignals(xhC, xgC);
+
+            List<double> hResult = Operations.ConvoluteSignals(hSamples, hRevesed).Take(hSamples.Count).ToList();
+            List<double> gResult = Operations.ConvoluteSignals(gSamples, gReversed).Take(gSamples.Count).ToList();
+
+            return Operations.AddSignals(hResult, gResult);
         }
 
         #endregion

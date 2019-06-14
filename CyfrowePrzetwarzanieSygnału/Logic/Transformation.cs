@@ -23,7 +23,7 @@ namespace Logic
                 Complex complex = 0;
 
                 for (int j = 0; j < points.Count; j++)
-                    complex += new Complex(points[j].Real, points[j].Imaginary) * CoreFactor(i, j, points.Count);
+                    complex += new Complex(points[j].Real, points[j].Imaginary) * TwiddleFactor(i, j, points.Count);
 
                 result.Add(complex / points.Count);
             }
@@ -43,7 +43,7 @@ namespace Logic
                 double real = 0;
 
                 for (int j = 0; j < points.Count; j++)
-                    real += (points[j] * ReverseCoreFactor(i, j, points.Count)).Real;
+                    real += (points[j] * ReversalTwiddleFactor(i, j, points.Count)).Real;
 
                 result.Add(real);
             }
@@ -99,13 +99,13 @@ namespace Logic
             {
                 if (!reverse)
                 {
-                    result.Add(evenPoints[i] + CoreFactor(i, 1, oddPoints.Count * 2) * oddPoints[i]);
-                    resultRight.Add(evenPoints[i] - CoreFactor(i, 1, oddPoints.Count * 2) * oddPoints[i]);
+                    result.Add(evenPoints[i] + TwiddleFactor(i, 1, oddPoints.Count * 2) * oddPoints[i]);
+                    resultRight.Add(evenPoints[i] - TwiddleFactor(i, 1, oddPoints.Count * 2) * oddPoints[i]);
                 }
                 else
                 {
-                    result.Add(evenPoints[i] + ReverseCoreFactor(i, 1, oddPoints.Count * 2) * oddPoints[i]);
-                    resultRight.Add(evenPoints[i] - ReverseCoreFactor(i, 1, oddPoints.Count * 2) * oddPoints[i]);
+                    result.Add(evenPoints[i] + ReversalTwiddleFactor(i, 1, oddPoints.Count * 2) * oddPoints[i]);
+                    resultRight.Add(evenPoints[i] - ReversalTwiddleFactor(i, 1, oddPoints.Count * 2) * oddPoints[i]);
                 }
             }
 
@@ -206,12 +206,12 @@ namespace Logic
             return result;
         }
 
-        private static Complex CoreFactor(int m, int n, int N)
+        private static Complex TwiddleFactor(int m, int n, int N)
         {
             return Complex.Exp(new Complex(0, -2 * Math.PI * m * n / N));
         }
 
-        private static Complex ReverseCoreFactor(int m, int n, int N)
+        private static Complex ReversalTwiddleFactor(int m, int n, int N)
         {
             return Complex.Exp(new Complex(0, 2 * Math.PI * m * n / N));
         }
